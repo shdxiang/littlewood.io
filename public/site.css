@@ -1,0 +1,28 @@
+/* 小木块 全站基础：黑板底、粉笔色、字体、焦点。各页只写自己的部分。 */
+:root{
+  --board:#2b4a3e; --board-deep:#1f3b31; --chalk:#f2efe4; --chalk-muted:#c1ccbd; --yellow:#e8c86a;
+  --chalk-line:rgba(242,239,228,.5);
+  --paper:#fff; --card:#fff; --ink:#3a3128; --muted:#7a6f60; --line:#e4dac8;
+  --wood:#d9a05e; --wood-deep:#a86f32; --blue:#8ec9f0; --red:#c9342a;
+  --math:Georgia,"Times New Roman","Songti SC",SimSun,serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+::selection{background:rgba(232,200,106,.35)}
+body{
+  margin:0;color:var(--chalk);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.07 0 0 0 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 60% 40% at 20% 10%,rgba(255,255,255,.05),transparent),
+    radial-gradient(ellipse 50% 35% at 85% 80%,rgba(255,255,255,.04),transparent),
+    var(--board);
+  box-shadow:inset 0 0 60px rgba(0,0,0,.22);
+  min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+  line-height:1.8;font-size:16px;
+}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important}
+  html{scroll-behavior:auto}
+}
