@@ -72,6 +72,7 @@ main{max-width:980px;margin:0 auto;padding:72px 24px 76px}
 a.item{display:grid;grid-template-columns:minmax(0,.92fr) minmax(340px,1.08fr);gap:28px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:26px;text-decoration:none;color:var(--ink);box-shadow:0 4px 14px rgba(0,0,0,.24);position:relative;transition:transform .18s,box-shadow .18s}
 a.item::before,a.item::after{content:"";position:absolute;top:-9px;width:68px;height:20px;background:rgba(250,244,222,.58);box-shadow:0 1px 3px rgba(0,0,0,.18);pointer-events:none}
 a.item::before{left:18px;transform:rotate(-5deg)}a.item::after{right:18px;transform:rotate(4deg)}
+a.item+a.item{margin-top:30px}
 a.item:hover{transform:translateY(-3px) rotate(-.15deg);box-shadow:0 9px 24px rgba(0,0,0,.3)}
 .item .meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;color:var(--muted);font-size:.78rem}.item .qnum{display:inline-flex;align-items:center;justify-content:center;background:var(--wood-deep);border-radius:7px;color:#fff;font-weight:800;padding:3px 9px;letter-spacing:.08em}
 .item h3{font-size:clamp(1.15rem,3vw,1.4rem);line-height:1.55;margin:0 0 10px;font-weight:850;text-wrap:balance}.item .hook{color:var(--muted);font-size:.95rem;margin:0 0 17px}.item .go{font-weight:800;color:#2f6bb3}.item svg.thumb{display:block;width:100%;height:auto}
