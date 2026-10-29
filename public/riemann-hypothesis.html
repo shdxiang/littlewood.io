@@ -103,14 +103,14 @@
             margin-left: 12px;
             padding: 3px 12px;
             border-radius: 20px;
-            border: 1px solid rgba(102, 255, 204, 0.45);
-            background: rgba(102, 255, 204, 0.1);
-            color: #66ffcc;
+            border: 1px solid rgba(192, 140, 255, 0.45);
+            background: rgba(192, 140, 255, 0.1);
+            color: #cfa8ff;
             font: inherit;
             cursor: pointer;
             pointer-events: auto;
         }
-        #status button:hover { background: rgba(102, 255, 204, 0.2); }
+        #status button:hover { background: rgba(192, 140, 255, 0.2); }
         #status button:disabled { opacity: 0.5; cursor: default; }
         #status button:focus-visible { outline: 2px solid #ffd966; outline-offset: 2px; }
         #status #cxToggle { margin-left: 8px; color: #ff8899; border-color: rgba(255, 85, 119, 0.45); background: rgba(255, 85, 119, 0.1); }
@@ -141,6 +141,7 @@
         <p>ζ函数的所有<span class="highlight">非平凡零点</span>都位于<span class="critical">临界线 Re(s)=1/2</span> 上。</p>
         <p style="font-size:0.82rem; opacity:0.75; margin-top:12px;">
             <span style="color:#ffd966;">●</span> 发光点：已知非平凡零点 (1/2 + i·t)<br>
+            <span id="legendAdded" hidden><span style="color:#c08cff;">●</span> 紫点：你加的零点<br></span>
             <span style="color:#66ffcc;">━</span> 亮线：临界线 σ = 0.5<br>
             地形是概念示例，不是真实的 |ζ(s)|：高度 ∝ 偏离临界线的距离，零点被“锁定”在谷底。
         </p>
@@ -150,7 +151,7 @@
         <div id="cxPanel" hidden>
             <label for="cxSigma">σ</label>
             <input id="cxSigma" type="range" min="0.05" max="0.95" step="0.01" value="0.75" autocomplete="off">
-            <p>零点只要离开临界线，就一定关于它成对出现。图里这个高度其实早已验算过，没有反例；真要有，只能藏在 t &gt; 3×10¹² 的更高处。</p>
+            <p>零点只要离开临界线，就一定四个一组：左右关于临界线对称，上下关于实轴对称。图里这个高度其实早已验算过，没有反例；真要有，只能藏在 t &gt; 3×10¹² 的更高处。</p>
         </div>
     </div>
 
@@ -222,13 +223,14 @@
             -14.134725, -21.022040, -25.010858, -30.424876, -32.935062
         ];
 
-        // 假想反例：放在 t=35（两个真零点之间），σ 由滑块控制；镜像在 1−σ
+        // 假想反例：放在 t=35（两个真零点之间），σ 由滑块控制；
+        // 必然带出镜像 1−σ，以及下半边 t=−35 的一对共轭，一共 4 个
         const CX_T = 35;
         let cxOn = false, cxS = 0.75;
 
-        // --- 复平面网格 (σ 从 -0.2 到 1.2, t 从 -36 到 90) ---
+        // --- 复平面网格 (σ 从 -0.2 到 1.2, t 从 -40 到 90) ---
         // 为了视觉效果，将 t 轴压缩到 -9 到 9 的视觉范围内（通过缩放）
-        const T_MIN = -36, T_MAX = 90;
+        const T_MIN = -40, T_MAX = 90;
         const T_RANGE = T_MAX - T_MIN;
         const SIGMA_MIN = -0.2, SIGMA_MAX = 1.2;
         const SIGMA_RANGE = SIGMA_MAX - SIGMA_MIN;
@@ -275,14 +277,23 @@
             roughness: 0.2,
             metalness: 0.1
         });
+        // 用户自己加的零点用紫色
+        const addedMat = new THREE.MeshStandardMaterial({
+            color: 0xc08cff,
+            emissive: 0x7a3dff,
+            emissiveIntensity: 2.0,
+            roughness: 0.2,
+            metalness: 0.1
+        });
+        const addedGlow = createGlowTexture('235, 215, 255', '190, 140, 255', '150, 90, 255');
 
-        zeroHeights.forEach((t, index) => addZero(t, index, 0));
+        zeroHeights.forEach((t, index) => addZero(t, index, 0, false));
         scene.add(zeroGroup);
 
-        function addZero(t, index, y) {
+        function addZero(t, index, y, added) {
             const x = sigmaToX(0.5);
             const z = tToZ(t);
-            const sphere = new THREE.Mesh(sphereGeom, sphereMat.clone());
+            const sphere = new THREE.Mesh(sphereGeom, added ? addedMat : sphereMat.clone());
             sphere.position.set(x, y, z);
             sphere.userData.baseScale = 1.0;
             sphere.userData.phase = index * 0.8;
@@ -291,8 +302,8 @@
 
             // 添加光晕效果 (使用 Sprite 或 点光源)
             const glowSpriteMat = new THREE.SpriteMaterial({
-                map: createGlowTexture(),
-                color: 0xffd966,
+                map: added ? addedGlow : createGlowTexture(),
+                color: added ? 0xffffff : 0xffd966,
                 transparent: true,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false
@@ -305,15 +316,15 @@
         }
 
         // 辅助函数：创建圆形渐变纹理用于光晕
-        function createGlowTexture() {
+        function createGlowTexture(inner = '255, 220, 100', mid = '255, 180, 50', outer = '255, 150, 0') {
             const canvas = document.createElement('canvas');
             canvas.width = 64;
             canvas.height = 64;
             const ctx = canvas.getContext('2d');
             const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-            gradient.addColorStop(0, 'rgba(255, 220, 100, 1)');
-            gradient.addColorStop(0.4, 'rgba(255, 180, 50, 0.6)');
-            gradient.addColorStop(1, 'rgba(255, 150, 0, 0)');
+            gradient.addColorStop(0, `rgba(${inner}, 1)`);
+            gradient.addColorStop(0.4, `rgba(${mid}, 0.6)`);
+            gradient.addColorStop(1, `rgba(${outer}, 0)`);
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 64, 64);
             return new THREE.CanvasTexture(canvas);
@@ -359,8 +370,10 @@
                     // 假想反例：在 (σ, t) 和镜像 (1−σ, t) 各挖一个坑
                     if (cxOn) {
                         for (const s of [cxS, 1 - cxS]) {
-                            const d2 = ((sigma - s) / 0.06) ** 2 + ((t - CX_T) / 1.1) ** 2;
-                            height *= 1 - 0.95 * Math.exp(-d2);
+                            for (const ct of [CX_T, -CX_T]) {
+                                const d2 = ((sigma - s) / 0.06) ** 2 + ((t - ct) / 1.1) ** 2;
+                                height *= 1 - 0.95 * Math.exp(-d2);
+                            }
                         }
                     }
 
@@ -522,12 +535,13 @@
         addButton.addEventListener('click', () => {
             if (falling || !moreZeros.length) return;
             const t = moreZeros.shift();
-            falling = { t, start: clock.elapsedTime, ...addZero(t, zeroSpheres.length, DROP_HEIGHT) };
+            falling = { t, start: clock.elapsedTime, ...addZero(t, zeroSpheres.length, DROP_HEIGHT, true) };
             addButton.disabled = true;
         });
 
         function landZero(t) {
             zeroHeights.push(t);
+            document.getElementById('legendAdded').hidden = false;
             refreshTerrain();
             renderStatus();
             layout();
@@ -552,7 +566,7 @@
         });
         const cxGlow = createGlowTexture();
         const cxGroup = new THREE.Group();
-        const cxPair = [0, 1].map(() => {
+        const cxPoints = [0, 1, 2, 3].map(() => {
             const sphere = new THREE.Mesh(sphereGeom, cxMat);
             const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
                 map: cxGlow,
@@ -565,9 +579,9 @@
             cxGroup.add(sphere, sprite);
             return { sphere, sprite };
         });
-        // 连接这一对的细线，正好被临界线平分
-        const cxLine = new THREE.Line(
-            new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
+        // 上下各一条细线连起左右镜像，正好被临界线平分
+        const cxLine = new THREE.LineSegments(
+            new THREE.BufferGeometry().setFromPoints([0, 1, 2, 3].map(() => new THREE.Vector3())),
             new THREE.LineBasicMaterial({ color: 0xff5577, transparent: true, opacity: 0.6 })
         );
         cxGroup.add(cxLine);
@@ -575,17 +589,18 @@
         scene.add(cxGroup);
 
         function placeCx() {
-            const z = tToZ(CX_T);
-            [cxS, 1 - cxS].forEach((s, i) => {
-                cxPair[i].sphere.position.set(sigmaToX(s), 0, z);
-                cxPair[i].sprite.position.copy(cxPair[i].sphere.position);
-            });
             const line = cxLine.geometry.attributes.position;
-            line.setXYZ(0, sigmaToX(cxS), 0, z);
-            line.setXYZ(1, sigmaToX(1 - cxS), 0, z);
+            [[cxS, CX_T], [1 - cxS, CX_T], [cxS, -CX_T], [1 - cxS, -CX_T]].forEach(([s, t], i) => {
+                const { sphere, sprite } = cxPoints[i];
+                sphere.position.set(sigmaToX(s), 0, tToZ(t));
+                sprite.position.copy(sphere.position);
+                line.setXYZ(i, sphere.position.x, 0, sphere.position.z);
+            });
             line.needsUpdate = true;
-            // σ = 0.5 时两点重合，只剩一个
-            cxPair[1].sphere.visible = cxPair[1].sprite.visible = cxLine.visible = !onLine();
+            // σ = 0.5 时左右镜像重合，只剩上下一对
+            const off = !onLine();
+            for (const i of [1, 3]) cxPoints[i].sphere.visible = cxPoints[i].sprite.visible = off;
+            cxLine.visible = off;
         }
 
         function onLine() {
@@ -611,8 +626,8 @@
         function renderStatus() {
             if (cxOn) {
                 statusText.innerHTML = onLine()
-                    ? 'σ = 0.50：回到<i>临界线</i>上，只剩一个零点，不算反例'
-                    : `假想反例：σ = ${cxS.toFixed(2)}，它的镜像 σ = ${(1 - cxS).toFixed(2)}`;
+                    ? 'σ = 0.50：回到<i>临界线</i>上，只剩 t = ±35 一对共轭零点，不算反例'
+                    : `假想反例：σ = ${cxS.toFixed(2)}，镜像 σ = ${(1 - cxS).toFixed(2)}，下半边 t = −35 还有一对，一共 4 个`;
             } else {
                 const up = zeroHeights.filter(t => t > 0).length;
                 const down = zeroHeights.length - up;
