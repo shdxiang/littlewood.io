@@ -154,7 +154,7 @@
         </p>
     </div>
     <div id="status">
-        <span id="statusText" aria-live="polite">旋转视角观察 · 前 20 个零点全部落在 <i>临界线</i> 上</span><button id="addZero" type="button">＋ 加一个零点</button><button id="cxToggle" type="button" aria-pressed="false">放一个反例</button>
+        <span id="statusText" aria-live="polite">拖动旋转，轻点暂停 · 前 20 个零点全部落在 <i>临界线</i> 上</span><button id="addZero" type="button">＋ 加一个零点</button><button id="cxToggle" type="button" aria-pressed="false">放一个反例</button>
         <div id="cxPanel" hidden>
             <label for="cxSigma">σ</label>
             <input id="cxSigma" type="range" min="0.05" max="0.95" step="0.01" value="0.75" autocomplete="off">
@@ -195,7 +195,9 @@
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.06;
-        controls.autoRotate = true;
+        // 系统设了“减少动态效果”就不自动旋转、不脉动，零点直接落地
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        controls.autoRotate = !reduceMotion;
         controls.autoRotateSpeed = 0.6;
         controls.enableZoom = true;
         controls.zoomSpeed = 0.8;
@@ -294,13 +296,15 @@
         });
         const addedGlow = createGlowTexture('235, 215, 255', '190, 140, 255', '150, 90, 255');
 
+        const zeroGlow = createGlowTexture();
+
         zeroHeights.forEach((t, index) => addZero(t, index, 0, false));
         scene.add(zeroGroup);
 
         function addZero(t, index, y, added) {
             const x = sigmaToX(0.5);
             const z = tToZ(t);
-            const sphere = new THREE.Mesh(sphereGeom, added ? addedMat : sphereMat.clone());
+            const sphere = new THREE.Mesh(sphereGeom, added ? addedMat : sphereMat);
             sphere.position.set(x, y, z);
             sphere.userData.baseScale = 1.0;
             sphere.userData.phase = index * 0.8;
@@ -309,7 +313,7 @@
 
             // 添加光晕效果 (使用 Sprite 或 点光源)
             const glowSpriteMat = new THREE.SpriteMaterial({
-                map: added ? addedGlow : createGlowTexture(),
+                map: added ? addedGlow : zeroGlow,
                 color: added ? 0xffffff : 0xffd966,
                 transparent: true,
                 blending: THREE.AdditiveBlending,
@@ -349,6 +353,7 @@
         // 颜色映射：低处偏绿(0,1,0.8)，高处偏蓝紫(0.2,0.4,1.0)
         const lowColor = new THREE.Color(0x33ffaa);
         const highColor = new THREE.Color(0x6688ff);
+        const mixColor = new THREE.Color();
 
         // 新零点落地后重算一遍，让它的凹陷出现
         function updateTerrain() {
@@ -393,7 +398,8 @@
 
                     // 颜色：根据高度混合
                     const mixFactor = Math.min(height / 3.0, 1.0);
-                    const color = lowColor.clone().lerp(highColor, mixFactor);
+                    // 复用同一个 Color：拖反例滑块时每次都要重算 12000 个点
+                    const color = mixColor.copy(lowColor).lerp(highColor, mixFactor);
                     colors[idx * 3] = color.r;
                     colors[idx * 3 + 1] = color.g;
                     colors[idx * 3 + 2] = color.b;
@@ -463,21 +469,19 @@
             const delta = clock.getDelta();
             const elapsed = clock.getElapsedTime();
 
-            // 零点球体脉动
-            zeroSpheres.forEach((sphere, i) => {
-                const scale = 1.0 + 0.3 * Math.sin(elapsed * 2.5 + sphere.userData.phase);
-                sphere.scale.set(scale, scale, scale);
-                // 光晕精灵也稍微缩放
-                // 注意：精灵是单独添加的，这里通过遍历 zeroGroup 来调整
-            });
-
-            // 让光晕精灵也脉动（简单遍历 zeroGroup 中的 Sprite）
-            zeroGroup.children.forEach(child => {
-                if (child.isSprite) {
-                    const s = 0.7 + 0.15 * Math.sin(elapsed * 2.0 + child.position.z * 0.5);
-                    child.scale.set(s, s, 1);
-                }
-            });
+            // 零点球体和光晕精灵脉动
+            if (!reduceMotion) {
+                zeroSpheres.forEach(sphere => {
+                    const scale = 1.0 + 0.3 * Math.sin(elapsed * 2.5 + sphere.userData.phase);
+                    sphere.scale.set(scale, scale, scale);
+                });
+                zeroGroup.children.forEach(child => {
+                    if (child.isSprite) {
+                        const s = 0.7 + 0.15 * Math.sin(elapsed * 2.0 + child.position.z * 0.5);
+                        child.scale.set(s, s, 1);
+                    }
+                });
+            }
 
             // 粒子地形轻微上下浮动 (通过顶点着色器或直接修改 attribute 会比较耗性能，
             // 这里让整个粒子系统轻微旋转或移动来产生动态感)
@@ -534,7 +538,7 @@
         window.addEventListener('resize', layout);
 
         // --- 互动：加一个零点 ---
-        const DROP_HEIGHT = 4, DROP_TIME = 0.9;
+        const DROP_HEIGHT = 4, DROP_TIME = reduceMotion ? 0.01 : 0.9;
         const addButton = document.getElementById('addZero');
         const statusText = document.getElementById('statusText');
         let falling = null;
@@ -571,12 +575,11 @@
             roughness: 0.2,
             metalness: 0.1
         });
-        const cxGlow = createGlowTexture();
         const cxGroup = new THREE.Group();
         const cxPoints = [0, 1, 2, 3].map(() => {
             const sphere = new THREE.Mesh(sphereGeom, cxMat);
             const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
-                map: cxGlow,
+                map: zeroGlow,
                 color: 0xff5577,
                 transparent: true,
                 blending: THREE.AdditiveBlending,
@@ -643,7 +646,7 @@
                 } else if (down) {
                     statusText.innerHTML = `下半边是共轭镜像 1/2 − i·t，上面每个零点在下面都有一个 · 已放 ${down} 个，同样全在 <i>临界线</i> 上`;
                 } else {
-                    statusText.innerHTML = `旋转视角观察 · 前 ${up} 个零点全部落在 <i>临界线</i> 上`;
+                    statusText.innerHTML = `拖动旋转，轻点暂停 · 前 ${up} 个零点全部落在 <i>临界线</i> 上`;
                 }
             }
             addButton.hidden = cxOn || !moreZeros.length;
@@ -656,9 +659,14 @@
 
         animate();
 
-        // 允许用户通过点击暂停/恢复自动旋转 (可选)
-        renderer.domElement.addEventListener('click', () => {
-            controls.autoRotate = !controls.autoRotate;
+        // 轻点画面暂停/恢复自动旋转。拖动旋转松手时浏览器也会发 click，按下后挪动超过 5px 的不算
+        let downX = 0, downY = 0;
+        renderer.domElement.addEventListener('pointerdown', e => {
+            downX = e.clientX;
+            downY = e.clientY;
+        });
+        renderer.domElement.addEventListener('click', e => {
+            if (Math.hypot(e.clientX - downX, e.clientY - downY) < 5) controls.autoRotate = !controls.autoRotate;
         });
     </script>
 </body>
