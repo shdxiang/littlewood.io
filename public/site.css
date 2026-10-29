@@ -1,27 +1,31 @@
-/* 小木块 全站基础：黑板底、粉笔色、字体、焦点。各页只写自己的部分。 */
+/* 小木块 全站基础：深蓝黑底、毛玻璃面板、金/青强调、淡紫白文字。各页只写自己的部分。 */
 :root{
-  --board:#2b4a3e; --board-deep:#1f3b31; --chalk:#f2efe4; --chalk-muted:#c1ccbd; --yellow:#e8c86a;
-  --chalk-line:rgba(242,239,228,.5);
-  --paper:#fff; --card:#fff; --ink:#3a3128; --muted:#7a6f60; --line:#e4dac8;
-  --wood:#d9a05e; --wood-deep:#a86f32; --blue:#8ec9f0; --red:#c9342a;
+  --board:#050510; --board-deep:#030308; --chalk:#e0e0ff; --chalk-muted:#b8c0e0; --chalk-dim:#8899cc;
+  --yellow:#ffd966; --mint:#66ffcc; --heading:#aaccff;
+  --chalk-line:rgba(120,140,255,.25);
+  --panel:rgba(8,8,20,.75); --panel-solid:#0b0b1e; --panel-2:rgba(120,140,255,.08);
+  --paper:var(--panel); --card:var(--panel); --ink:#e0e0ff; --muted:#b8c0e0; --line:rgba(120,140,255,.25);
+  --wood:#d9a05e; --wood-deep:#a86f32; --blue:#66ffcc; --red:#ff6b7a; --green:#5fd3a0;
+  --fig-paper:#f3f1ec;
   --math:Georgia,"Times New Roman","Songti SC",SimSun,serif;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-::selection{background:rgba(232,200,106,.35)}
+::selection{background:rgba(255,217,102,.3)}
 body{
   margin:0;color:var(--chalk);
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.07 0 0 0 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),
-    radial-gradient(ellipse 60% 40% at 20% 10%,rgba(255,255,255,.05),transparent),
-    radial-gradient(ellipse 50% 35% at 85% 80%,rgba(255,255,255,.04),transparent),
+    radial-gradient(ellipse 55% 45% at 15% 10%,rgba(102,255,204,.07),transparent 70%),
+    radial-gradient(ellipse 50% 40% at 90% 85%,rgba(120,140,255,.09),transparent 70%),
     var(--board);
-  box-shadow:inset 0 0 60px rgba(0,0,0,.22);
   min-height:100vh;
-  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+  font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC",sans-serif;
   line-height:1.8;font-size:16px;
 }
-:focus-visible{outline:3px solid var(--yellow);outline-offset:2px;border-radius:6px}
+a{color:var(--blue)}
+/* 毛玻璃面板：全站面板统一用它 */
+.glass{background:var(--panel);border:1px solid var(--line);border-radius:14px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;border-radius:6px}
 @media (prefers-reduced-motion:reduce){
   *{transition:none !important;animation:none !important}
   html{scroll-behavior:auto}

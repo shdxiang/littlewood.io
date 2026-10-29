@@ -6,7 +6,7 @@
 <title>为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？ · 小木块</title>
 <meta name="description" content="两块挡板之间只夹着约 1 千克水，原挡板却仍顶着约 1000 吨力——没算错。用受力图和 p = ρgh，分清质量与力，看懂静水压强为什么只看深度、不看水层厚度。">
 <link rel="canonical" href="https://littlewood.io/hydrostatic-paradox">
-<meta name="theme-color" content="#2b4a3e">
+<meta name="theme-color" content="#050510">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="小木块">
 <meta property="og:locale" content="zh_CN">
@@ -24,12 +24,12 @@
 <meta name="twitter:title" content="为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？">
 <meta name="twitter:description" content="分清质量与力，看懂静水压强为什么只看深度、不看水层厚度。">
 <meta name="twitter:image" content="https://littlewood.io/og-hydrostatic-paradox.png">
-<link rel="icon" type="image/svg+xml" href="./favicon.svg?v=4">
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=4">
-<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=4">
-<link rel="apple-touch-icon" href="./apple-touch-icon.png?v=4">
-<link rel="stylesheet" href="./site.css?v=1">
-<link rel="stylesheet" href="./article.css?v=1">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg?v=5">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=5">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png?v=5">
+<link rel="stylesheet" href="./site.css?v=2">
+<link rel="stylesheet" href="./article.css?v=2">
 <style>
 body{line-height:1.85}
 /* 力箭头语义色（SVG 内直接写十六进制）：F原 橙 #e8590c、F新 紫 #6741d9、重力 绿 #2b8a3e、支持力 青 #0b7285、压强分布 蓝 #1c7ed6 */
@@ -125,7 +125,7 @@ body{line-height:1.85}
           </svg>
         </div>
         <div>
-          <div class="panel-title" style="color:#4b535c">理想刚性固体（插板前）</div>
+          <div class="panel-title" style="color:#aab4c0">理想刚性固体（插板前）</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="插板前：固体对挡板的合力，与液体相同">
             <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
             <path d="M71,204 L49,150 L201,150 Z" fill="#c3cad2" stroke="#8a939e" stroke-width="1"/>
@@ -170,7 +170,7 @@ body{line-height:1.85}
           </svg>
         </div>
         <div>
-          <div class="panel-title" style="color:#4b535c">理想刚性固体（插板后）</div>
+          <div class="panel-title" style="color:#aab4c0">理想刚性固体（插板后）</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="插板后：固体对原挡板的力几乎归零，上游重量改压新挡板">
             <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
             <path d="M71,204 L49,150 L60,150 L81,200 Z" fill="#b2bac2" stroke="#8a939e" stroke-width="1"/>
@@ -379,7 +379,7 @@ body{line-height:1.85}
       <p>不能维持静态剪切应力，只能用各方向相同的压强传力。挡板受力由液深决定，与薄层厚度无关。</p>
     </div>
     <div class="card reveal">
-      <h3 style="color:#4b535c;margin-top:0">理想固体（无预紧）</h3>
+      <h3 style="color:#aab4c0;margin-top:0">理想固体（无预紧）</h3>
       <p>能维持静态剪切并保持形状，只把自身沿斜面的重力分量交给原挡板：</p>
       <div class="formula"><i>F</i><sub>原</sub> = <i>mg</i> sin<i>θ</i></div>
     </div>
@@ -405,7 +405,7 @@ body{line-height:1.85}
           </svg>
         </div>
         <div>
-          <div class="panel-title" style="color:#4b535c">理想刚性固体薄层（无预紧）</div>
+          <div class="panel-title" style="color:#aab4c0">理想刚性固体薄层（无预紧）</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="刚性固体薄层：新挡板接触力为零">
             <rect x="110" y="50" width="14" height="150" fill="#343a40" rx="2"/>
             <rect x="124" y="50" width="42" height="150" fill="#c3cad2"/>
@@ -637,7 +637,7 @@ body{line-height:1.85}
 </script>
 
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Article","headline":"为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？","description":"两块挡板之间只夹着约 1 千克水，原挡板却仍顶着约 1000 吨力。用受力图和 p = ρgh 看懂静水压力悖论。","image":"https://littlewood.io/og-hydrostatic-paradox.png","datePublished":"2026-08-31","dateModified":"2026-09-04","mainEntityOfPage":"https://littlewood.io/hydrostatic-paradox","author":{"@type":"Organization","name":"小木块","url":"https://littlewood.io/"},"publisher":{"@type":"Organization","name":"小木块","url":"https://littlewood.io/","logo":{"@type":"ImageObject","url":"https://littlewood.io/icon-512.png?v=4"}},"articleSection":"流体静力学","inLanguage":"zh-CN"}
+{"@context":"https://schema.org","@type":"Article","headline":"为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？","description":"两块挡板之间只夹着约 1 千克水，原挡板却仍顶着约 1000 吨力。用受力图和 p = ρgh 看懂静水压力悖论。","image":"https://littlewood.io/og-hydrostatic-paradox.png","datePublished":"2026-08-31","dateModified":"2026-09-04","mainEntityOfPage":"https://littlewood.io/hydrostatic-paradox","author":{"@type":"Organization","name":"小木块","url":"https://littlewood.io/"},"publisher":{"@type":"Organization","name":"小木块","url":"https://littlewood.io/","logo":{"@type":"ImageObject","url":"https://littlewood.io/icon-512.png?v=5"}},"articleSection":"流体静力学","inLanguage":"zh-CN"}
 </script>
 
 

@@ -6,25 +6,23 @@
 <title>找不到这一页 · 小木块</title>
 <meta name="robots" content="noindex">
 <meta name="description" content="这一页不在小木块的黑板上。返回首页，继续看反直觉科学问题的图解。">
-<meta name="theme-color" content="#2b4a3e">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4">
-<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=4">
-<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=4">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4">
-<link rel="stylesheet" href="/site.css?v=1">
+<meta name="theme-color" content="#050510">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=5">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=5">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=5">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=5">
+<link rel="stylesheet" href="/site.css?v=2">
 <style>
-body{display:grid;place-items:center;padding:32px 20px;box-shadow:inset 0 0 70px rgba(0,0,0,.24);text-align:center}
+body{display:grid;place-items:center;padding:32px 20px;text-align:center}
 main{width:min(100%,560px)}
-.brand{display:inline-flex;align-items:center;gap:8px;margin-bottom:34px;color:var(--chalk);font-size:.9rem;font-weight:800;letter-spacing:.08em;text-decoration:none}.brand svg{width:30px;height:30px}
-.paper{position:relative;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:38px 28px 32px;box-shadow:12px 15px 0 rgba(0,0,0,.12),0 12px 30px rgba(0,0,0,.24);transform:rotate(-.4deg)}
-.paper::before,.paper::after{content:"";position:absolute;top:-10px;width:72px;height:22px;background:rgba(232,200,106,.74);box-shadow:0 1px 3px rgba(0,0,0,.14)}.paper::before{left:18px;transform:rotate(-6deg)}.paper::after{right:18px;transform:rotate(5deg)}
-.mascot{width:116px;height:auto;display:block;margin:0 auto 12px;transform:rotate(-3deg)}
-.code{display:block;color:#a86f32;font-size:.8rem;line-height:1;font-weight:800;letter-spacing:.18em;margin-bottom:8px}
-h1{font-size:clamp(1.55rem,6vw,2rem);line-height:1.4;font-weight:850;margin:0 0 8px}
-p{margin:0 auto 22px;color:#7a6f60;max-width:380px}
-.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}.actions a{display:inline-block;border-radius:10px;padding:9px 16px;font-weight:800;text-decoration:none}.home{color:#fff;background:#2b6b57;box-shadow:0 3px 0 #174738}.article{color:#4d4439;border:1px solid var(--line);background:#faf7f0}
-a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
-.hint{margin:24px 0 0;color:var(--chalk-muted);font-size:.82rem}.hint a{color:var(--chalk-muted)}
+.brand{display:inline-flex;align-items:center;gap:8px;margin-bottom:34px;color:var(--chalk-muted);font-size:.9rem;font-weight:700;letter-spacing:.08em;text-decoration:none}.brand:hover,.brand:focus-visible{color:var(--yellow)}.brand svg{width:30px;height:30px}
+.paper{padding:38px 28px 32px;border-radius:16px}
+.mascot{width:116px;height:auto;display:block;margin:0 auto 12px}
+.code{display:block;color:var(--mint);font-size:.8rem;line-height:1;font-weight:800;letter-spacing:.18em;margin-bottom:8px}
+h1{font-size:clamp(1.55rem,6vw,2rem);line-height:1.4;font-weight:800;margin:0 0 8px;color:var(--yellow)}
+p{margin:0 auto 22px;color:var(--chalk-muted);max-width:380px}
+.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}.actions a{display:inline-block;border-radius:999px;padding:9px 18px;font-weight:800;text-decoration:none}.home{color:var(--board-deep);background:var(--yellow)}.article{color:var(--chalk);border:1px solid var(--line);background:var(--panel-2)}
+.hint{margin:24px 0 0;color:var(--chalk-dim);font-size:.82rem}.hint a{color:var(--chalk-dim)}
 @media(max-width:480px){.paper{padding:32px 18px 27px}.actions{display:grid}.actions a{width:100%}}
 </style>
 </head>
@@ -33,12 +31,12 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-off
   <a class="brand" href="/" aria-label="返回小木块首页">
     <svg viewBox="10 12 82 74" aria-hidden="true"><use href="/mark.svg#mark"/></svg>小木块
   </a>
-  <div class="paper">
-    <svg class="mascot" viewBox="10 12 82 74" aria-hidden="true"><rect x="20" y="22" width="60" height="56" rx="3" fill="#f7f2e9" stroke="#d8cdb8"/><path d="M33 50 q7 -7 14 0M57 50q7-7 14 0M43 65q8 5 16 0" fill="none" stroke="#7a6f60" stroke-width="2.4" stroke-linecap="round"/></svg>
+  <div class="paper glass">
+    <svg class="mascot" viewBox="10 12 82 74" aria-hidden="true"><rect x="20" y="22" width="60" height="56" rx="8" fill="#0d0d24" stroke="rgba(150,170,255,.6)" stroke-width="1.5"/><path d="M33 50 q7 -7 14 0M57 50q7-7 14 0M43 65q8 5 16 0" fill="none" stroke="#8899cc" stroke-width="2.4" stroke-linecap="round"/></svg>
     <span class="code">404</span>
-    <h1>这一页不在黑板上</h1>
-    <p>地址可能写错了，或者这篇图解还没画出来。别担心，粉笔还在。</p>
-    <div class="actions"><a class="home" href="/">回到图解目录</a><a class="article" href="/space-acrophobia">看最新图解</a></div>
+    <h1>这一页还没画出来</h1>
+    <p>地址可能写错了，或者这篇图解还在路上。</p>
+    <div class="actions"><a class="home" href="/">回到图解目录</a><a class="article" href="/riemann-hypothesis">看最新图解</a></div>
   </div>
   <p class="hint">如果这里本该有内容，可以在 <a href="https://github.com/shdxiang/littlewood.io/issues">GitHub 告诉我们</a>。</p>
 </main>

@@ -1,6 +1,6 @@
 # 小木块 · littlewood.io
 
-用中学知识，把反直觉的科学问题画明白。静态站点，每篇文章一个自包含 HTML 文件（CSS/JS/SVG 全部内联，无构建、无外部依赖）。
+用中学知识，把反直觉的科学问题画明白。静态站点，无构建步骤；共用样式在 `public/site.css`、`public/article.css`，图/SVG 内联在各页里。深色主题：深蓝黑底、毛玻璃面板、金/青强调。
 
 - 首页：`public/index.html`（文章目录）
 - 文章：`public/hydrostatic-paradox.html`（《为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？》），线上地址不带 `.html`：https://littlewood.io/hydrostatic-paradox
