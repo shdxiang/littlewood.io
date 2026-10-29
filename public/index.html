@@ -174,106 +174,158 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
   </section>
 </main>
 
-<script>
-// 首屏点阵地形：概念示意，向黎曼页致敬。高度 ∝ 偏离中线的距离，谷底一串金点。
-(function(){
-  var c = document.getElementById('field');
-  if (!c || !c.getContext) return;
-  var ctx = c.getContext('2d');
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = !(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
-  var W = 0, H = 0, NX = 64, NZ = 36, mx = 0, my = 0, tx = 0, ty = 0, raf = 0, visible = true;
-  var BUCKETS = 9, paths = [];
+<!-- Three.js r128 自托管（CSP 只允许 self）：首屏背景用黎曼页同一个场景 -->
+<script type="importmap">
+{"imports":{"three":"./vendor/three-r128/build/three.module.js"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+// 首屏背景：黎曼页的地形搬过来做背景。高度 ∝ 偏离临界线的距离，零点锁在谷底；自动环绕，鼠标轻微视差。
+const canvas = document.getElementById('field');
+const hero = canvas.parentElement;
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = !window.matchMedia('(pointer: coarse)').matches;
 
-  function resize(){
-    var dpr = Math.min(2, window.devicePixelRatio || 1);
-    var r = c.getBoundingClientRect();
-    W = r.width; H = r.height;
-    c.width = Math.round(W * dpr); c.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    NX = W < 700 ? 46 : 84; NZ = W < 700 ? 32 : 46;
-  }
-  function height(x, z, t){
-    var w = Math.min(1, 0.25 + Math.abs(x) * 1.5);
-    return 0.36 * Math.pow(Math.abs(x), 1.25)
-      + w * 0.11 * Math.sin(3.1 * x + 1.7 * z + t * 0.9) * Math.cos(1.3 * z - t * 0.6)
-      + w * 0.06 * Math.sin(5.2 * z - t * 0.8 + x);
-  }
-  function draw(ms){
-    var t = reduce ? 0 : ms / 1000;
-    tx += (mx - tx) * 0.05; ty += (my - ty) * 0.05;
-    var a = -0.62 + tx * 0.14, ca = Math.cos(a), sa = Math.sin(a);
-    var small = W < 700, camY = 1.05 + ty * 0.14, f = small ? W * 0.9 : W * 0.6, cx = W * (small ? 0.5 : 0.63), cy = H * (small ? 0.58 : 0.3);
-    ctx.clearRect(0, 0, W, H);
-    for (var b = 0; b < BUCKETS; b++) paths[b] = new Path2D();
-    var i, j, x, z, y, rx, rz, d, k, sx, sy;
-    for (i = 0; i < NZ; i++){
-      z = -1.6 + 3.2 * i / (NZ - 1);
-      for (j = 0; j < NX; j++){
-        x = -2.1 + 4.2 * j / (NX - 1);
-        y = height(x, z, t);
-        rx = x * ca - z * sa; rz = x * sa + z * ca;
-        d = rz + 2.5; if (d < 0.4) continue;
-        sx = cx + rx * f / d; sy = cy + (camY - y) * f / d;
-        if (sx < -4 || sx > W + 4 || sy < -4 || sy > H + 4) continue;
-        k = Math.max(0, Math.min(1, (d - 0.9) / 3.2));
-        b = Math.min(BUCKETS - 1, Math.floor(k * BUCKETS));
-        var rad = 2.4 - 1.7 * k;
-        paths[b].moveTo(sx + rad, sy); paths[b].arc(sx, sy, rad, 0, 6.2832);
-      }
-    }
-    for (b = 0; b < BUCKETS; b++){
-      k = (b + 0.5) / BUCKETS;
-      var g = Math.round(255 - 119 * k), bl = Math.round(204 + 51 * k);
-      ctx.fillStyle = 'rgba(102,' + g + ',' + bl + ',' + (0.95 - 0.72 * k).toFixed(2) + ')';
-      ctx.fill(paths[b]);
-    }
-    // 中线与谷底金点
-    ctx.beginPath();
-    var first = true;
-    for (i = 0; i <= 40; i++){
-      z = -1.6 + 3.2 * i / 40; y = height(0, z, t);
-      rx = -z * sa; rz = z * ca; d = rz + 2.5;
-      sx = cx + rx * f / d; sy = cy + (camY - y) * f / d;
-      if (first){ ctx.moveTo(sx, sy); first = false; } else ctx.lineTo(sx, sy);
-    }
-    ctx.strokeStyle = 'rgba(102,255,204,.18)'; ctx.lineWidth = 6; ctx.stroke();
-    ctx.strokeStyle = 'rgba(102,255,204,.7)'; ctx.lineWidth = 1.2; ctx.stroke();
-    for (i = 0; i < 30; i++){
-      z = -1.5 + 3.0 * i / 29; y = height(0, z, t);
-      rx = -z * sa; rz = z * ca; d = rz + 2.5;
-      sx = cx + rx * f / d; sy = cy + (camY - y) * f / d;
-      k = Math.max(0, Math.min(1, (d - 0.9) / 3.2));
-      var p = 0.75 + 0.25 * Math.sin(t * 2.2 + i * 0.9);
-      var r0 = (3.6 - 2.2 * k) * p;
-      ctx.fillStyle = 'rgba(255,170,0,' + (0.22 * p).toFixed(2) + ')';
-      ctx.beginPath(); ctx.arc(sx, sy, r0 * 3, 0, 6.2832); ctx.fill();
-      ctx.fillStyle = 'rgba(255,217,102,' + (0.95 - 0.4 * k).toFixed(2) + ')';
-      ctx.beginPath(); ctx.arc(sx, sy, r0, 0, 6.2832); ctx.fill();
-    }
-    if (!reduce && visible) raf = window.requestAnimationFrame(draw);
-  }
-  function start(){ if (!raf && !reduce){ raf = window.requestAnimationFrame(draw); } }
-  function stop(){ if (raf){ window.cancelAnimationFrame(raf); raf = 0; } }
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
+} catch (e) { canvas.remove(); throw e; }
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x000000, 0);
 
-  resize();
-  window.addEventListener('resize', function(){ resize(); if (reduce) draw(0); }, {passive:true});
-  if (fine){
-    window.addEventListener('pointermove', function(e){
-      mx = (e.clientX / W - 0.5) * 2; my = (e.clientY / H - 0.5) * 2;
-    }, {passive:true});
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x050510, 0.015);
+const world = new THREE.Group();
+scene.add(world);
+
+const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+const target = new THREE.Vector3();
+
+scene.add(new THREE.AmbientLight(0x404060));
+const dirLight = new THREE.DirectionalLight(0xaaccff, 0.8);
+dirLight.position.set(5, 10, 7);
+scene.add(dirLight);
+const pointLight = new THREE.PointLight(0x66ffcc, 1.5, 30);
+pointLight.position.set(0, 2, 0);
+world.add(pointLight);
+
+// 前 20 个非平凡零点的虚部
+const zeroHeights = [
+  14.134725, 21.022040, 25.010858, 30.424876, 32.935062,
+  37.586178, 40.918719, 43.327073, 48.005151, 49.773832,
+  52.970321, 56.446248, 59.347044, 60.831779, 65.112544,
+  67.079811, 69.546402, 72.067158, 75.704691, 77.144840
+];
+const T_MIN = -40, T_MAX = 90, T_RANGE = T_MAX - T_MIN, T_CENTER = (T_MIN + T_MAX) / 2;
+const SIGMA_MIN = -0.2, SIGMA_MAX = 1.2, SIGMA_RANGE = SIGMA_MAX - SIGMA_MIN;
+const SCALE_X = 6, SCALE_Z = 18 / T_RANGE;
+const sigmaToX = s => (s - 0.5) * SCALE_X;
+const tToZ = t => (t - T_CENTER) * SCALE_Z;
+
+// 临界线
+const linePts = [];
+for (let i = 0; i <= 200; i++) linePts.push(new THREE.Vector3(sigmaToX(0.5), 0, tToZ(T_MIN + (i / 200) * T_RANGE)));
+world.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(linePts), new THREE.LineBasicMaterial({ color: 0x66ffcc })));
+const glowLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints(linePts), new THREE.LineBasicMaterial({ color: 0x33ffaa, transparent: true, opacity: 0.3 }));
+glowLine.scale.set(1.005, 1, 1);
+world.add(glowLine);
+
+// 零点：发光球 + 光晕
+function glowTexture() {
+  const c = document.createElement('canvas'); c.width = c.height = 64;
+  const g = c.getContext('2d').createRadialGradient(32, 32, 0, 32, 32, 32);
+  g.addColorStop(0, 'rgba(255,220,100,1)'); g.addColorStop(0.4, 'rgba(255,180,50,.6)'); g.addColorStop(1, 'rgba(255,150,0,0)');
+  const ctx = c.getContext('2d'); ctx.fillStyle = g; ctx.fillRect(0, 0, 64, 64);
+  return new THREE.CanvasTexture(c);
+}
+const sphereGeom = new THREE.SphereGeometry(0.15, 16, 16);
+const sphereMat = new THREE.MeshStandardMaterial({ color: 0xffd966, emissive: 0xffaa00, emissiveIntensity: 2, roughness: 0.2, metalness: 0.1 });
+const glowMap = glowTexture();
+const spheres = [], sprites = [];
+zeroHeights.forEach((t, i) => {
+  const m = new THREE.Mesh(sphereGeom, sphereMat);
+  m.position.set(sigmaToX(0.5), 0, tToZ(t)); m.userData.phase = i * 0.8;
+  world.add(m); spheres.push(m);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowMap, color: 0xffd966, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+  sp.scale.set(0.8, 0.8, 1); sp.position.copy(m.position);
+  world.add(sp); sprites.push(sp);
+});
+
+// 粒子地形（概念示例）
+const GX = 80, GZ = 150, N = GX * GZ;
+const pos = new Float32Array(N * 3), col = new Float32Array(N * 3);
+const low = new THREE.Color(0x33ffaa), high = new THREE.Color(0x6688ff), mix = new THREE.Color();
+let idx = 0;
+for (let ix = 0; ix < GX; ix++) for (let iz = 0; iz < GZ; iz++) {
+  const sigma = SIGMA_MIN + (ix / (GX - 1)) * SIGMA_RANGE, t = T_MIN + (iz / (GZ - 1)) * T_RANGE;
+  let h = Math.abs(sigma - 0.5) * 3.5, dMin = Infinity;
+  for (const zt of zeroHeights) dMin = Math.min(dMin, Math.abs(t - zt));
+  h *= 1 - 0.85 * Math.exp(-dMin * dMin / 1.2);
+  h += 0.08 * Math.sin(sigma * 12) * Math.cos(t * 0.5);
+  pos[idx * 3] = sigmaToX(sigma); pos[idx * 3 + 1] = h; pos[idx * 3 + 2] = tToZ(t);
+  mix.copy(low).lerp(high, Math.min(h / 3, 1));
+  col[idx * 3] = mix.r; col[idx * 3 + 1] = mix.g; col[idx * 3 + 2] = mix.b;
+  idx++;
+}
+const terrainGeom = new THREE.BufferGeometry();
+terrainGeom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+terrainGeom.setAttribute('color', new THREE.BufferAttribute(col, 3));
+world.add(new THREE.Points(terrainGeom, new THREE.PointsMaterial({ size: 0.08, vertexColors: true, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false })));
+
+// 谷底漂浮粒子
+const EXTRA = 600, ePos = new Float32Array(EXTRA * 3), eCol = new Float32Array(EXTRA * 3);
+const mint = new THREE.Color(0x66ffcc), gold = new THREE.Color(0xffd966);
+for (let i = 0; i < EXTRA; i++) {
+  ePos[i * 3] = sigmaToX(0.3 + Math.random() * 0.4); ePos[i * 3 + 1] = Math.random() * 0.3 + 0.1; ePos[i * 3 + 2] = tToZ(T_MIN + Math.random() * T_RANGE);
+  mix.copy(mint).lerp(gold, Math.random());
+  eCol[i * 3] = mix.r; eCol[i * 3 + 1] = mix.g; eCol[i * 3 + 2] = mix.b;
+}
+const extraGeom = new THREE.BufferGeometry();
+extraGeom.setAttribute('position', new THREE.BufferAttribute(ePos, 3));
+extraGeom.setAttribute('color', new THREE.BufferAttribute(eCol, 3));
+const extra = new THREE.Points(extraGeom, new THREE.PointsMaterial({ size: 0.06, vertexColors: true, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false }));
+world.add(extra);
+
+// 布局：桌面把地形放到右下，手机放到下半屏
+let W = 1, H = 1, small = false;
+function resize() {
+  const r = hero.getBoundingClientRect();
+  W = Math.max(1, r.width); H = Math.max(1, r.height); small = W < 700;
+  renderer.setSize(W, H, false);
+  camera.aspect = W / H; camera.updateProjectionMatrix();
+  world.position.set(small ? 0.5 : 5, small ? -5.5 : -2.5, 0);
+}
+
+// 自动环绕 + 视差
+let angle = 0.42, mx = 0, my = 0, px = 0, py = 0, raf = 0, visible = true, last = performance.now();
+const clock = new THREE.Clock();
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  const elapsed = clock.getElapsedTime();
+  if (!reduceMotion) {
+    angle += dt * 0.0628;
+    spheres.forEach(m => { const k = 1 + 0.3 * Math.sin(elapsed * 2.5 + m.userData.phase); m.scale.set(k, k, k); });
+    sprites.forEach(sp => { const k = 0.7 + 0.15 * Math.sin(elapsed * 2 + sp.position.z * 0.5); sp.scale.set(k, k, 1); });
+    extra.rotation.y += 0.0005;
   }
-  document.addEventListener('visibilitychange', function(){
-    visible = !document.hidden && inView; visible ? start() : stop();
-  });
-  var inView = true;
-  if ('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){
-      inView = es[0].isIntersecting; visible = inView && !document.hidden; visible ? start() : stop();
-    }).observe(c);
-  }
-  if (reduce) draw(0); else start();
-})();
+  px += (mx - px) * 0.04; py += (my - py) * 0.04;
+  const radius = small ? 26 : 21;
+  camera.position.set(Math.sin(angle) * radius, 6 + py * 0.8, Math.cos(angle) * radius);
+  target.set(-px * 0.8, 0, 0);
+  camera.lookAt(target);
+  renderer.render(scene, camera);
+  if (!reduceMotion && visible) raf = requestAnimationFrame(frame);
+}
+function start() { if (!raf && !reduceMotion) { last = performance.now(); raf = requestAnimationFrame(frame); } }
+function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+resize();
+window.addEventListener('resize', () => { resize(); if (reduceMotion) frame(performance.now()); }, { passive: true });
+if (finePointer) window.addEventListener('pointermove', e => { mx = (e.clientX / W - 0.5) * 2; my = (e.clientY / H - 0.5) * 2; }, { passive: true });
+let inView = true;
+document.addEventListener('visibilitychange', () => { visible = !document.hidden && inView; visible ? start() : stop(); });
+if ('IntersectionObserver' in window) new IntersectionObserver(es => { inView = es[0].isIntersecting; visible = inView && !document.hidden; visible ? start() : stop(); }).observe(canvas);
+if (reduceMotion) frame(performance.now()); else start();
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","name":"Littlewood","url":"https://littlewood.io/","description":"直觉之外，另有秩序。","inLanguage":"zh-CN"}
