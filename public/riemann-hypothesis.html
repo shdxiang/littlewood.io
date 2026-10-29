@@ -99,6 +99,7 @@
             text-align: center;
         }
         #status i {
+            white-space: nowrap;
             color: #66ffcc;
             font-style: normal;
         }
@@ -154,7 +155,7 @@
         </p>
     </div>
     <div id="status">
-        <span id="statusText" aria-live="polite">拖动旋转，轻点暂停 · 前 20 个零点全部落在 <i>临界线</i> 上</span><button id="addZero" type="button">＋ 加一个零点</button><button id="cxToggle" type="button" aria-pressed="false">放一个反例</button>
+        <span id="statusText" aria-live="polite">拖动旋转，轻点暂停 · 前 20 个零点全部落在 <i>临界线</i>&nbsp;上</span><button id="addZero" type="button">＋ 加一个零点</button><button id="cxToggle" type="button" aria-pressed="false">放一个反例</button>
         <div id="cxPanel" hidden>
             <label for="cxSigma">σ</label>
             <input id="cxSigma" type="range" min="0.05" max="0.95" step="0.01" value="0.75" autocomplete="off">
@@ -642,11 +643,11 @@
                 const up = zeroHeights.filter(t => t > 0).length;
                 const down = zeroHeights.length - up;
                 if (!moreZeros.length) {
-                    statusText.innerHTML = `图里放得下 ${up} 个零点和 ${down} 个共轭镜像 · 已算出的前 10 万亿个零点也全在 <i>临界线</i> 上，但还没人证明每一个都在`;
+                    statusText.innerHTML = `图里放得下 ${up} 个零点和 ${down} 个共轭镜像 · 已算出的前 10 万亿个零点也全在 <i>临界线</i>&nbsp;上，但还没人证明每一个都在`;
                 } else if (down) {
-                    statusText.innerHTML = `下半边是共轭镜像 1/2 − i·t，上面每个零点在下面都有一个 · 已放 ${down} 个，同样全在 <i>临界线</i> 上`;
+                    statusText.innerHTML = `下半边是共轭镜像 1/2 − i·t，上面每个零点在下面都有一个 · 已放 ${down} 个，同样全在 <i>临界线</i>&nbsp;上`;
                 } else {
-                    statusText.innerHTML = `拖动旋转，轻点暂停 · 前 ${up} 个零点全部落在 <i>临界线</i> 上`;
+                    statusText.innerHTML = `拖动旋转，轻点暂停 · 前 ${up} 个零点全部落在 <i>临界线</i>&nbsp;上`;
                 }
             }
             addButton.hidden = cxOn || !moreZeros.length;
@@ -659,14 +660,16 @@
 
         animate();
 
-        // 轻点画面暂停/恢复自动旋转。拖动旋转松手时浏览器也会发 click，按下后挪动超过 5px 的不算
+        // 轻点画面暂停/恢复自动旋转。不用 click：OrbitControls 在 touchstart 里 preventDefault，
+        // 手机上收不到 click；鼠标拖动松手又会多发一个 click。按下后挪动超过 5px 的不算轻点
         let downX = 0, downY = 0;
         renderer.domElement.addEventListener('pointerdown', e => {
+            if (!e.isPrimary) return;
             downX = e.clientX;
             downY = e.clientY;
         });
-        renderer.domElement.addEventListener('click', e => {
-            if (Math.hypot(e.clientX - downX, e.clientY - downY) < 5) controls.autoRotate = !controls.autoRotate;
+        renderer.domElement.addEventListener('pointerup', e => {
+            if (e.isPrimary && Math.hypot(e.clientX - downX, e.clientY - downY) < 5) controls.autoRotate = !controls.autoRotate;
         });
     </script>
 </body>
