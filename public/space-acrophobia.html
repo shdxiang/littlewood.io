@@ -33,7 +33,7 @@
 <style>
 body{line-height:1.85}
 /* 本篇语义色（SVG 内直接写十六进制）：真实重力 绿 #2b8a3e、前庭信号 青 #0b7285、视觉线索 蓝 #1c7ed6、大脑认定的“下” 红 #c9342a、恐惧/报警 橙 #e8590c */
-:root{--grav:#2b8a3e;--vest:#0b7285;--vis:#1c7ed6;--down:#c9342a;--fear:#e8590c}
+:root{--grav:#3fcf6a;--vest:#22c3dd;--vis:#4dabf7;--down:#ff6b6b;--fear:#ff7a2f}
 .mbtn.active[data-gaze="earth"]{background:var(--vis);border-color:var(--vis);color:#fff;box-shadow:0 3px 0 #155fa3}
 .mbtn.active[data-gaze="rail"]{background:#5b6472;border-color:#5b6472;color:#fff;box-shadow:0 3px 0 #454c55}
 .ro.vest .val{color:var(--vest)} .ro.vis .val{color:var(--down)} .ro.fear .val{color:var(--fear)}
@@ -49,29 +49,29 @@ body{line-height:1.85}
 <!-- 全局箭头标记 + 航天员符号 -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <marker id="mGrav" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2b8a3e"/></marker>
-    <marker id="mVest" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0b7285"/></marker>
-    <marker id="mVis" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1c7ed6"/></marker>
-    <marker id="mDown" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c9342a"/></marker>
-    <marker id="mFear" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
-    <marker id="mGrey" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8a8f99"/></marker>
+    <marker id="mGrav" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3fcf6a"/></marker>
+    <marker id="mVest" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#22c3dd"/></marker>
+    <marker id="mVis" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4dabf7"/></marker>
+    <marker id="mDown" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ff6b6b"/></marker>
+    <marker id="mFear" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ff7a2f"/></marker>
+    <marker id="mGrey" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#a3acbd"/></marker>
     <!-- 航天员：双手在原点，脚朝 +y -->
     <g id="astro">
       <path d="M-10,0 L-12,24 M10,0 L12,24" stroke="#e9e6dd" stroke-width="5" stroke-linecap="round"/>
-      <circle cx="0" cy="32" r="13" fill="#e9e6dd" stroke="#8a8f99" stroke-width="2"/>
-      <path d="M-7,30 a7,6 0 0 1 14,0 v5 h-14 z" fill="#2e3440"/>
-      <rect x="-13" y="46" width="26" height="36" rx="7" fill="#e9e6dd" stroke="#8a8f99" stroke-width="2"/>
+      <circle cx="0" cy="32" r="13" fill="#e9e6dd" stroke="#a3acbd" stroke-width="2"/>
+      <path d="M-7,30 a7,6 0 0 1 14,0 v5 h-14 z" fill="#e0e0ff"/>
+      <rect x="-13" y="46" width="26" height="36" rx="7" fill="#e9e6dd" stroke="#a3acbd" stroke-width="2"/>
       <path d="M-7,82 L-9,110 M7,82 L9,110" stroke="#e9e6dd" stroke-width="7" stroke-linecap="round"/>
-      <path d="M-14,110 h10 M4,110 h10" stroke="#8a8f99" stroke-width="4" stroke-linecap="round"/>
+      <path d="M-14,110 h10 M4,110 h10" stroke="#a3acbd" stroke-width="4" stroke-linecap="round"/>
     </g>
     <!-- 站立的人：手臂下垂 -->
     <g id="astro-stand">
-      <circle cx="0" cy="32" r="13" fill="#e9e6dd" stroke="#8a8f99" stroke-width="2"/>
-      <path d="M-7,30 a7,6 0 0 1 14,0 v5 h-14 z" fill="#2e3440"/>
-      <rect x="-13" y="46" width="26" height="36" rx="7" fill="#e9e6dd" stroke="#8a8f99" stroke-width="2"/>
+      <circle cx="0" cy="32" r="13" fill="#e9e6dd" stroke="#a3acbd" stroke-width="2"/>
+      <path d="M-7,30 a7,6 0 0 1 14,0 v5 h-14 z" fill="#e0e0ff"/>
+      <rect x="-13" y="46" width="26" height="36" rx="7" fill="#e9e6dd" stroke="#a3acbd" stroke-width="2"/>
       <path d="M-13,52 L-19,84 M13,52 L19,84" stroke="#e9e6dd" stroke-width="5" stroke-linecap="round"/>
       <path d="M-7,82 L-9,110 M7,82 L9,110" stroke="#e9e6dd" stroke-width="7" stroke-linecap="round"/>
-      <path d="M-14,110 h10 M4,110 h10" stroke="#8a8f99" stroke-width="4" stroke-linecap="round"/>
+      <path d="M-14,110 h10 M4,110 h10" stroke="#a3acbd" stroke-width="4" stroke-linecap="round"/>
     </g>
   </defs>
 </svg>
@@ -124,46 +124,46 @@ body{line-height:1.85}
         <div>
           <div class="panel-title" style="color:#aab4c0">图A · 舱内</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="舱内：四面都是舱壁，没有哪一面像深渊，大脑找不到“下”，不恐高">
-            <rect x="18" y="18" width="284" height="224" rx="14" fill="#f3f1ec" stroke="#8a8f99" stroke-width="2.5"/>
-            <g stroke="#cfd3da" stroke-width="1.5">
+            <rect x="18" y="18" width="284" height="224" rx="14" fill="#0d0d24" stroke="#a3acbd" stroke-width="2.5"/>
+            <g stroke="#2c2c48" stroke-width="1.5">
               <line x1="18" y1="74" x2="302" y2="74"/><line x1="18" y1="186" x2="302" y2="186"/>
               <line x1="92" y1="18" x2="92" y2="242"/><line x1="228" y1="18" x2="228" y2="242"/>
             </g>
-            <circle cx="256" cy="46" r="18" fill="#dbe9f7" stroke="#8a8f99" stroke-width="2"/>
+            <circle cx="256" cy="46" r="18" fill="#1d2a46" stroke="#a3acbd" stroke-width="2"/>
             <path d="M240,54 a18,18 0 0 0 32,0 z" fill="#4c8fd8"/>
-            <text x="256" y="90" font-size="10" fill="#7a6f60" text-anchor="middle">窗外：一小片地球</text>
+            <text x="256" y="90" font-size="10" fill="#b8c0e0" text-anchor="middle">窗外：一小片地球</text>
             <g transform="translate(150,70) rotate(-35)"><use href="#astro"/></g>
-            <circle cx="258" cy="190" r="30" fill="none" stroke="#8a8f99" stroke-width="2" stroke-dasharray="4 4"/>
-            <text x="258" y="195" font-size="15" font-weight="700" fill="#8a8f99" text-anchor="middle">下 = ？</text>
-            <text x="34" y="226" font-size="12" fill="#3a3128">四面都是墙，没有一面像深渊</text>
-            <text x="34" y="44" font-size="12" font-weight="700" fill="#2b8a3e">恐惧：无</text>
+            <circle cx="258" cy="190" r="30" fill="none" stroke="#a3acbd" stroke-width="2" stroke-dasharray="4 4"/>
+            <text x="258" y="195" font-size="15" font-weight="700" fill="#a3acbd" text-anchor="middle">下 = ？</text>
+            <text x="34" y="226" font-size="12" fill="#e0e0ff">四面都是墙，没有一面像深渊</text>
+            <text x="34" y="44" font-size="12" font-weight="700" fill="#3fcf6a">恐惧：无</text>
           </svg>
         </div>
         <div>
           <div class="panel-title" style="color:#ff6b7a">图B · 出舱，面朝地球</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="出舱面朝地球：眼睛把地球当成地面，大脑认定“下”就是地球方向，恐高回来了">
-            <rect x="0" y="0" width="320" height="260" fill="#f3f1ec"/>
+            <rect x="0" y="0" width="320" height="260" fill="#0d0d24"/>
             <circle cx="160" cy="620" r="420" fill="#4c8fd8"/>
             <path d="M40,222 q40,-18 80,-4 t70,-8 t60,6" fill="#6aa96b" opacity=".85"/>
             <circle cx="160" cy="620" r="420" fill="none" stroke="#9fc4ee" stroke-width="6" opacity=".7"/>
-            <rect x="0" y="34" width="150" height="14" fill="#8a8f99"/>
-            <g stroke="#5b6472" stroke-width="3"><line x1="30" y1="34" x2="30" y2="48"/><line x1="70" y1="34" x2="70" y2="48"/><line x1="110" y1="34" x2="110" y2="48"/></g>
-            <rect x="140" y="30" width="24" height="22" rx="4" fill="#5b6472"/>
+            <rect x="0" y="34" width="150" height="14" fill="#a3acbd"/>
+            <g stroke="#9aa4b8" stroke-width="3"><line x1="30" y1="34" x2="30" y2="48"/><line x1="70" y1="34" x2="70" y2="48"/><line x1="110" y1="34" x2="110" y2="48"/></g>
+            <rect x="140" y="30" width="24" height="22" rx="4" fill="#9aa4b8"/>
             <g transform="translate(152,52)"><use href="#astro"/></g>
-            <line x1="226" y1="70" x2="226" y2="176" stroke="#c9342a" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
-            <text x="236" y="112" font-size="12" font-weight="700" fill="#c9342a">大脑认定的“下”</text>
-            <text x="236" y="130" font-size="12" fill="#c9342a">= 400 km 深渊</text>
-            <line x1="60" y1="70" x2="60" y2="176" stroke="#2b8a3e" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#mGrav)"/>
-            <text x="14" y="116" font-size="10" fill="#2b8a3e">真实重力</text>
-            <text x="14" y="130" font-size="10" fill="#2b8a3e">感觉不到</text>
+            <line x1="226" y1="70" x2="226" y2="176" stroke="#ff6b6b" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
+            <text x="236" y="112" font-size="12" font-weight="700" fill="#ff6b6b">大脑认定的“下”</text>
+            <text x="236" y="130" font-size="12" fill="#ff6b6b">= 400 km 深渊</text>
+            <line x1="60" y1="70" x2="60" y2="176" stroke="#3fcf6a" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#mGrav)"/>
+            <text x="14" y="116" font-size="10" fill="#3fcf6a">真实重力</text>
+            <text x="14" y="130" font-size="10" fill="#3fcf6a">感觉不到</text>
             <text x="160" y="246" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">地球（示意，未按比例）</text>
-            <text x="200" y="26" font-size="12" font-weight="700" fill="#e8590c">恐惧：强</text>
+            <text x="200" y="26" font-size="12" font-weight="700" fill="#ff7a2f">恐惧：强</text>
           </svg>
         </div>
       </div>
       <div class="legend">
-        <span class="chip"><span class="sw" style="background:#c9342a"></span>大脑认定的“下”</span>
-        <span class="chip"><span class="sw" style="background:#2b8a3e"></span>真实重力（和空间站一起自由落体，感觉不到）</span>
+        <span class="chip"><span class="sw" style="background:#ff6b6b"></span>大脑认定的“下”</span>
+        <span class="chip"><span class="sw" style="background:#3fcf6a"></span>真实重力（和空间站一起自由落体，感觉不到）</span>
       </div>
       <figcaption>高度一样，都是离地约 400 km。舱内没有“下”，也就没有深渊；出舱面朝地球，眼睛把地球当成地面，“下”出现了，深渊也出现了。</figcaption>
     </div>
@@ -181,34 +181,34 @@ body{line-height:1.85}
   <figure class="reveal">
     <div class="figbox">
       <svg class="wide" viewBox="0 0 640 300" role="img" aria-label="崖边的人：眼睛、前庭和“掉下去会死”的念头三路信号进入大脑，指向同一个“下”，于是报警">
-        <path d="M0,150 L200,150 L200,300 L0,300 Z" fill="#d8cdb8"/>
-        <path d="M200,150 L214,300 L640,300 L640,296 L214,296" fill="#f3f1ec"/>
-        <path d="M200,150 L200,300" stroke="#8a8f99" stroke-width="3"/>
-        <line x1="0" y1="150" x2="200" y2="150" stroke="#8a8f99" stroke-width="3"/>
+        <path d="M0,150 L200,150 L200,300 L0,300 Z" fill="#2a2a44"/>
+        <path d="M200,150 L214,300 L640,300 L640,296 L214,296" fill="#0d0d24"/>
+        <path d="M200,150 L200,300" stroke="#a3acbd" stroke-width="3"/>
+        <line x1="0" y1="150" x2="200" y2="150" stroke="#a3acbd" stroke-width="3"/>
         <g transform="translate(175,40)"><use href="#astro-stand"/></g>
-        <text x="330" y="292" font-size="11" fill="#7a6f60">很远的地面：近处参照物没了</text>
-        <line x1="175" y1="72" x2="235" y2="292" stroke="#1c7ed6" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#mVis)"/>
+        <text x="330" y="292" font-size="11" fill="#b8c0e0">很远的地面：近处参照物没了</text>
+        <line x1="175" y1="72" x2="235" y2="292" stroke="#4dabf7" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#mVis)"/>
         <g transform="translate(455,60)">
-          <ellipse cx="0" cy="0" rx="86" ry="52" fill="#fff" stroke="#3a3128" stroke-width="2.5"/>
-          <text x="0" y="-8" font-size="14" font-weight="700" fill="#3a3128" text-anchor="middle">大脑</text>
-          <text x="0" y="12" font-size="12" fill="#3a3128" text-anchor="middle">三路一致：“下”在脚下，</text>
-          <text x="0" y="28" font-size="12" fill="#3a3128" text-anchor="middle">而且很深</text>
+          <ellipse cx="0" cy="0" rx="86" ry="52" fill="#141430" stroke="#e0e0ff" stroke-width="2.5"/>
+          <text x="0" y="-8" font-size="14" font-weight="700" fill="#e0e0ff" text-anchor="middle">大脑</text>
+          <text x="0" y="12" font-size="12" fill="#e0e0ff" text-anchor="middle">三路一致：“下”在脚下，</text>
+          <text x="0" y="28" font-size="12" fill="#e0e0ff" text-anchor="middle">而且很深</text>
         </g>
-        <line x1="250" y1="120" x2="368" y2="70" stroke="#1c7ed6" stroke-width="4" stroke-linecap="round" marker-end="url(#mVis)"/>
-        <text x="250" y="60" font-size="12" font-weight="700" fill="#1c7ed6">眼睛：脚下空荡荡</text>
-        <line x1="250" y1="160" x2="372" y2="98" stroke="#0b7285" stroke-width="4" stroke-linecap="round" marker-end="url(#mVest)"/>
-        <text x="262" y="182" font-size="12" font-weight="700" fill="#0b7285">前庭：重力朝这边</text>
-        <line x1="300" y1="215" x2="410" y2="120" stroke="#8a8f99" stroke-width="3" stroke-linecap="round" stroke-dasharray="5 5" marker-end="url(#mGrey)"/>
-        <text x="300" y="240" font-size="12" font-weight="700" fill="#8a8f99">念头：掉下去会死</text>
-        <line x1="545" y1="60" x2="600" y2="60" stroke="#e8590c" stroke-width="6" stroke-linecap="round" marker-end="url(#mFear)"/>
-        <text x="628" y="44" font-size="13" font-weight="800" fill="#e8590c" text-anchor="end">报警</text>
-        <text x="628" y="112" font-size="11" fill="#e8590c" text-anchor="end">腿软、抓紧、后退</text>
+        <line x1="250" y1="120" x2="368" y2="70" stroke="#4dabf7" stroke-width="4" stroke-linecap="round" marker-end="url(#mVis)"/>
+        <text x="250" y="60" font-size="12" font-weight="700" fill="#4dabf7">眼睛：脚下空荡荡</text>
+        <line x1="250" y1="160" x2="372" y2="98" stroke="#22c3dd" stroke-width="4" stroke-linecap="round" marker-end="url(#mVest)"/>
+        <text x="262" y="182" font-size="12" font-weight="700" fill="#22c3dd">前庭：重力朝这边</text>
+        <line x1="300" y1="215" x2="410" y2="120" stroke="#a3acbd" stroke-width="3" stroke-linecap="round" stroke-dasharray="5 5" marker-end="url(#mGrey)"/>
+        <text x="300" y="240" font-size="12" font-weight="700" fill="#a3acbd">念头：掉下去会死</text>
+        <line x1="545" y1="60" x2="600" y2="60" stroke="#ff7a2f" stroke-width="6" stroke-linecap="round" marker-end="url(#mFear)"/>
+        <text x="628" y="44" font-size="13" font-weight="800" fill="#ff7a2f" text-anchor="end">报警</text>
+        <text x="628" y="112" font-size="11" fill="#ff7a2f" text-anchor="end">腿软、抓紧、后退</text>
       </svg>
       <div class="legend">
-        <span class="chip"><span class="sw" style="background:#1c7ed6"></span>视觉线索</span>
-        <span class="chip"><span class="sw" style="background:#0b7285"></span>前庭信号（内耳感受重力方向）</span>
-        <span class="chip"><span class="sw" style="background:#8a8f99"></span>念头（知道会摔）</span>
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>报警</span>
+        <span class="chip"><span class="sw" style="background:#4dabf7"></span>视觉线索</span>
+        <span class="chip"><span class="sw" style="background:#22c3dd"></span>前庭信号（内耳感受重力方向）</span>
+        <span class="chip"><span class="sw" style="background:#a3acbd"></span>念头（知道会摔）</span>
+        <span class="chip"><span class="sw" style="background:#ff7a2f"></span>报警</span>
       </div>
       <figcaption>崖边：眼睛、前庭、念头三路信号都说“下在脚下，而且很深”。恐高不是一路信号的事，是三路合起来的事。</figcaption>
     </div>
@@ -226,41 +226,41 @@ body{line-height:1.85}
         <div>
           <div class="panel-title" style="color:#aab4c0">脚朝地板站着</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="舱内脚朝地板：眼睛看到脚下是地板，大脑把地板定为“下”">
-            <rect x="18" y="18" width="284" height="224" rx="14" fill="#f3f1ec" stroke="#8a8f99" stroke-width="2.5"/>
-            <rect x="18" y="206" width="284" height="36" rx="0" fill="#cfd3da"/>
-            <text x="160" y="230" font-size="11" fill="#5b6472" text-anchor="middle">看起来像地板的那一面</text>
+            <rect x="18" y="18" width="284" height="224" rx="14" fill="#0d0d24" stroke="#a3acbd" stroke-width="2.5"/>
+            <rect x="18" y="206" width="284" height="36" rx="0" fill="#2c2c48"/>
+            <text x="160" y="230" font-size="11" fill="#9aa4b8" text-anchor="middle">看起来像地板的那一面</text>
             <g transform="translate(120,84)"><use href="#astro"/></g>
-            <line x1="218" y1="96" x2="218" y2="196" stroke="#c9342a" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
-            <text x="230" y="150" font-size="12" font-weight="700" fill="#c9342a">下 = 地板</text>
+            <line x1="218" y1="96" x2="218" y2="196" stroke="#ff6b6b" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
+            <text x="230" y="150" font-size="12" font-weight="700" fill="#ff6b6b">下 = 地板</text>
             <g transform="translate(48,50)">
-              <circle r="14" fill="#fff" stroke="#8a8f99" stroke-width="2" stroke-dasharray="3 3"/>
-              <text y="4" font-size="10" fill="#8a8f99" text-anchor="middle">前庭</text>
+              <circle r="14" fill="#141430" stroke="#a3acbd" stroke-width="2" stroke-dasharray="3 3"/>
+              <text y="4" font-size="10" fill="#a3acbd" text-anchor="middle">前庭</text>
             </g>
-            <text x="48" y="80" font-size="10" fill="#8a8f99" text-anchor="middle">= 0</text>
+            <text x="48" y="80" font-size="10" fill="#a3acbd" text-anchor="middle">= 0</text>
           </svg>
         </div>
         <div>
           <div class="panel-title" style="color:#aab4c0">同一个人，转 180°</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="同一个人头朝地板：眼睛看到脚下是天花板，大脑把天花板定为“下”，整个舱像翻了过来">
-            <rect x="18" y="18" width="284" height="224" rx="14" fill="#f3f1ec" stroke="#8a8f99" stroke-width="2.5"/>
-            <rect x="18" y="206" width="284" height="36" fill="#cfd3da"/>
-            <text x="160" y="230" font-size="11" fill="#5b6472" text-anchor="middle">刚才的地板</text>
-            <rect x="18" y="18" width="284" height="30" rx="14" fill="#dfe3ea"/>
-            <text x="160" y="38" font-size="11" fill="#5b6472" text-anchor="middle">刚才的天花板，现在“像地板”</text>
+            <rect x="18" y="18" width="284" height="224" rx="14" fill="#0d0d24" stroke="#a3acbd" stroke-width="2.5"/>
+            <rect x="18" y="206" width="284" height="36" fill="#2c2c48"/>
+            <text x="160" y="230" font-size="11" fill="#9aa4b8" text-anchor="middle">刚才的地板</text>
+            <rect x="18" y="18" width="284" height="30" rx="14" fill="#1c1c38"/>
+            <text x="160" y="38" font-size="11" fill="#9aa4b8" text-anchor="middle">刚才的天花板，现在“像地板”</text>
             <g transform="translate(120,196) rotate(180)"><use href="#astro"/></g>
-            <line x1="218" y1="184" x2="218" y2="64" stroke="#c9342a" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
-            <text x="230" y="128" font-size="12" font-weight="700" fill="#c9342a">下 = 天花板</text>
+            <line x1="218" y1="184" x2="218" y2="64" stroke="#ff6b6b" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
+            <text x="230" y="128" font-size="12" font-weight="700" fill="#ff6b6b">下 = 天花板</text>
             <g transform="translate(48,120)">
-              <circle r="14" fill="#fff" stroke="#8a8f99" stroke-width="2" stroke-dasharray="3 3"/>
-              <text y="4" font-size="10" fill="#8a8f99" text-anchor="middle">前庭</text>
+              <circle r="14" fill="#141430" stroke="#a3acbd" stroke-width="2" stroke-dasharray="3 3"/>
+              <text y="4" font-size="10" fill="#a3acbd" text-anchor="middle">前庭</text>
             </g>
-            <text x="48" y="150" font-size="10" fill="#8a8f99" text-anchor="middle">= 0</text>
+            <text x="48" y="150" font-size="10" fill="#a3acbd" text-anchor="middle">= 0</text>
           </svg>
         </div>
       </div>
       <div class="legend">
-        <span class="chip"><span class="sw" style="background:#c9342a"></span>大脑认定的“下”</span>
-        <span class="chip"><span class="sw" style="background:#8a8f99"></span>前庭沉默，不投票</span>
+        <span class="chip"><span class="sw" style="background:#ff6b6b"></span>大脑认定的“下”</span>
+        <span class="chip"><span class="sw" style="background:#a3acbd"></span>前庭沉默，不投票</span>
       </div>
       <figcaption>失重里“下”跟着眼睛走。航天员转个身，整个舱在感觉上翻了过来，这叫<b>视觉重定向错觉</b>。大脑认真得很：眼睛说哪边是下，它就按哪边准备。</figcaption>
     </div>
@@ -303,26 +303,26 @@ body{line-height:1.85}
 
     <div class="figbox" style="padding:8px">
       <svg class="wide" viewBox="0 0 640 340" role="img" aria-label="交互示意图：航天员抓着站外扶手，随滑块转动身体；红色箭头是大脑认定的“下”，绿色虚线箭头是感觉不到的真实重力">
-        <rect x="0" y="0" width="640" height="340" fill="#f3f1ec"/>
+        <rect x="0" y="0" width="640" height="340" fill="#0d0d24"/>
         <circle id="earth" cx="320" cy="900" r="600" fill="#4c8fd8"/>
         <path id="earthLand" d="M120,318 q60,-22 120,-6 t110,-10 t100,8 t90,-2 L640,340 L120,340 Z" fill="#6aa96b" opacity=".85"/>
         <circle cx="320" cy="900" r="600" fill="none" stroke="#9fc4ee" stroke-width="7" opacity=".7"/>
         <text x="320" y="334" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">地球 · 约 400 km 之下（示意，未按比例）</text>
-        <rect x="0" y="162" width="300" height="16" fill="#8a8f99"/>
-        <g stroke="#5b6472" stroke-width="3"><line x1="40" y1="162" x2="40" y2="178"/><line x1="100" y1="162" x2="100" y2="178"/><line x1="160" y1="162" x2="160" y2="178"/><line x1="220" y1="162" x2="220" y2="178"/></g>
-        <text x="16" y="152" font-size="12" fill="#5b6472">空间站桁架</text>
-        <rect x="296" y="156" width="28" height="28" rx="5" fill="#5b6472"/>
-        <text x="330" y="150" font-size="11" fill="#5b6472">扶手</text>
-        <line id="gazeLine" x1="320" y1="202" x2="320" y2="300" stroke="#1c7ed6" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#mVis)"/>
+        <rect x="0" y="162" width="300" height="16" fill="#a3acbd"/>
+        <g stroke="#9aa4b8" stroke-width="3"><line x1="40" y1="162" x2="40" y2="178"/><line x1="100" y1="162" x2="100" y2="178"/><line x1="160" y1="162" x2="160" y2="178"/><line x1="220" y1="162" x2="220" y2="178"/></g>
+        <text x="16" y="152" font-size="12" fill="#9aa4b8">空间站桁架</text>
+        <rect x="296" y="156" width="28" height="28" rx="5" fill="#9aa4b8"/>
+        <text x="330" y="150" font-size="11" fill="#9aa4b8">扶手</text>
+        <line id="gazeLine" x1="320" y1="202" x2="320" y2="300" stroke="#4dabf7" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#mVis)"/>
         <g id="astroG" transform="translate(320,170) rotate(0)"><use href="#astro"/></g>
-        <line x1="520" y1="130" x2="520" y2="230" stroke="#2b8a3e" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#mGrav)"/>
-        <text x="534" y="176" font-size="11" fill="#2b8a3e">真实重力</text>
-        <text x="534" y="192" font-size="11" fill="#2b8a3e">感觉不到</text>
+        <line x1="520" y1="130" x2="520" y2="230" stroke="#3fcf6a" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#mGrav)"/>
+        <text x="534" y="176" font-size="11" fill="#3fcf6a">真实重力</text>
+        <text x="534" y="192" font-size="11" fill="#3fcf6a">感觉不到</text>
         <g id="downArrow" transform="translate(320,170) rotate(0)">
-          <line x1="52" y1="30" x2="52" y2="120" stroke="#c9342a" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
+          <line x1="52" y1="30" x2="52" y2="120" stroke="#ff6b6b" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
         </g>
-        <text id="downLbl" x="624" y="40" font-size="12" font-weight="700" fill="#c9342a" text-anchor="end">大脑认定的“下”：脚下的地球</text>
-        <text id="gazeLbl" x="16" y="40" font-size="12" font-weight="700" fill="#1c7ed6">眼睛：望向地球</text>
+        <text id="downLbl" x="624" y="40" font-size="12" font-weight="700" fill="#ff6b6b" text-anchor="end">大脑认定的“下”：脚下的地球</text>
+        <text id="gazeLbl" x="16" y="40" font-size="12" font-weight="700" fill="#4dabf7">眼睛：望向地球</text>
       </svg>
     </div>
 
@@ -342,31 +342,31 @@ body{line-height:1.85}
   <figure class="reveal">
     <div class="figbox">
       <svg class="wide" viewBox="0 0 640 250" role="img" aria-label="两条路：眼睛和前庭的信号走快路，几十毫秒内触发报警；“我很安全”的念头走慢路，晚到，而且改不了快路的结论">
-        <rect x="16" y="30" width="120" height="44" rx="10" fill="#fff" stroke="#1c7ed6" stroke-width="2.5"/>
-        <text x="76" y="58" font-size="13" font-weight="700" fill="#1c7ed6" text-anchor="middle">眼睛</text>
-        <rect x="16" y="90" width="120" height="44" rx="10" fill="#fff" stroke="#0b7285" stroke-width="2.5"/>
-        <text x="76" y="118" font-size="13" font-weight="700" fill="#0b7285" text-anchor="middle">前庭</text>
-        <rect x="16" y="180" width="120" height="44" rx="10" fill="#fff" stroke="#8a8f99" stroke-width="2.5" stroke-dasharray="5 4"/>
-        <text x="76" y="208" font-size="13" font-weight="700" fill="#8a8f99" text-anchor="middle">念头：我很安全</text>
-        <line x1="140" y1="52" x2="250" y2="76" stroke="#1c7ed6" stroke-width="5" stroke-linecap="round" marker-end="url(#mVis)"/>
-        <line x1="140" y1="112" x2="250" y2="90" stroke="#0b7285" stroke-width="5" stroke-linecap="round" marker-end="url(#mVest)"/>
-        <rect x="262" y="52" width="130" height="60" rx="12" fill="#fff" stroke="#3a3128" stroke-width="2.5"/>
-        <text x="327" y="78" font-size="13" font-weight="700" fill="#3a3128" text-anchor="middle">平衡与警戒</text>
-        <text x="327" y="98" font-size="11" fill="#7a6f60" text-anchor="middle">几十毫秒，不经思考</text>
-        <line x1="400" y1="82" x2="500" y2="82" stroke="#e8590c" stroke-width="7" stroke-linecap="round" marker-end="url(#mFear)"/>
-        <rect x="512" y="52" width="112" height="60" rx="12" fill="#fdf0e6" stroke="#e8590c" stroke-width="2.5"/>
-        <text x="568" y="78" font-size="13" font-weight="800" fill="#e8590c" text-anchor="middle">报警</text>
-        <text x="568" y="98" font-size="11" fill="#e8590c" text-anchor="middle">抓紧、心跳、腿软</text>
-        <line x1="140" y1="202" x2="320" y2="202" stroke="#8a8f99" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" marker-end="url(#mGrey)"/>
-        <rect x="330" y="176" width="150" height="52" rx="12" fill="#fff" stroke="#8a8f99" stroke-width="2" stroke-dasharray="5 4"/>
-        <text x="405" y="198" font-size="12" font-weight="700" fill="#8a8f99" text-anchor="middle">推理</text>
-        <text x="405" y="216" font-size="11" fill="#8a8f99" text-anchor="middle">秒级，晚到</text>
-        <path d="M480,202 L560,202 L560,130" fill="none" stroke="#8a8f99" stroke-width="3" stroke-dasharray="6 5"/>
-        <line x1="546" y1="140" x2="574" y2="122" stroke="#c9342a" stroke-width="4" stroke-linecap="round"/>
-        <line x1="574" y1="140" x2="546" y2="122" stroke="#c9342a" stroke-width="4" stroke-linecap="round"/>
-        <text x="600" y="150" font-size="11" fill="#c9342a" text-anchor="end">劝不动</text>
-        <text x="200" y="40" font-size="12" font-weight="700" fill="#3a3128">快路</text>
-        <text x="200" y="192" font-size="12" font-weight="700" fill="#8a8f99">慢路</text>
+        <rect x="16" y="30" width="120" height="44" rx="10" fill="#141430" stroke="#4dabf7" stroke-width="2.5"/>
+        <text x="76" y="58" font-size="13" font-weight="700" fill="#4dabf7" text-anchor="middle">眼睛</text>
+        <rect x="16" y="90" width="120" height="44" rx="10" fill="#141430" stroke="#22c3dd" stroke-width="2.5"/>
+        <text x="76" y="118" font-size="13" font-weight="700" fill="#22c3dd" text-anchor="middle">前庭</text>
+        <rect x="16" y="180" width="120" height="44" rx="10" fill="#141430" stroke="#a3acbd" stroke-width="2.5" stroke-dasharray="5 4"/>
+        <text x="76" y="208" font-size="13" font-weight="700" fill="#a3acbd" text-anchor="middle">念头：我很安全</text>
+        <line x1="140" y1="52" x2="250" y2="76" stroke="#4dabf7" stroke-width="5" stroke-linecap="round" marker-end="url(#mVis)"/>
+        <line x1="140" y1="112" x2="250" y2="90" stroke="#22c3dd" stroke-width="5" stroke-linecap="round" marker-end="url(#mVest)"/>
+        <rect x="262" y="52" width="130" height="60" rx="12" fill="#141430" stroke="#e0e0ff" stroke-width="2.5"/>
+        <text x="327" y="78" font-size="13" font-weight="700" fill="#e0e0ff" text-anchor="middle">平衡与警戒</text>
+        <text x="327" y="98" font-size="11" fill="#b8c0e0" text-anchor="middle">几十毫秒，不经思考</text>
+        <line x1="400" y1="82" x2="500" y2="82" stroke="#ff7a2f" stroke-width="7" stroke-linecap="round" marker-end="url(#mFear)"/>
+        <rect x="512" y="52" width="112" height="60" rx="12" fill="#1a1430" stroke="#ff7a2f" stroke-width="2.5"/>
+        <text x="568" y="78" font-size="13" font-weight="800" fill="#ff7a2f" text-anchor="middle">报警</text>
+        <text x="568" y="98" font-size="11" fill="#ff7a2f" text-anchor="middle">抓紧、心跳、腿软</text>
+        <line x1="140" y1="202" x2="320" y2="202" stroke="#a3acbd" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" marker-end="url(#mGrey)"/>
+        <rect x="330" y="176" width="150" height="52" rx="12" fill="#141430" stroke="#a3acbd" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="405" y="198" font-size="12" font-weight="700" fill="#a3acbd" text-anchor="middle">推理</text>
+        <text x="405" y="216" font-size="11" fill="#a3acbd" text-anchor="middle">秒级，晚到</text>
+        <path d="M480,202 L560,202 L560,130" fill="none" stroke="#a3acbd" stroke-width="3" stroke-dasharray="6 5"/>
+        <line x1="546" y1="140" x2="574" y2="122" stroke="#ff6b6b" stroke-width="4" stroke-linecap="round"/>
+        <line x1="574" y1="140" x2="546" y2="122" stroke="#ff6b6b" stroke-width="4" stroke-linecap="round"/>
+        <text x="600" y="150" font-size="11" fill="#ff6b6b" text-anchor="end">劝不动</text>
+        <text x="200" y="40" font-size="12" font-weight="700" fill="#e0e0ff">快路</text>
+        <text x="200" y="192" font-size="12" font-weight="700" fill="#a3acbd">慢路</text>
       </svg>
       <figcaption>眼睛和前庭直接接到平衡与警戒系统，几十毫秒就出结果。“我系着绳子”要先想一想，等它想完，警报早就响了，而且它没有关掉警报的权限。</figcaption>
     </div>

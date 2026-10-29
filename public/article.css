@@ -63,7 +63,7 @@ ul.tight li{margin:6px 0}
 figure{margin:24px 0}
 .figbox{border-radius:14px;padding:16px;position:relative;overflow-x:auto}
 /* 图本身保留浅色纸面和原有语义色 */
-.figbox svg{display:block;width:100%;height:auto;background:var(--fig-paper);border-radius:10px}
+.figbox svg{display:block;width:100%;height:auto;background:var(--panel-solid);border-radius:10px}
 figcaption{font-size:.9rem;color:var(--chalk-muted);margin-top:12px;padding:10px 6px 0;border-top:1px solid var(--line)}
 .legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:12px;padding:0 6px;font-size:.85rem;color:var(--chalk-muted)}
 .legend .chip{display:inline-flex;align-items:center;gap:6px}

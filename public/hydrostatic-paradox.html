@@ -33,10 +33,10 @@
 <style>
 body{line-height:1.85}
 /* 力箭头语义色（SVG 内直接写十六进制）：F原 橙 #e8590c、F新 紫 #6741d9、重力 绿 #2b8a3e、支持力 青 #0b7285、压强分布 蓝 #1c7ed6 */
-:root{--water:#2f7fd1;--asphalt:#4a2f1a;--f-old:#e8590c;--f-new:#6741d9;--f-grav:#2b8a3e}
+:root{--water:#4aa3ff;--asphalt:#8a5a2b;--f-old:#ff7a2f;--f-new:#9775fa;--f-grav:#3fcf6a}
 .mbtn.active[data-mat="water"]{background:var(--water);border-color:var(--water);color:#fff;box-shadow:0 3px 0 #24619e}
 .mbtn.active[data-mat="solid"]{background:#5b6472;border-color:#5b6472;color:#fff;box-shadow:0 3px 0 #454c55}
-.mbtn.active[data-mat="asphalt"]{background:var(--asphalt);border-color:var(--asphalt);color:#fff;box-shadow:0 3px 0 #33200f}
+.mbtn.active[data-mat="asphalt"]{background:var(--asphalt);border-color:var(--asphalt);color:#fff;box-shadow:none}
 .ro .val{font-family:var(--math)}
 .ro.old .val{color:var(--f-old)} .ro.new .val{color:var(--f-new)} .ro.diff .val{color:var(--f-grav)}
 .barrow .tag{width:3.2em}
@@ -52,11 +52,11 @@ body{line-height:1.85}
 <!-- 全局箭头标记 -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <marker id="mOld" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e8590c"/></marker>
-    <marker id="mNew" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6741d9"/></marker>
-    <marker id="mGrav" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2b8a3e"/></marker>
-    <marker id="mN" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0b7285"/></marker>
-    <marker id="mP" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1c7ed6"/></marker>
+    <marker id="mOld" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ff7a2f"/></marker>
+    <marker id="mNew" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#9775fa"/></marker>
+    <marker id="mGrav" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3fcf6a"/></marker>
+    <marker id="mN" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#22c3dd"/></marker>
+    <marker id="mP" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4dabf7"/></marker>
   </defs>
 </svg>
 
@@ -108,38 +108,38 @@ body{line-height:1.85}
         <div>
           <div class="panel-title" style="color:var(--water)">液体（插板前）</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="插板前：液体对挡板的压力分布与合力">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <path d="M71,204 L49,150 L201,150 Z" fill="rgba(47,127,209,.30)" stroke="#2f7fd1" stroke-width="1"/>
-            <line x1="49" y1="150" x2="201" y2="150" stroke="#2f7fd1" stroke-width="2.5"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <line x1="59" y1="158" x2="53" y2="161" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="69" y1="167" x2="58" y2="172" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="79" y1="176" x2="62" y2="182" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="89" y1="184" x2="67" y2="193" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="98" y1="193" x2="71" y2="204" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="59" y1="158" x2="98" y2="193" stroke="#1c7ed6" stroke-width="1" stroke-dasharray="4 3"/>
-            <line x1="112" y1="147" x2="62" y2="168" stroke="#e8590c" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="118" y="142" font-size="12" fill="#e8590c">合力 ≈1000 吨力</text>
-            <text x="112" y="222" font-size="11" fill="#1c7ed6">压强随深度分布</text>
+            <line x1="20" y1="225" x2="310" y2="105" stroke="#aab4c0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M71,204 L49,150 L201,150 Z" fill="rgba(74,163,255,.30)" stroke="#4aa3ff" stroke-width="1"/>
+            <line x1="49" y1="150" x2="201" y2="150" stroke="#4aa3ff" stroke-width="2.5"/>
+            <line x1="71" y1="204" x2="42" y2="135" stroke="#d6dcef" stroke-width="7" stroke-linecap="round"/>
+            <text x="18" y="128" font-size="12" fill="#d6dcef">原挡板</text>
+            <line x1="59" y1="158" x2="53" y2="161" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="69" y1="167" x2="58" y2="172" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="79" y1="176" x2="62" y2="182" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="89" y1="184" x2="67" y2="193" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="98" y1="193" x2="71" y2="204" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="59" y1="158" x2="98" y2="193" stroke="#4dabf7" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="112" y1="147" x2="62" y2="168" stroke="#ff7a2f" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mOld)"/>
+            <text x="118" y="142" font-size="12" fill="#ff7a2f">合力 ≈1000 吨力</text>
+            <text x="112" y="222" font-size="11" fill="#4dabf7">压强随深度分布</text>
           </svg>
         </div>
         <div>
           <div class="panel-title" style="color:#aab4c0">理想刚性固体（插板前）</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="插板前：固体对挡板的合力，与液体相同">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <path d="M71,204 L49,150 L201,150 Z" fill="#c3cad2" stroke="#8a939e" stroke-width="1"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <line x1="112" y1="147" x2="62" y2="168" stroke="#e8590c" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="118" y="142" font-size="12" fill="#e8590c">合力 ≈1000 吨力</text>
-            <text x="106" y="222" font-size="11" fill="#5b6472">接触分布不确定，只画合力</text>
+            <line x1="20" y1="225" x2="310" y2="105" stroke="#aab4c0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M71,204 L49,150 L201,150 Z" fill="#c3cad2" stroke="#a3acbd" stroke-width="1"/>
+            <line x1="71" y1="204" x2="42" y2="135" stroke="#d6dcef" stroke-width="7" stroke-linecap="round"/>
+            <text x="18" y="128" font-size="12" fill="#d6dcef">原挡板</text>
+            <line x1="112" y1="147" x2="62" y2="168" stroke="#ff7a2f" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mOld)"/>
+            <text x="118" y="142" font-size="12" fill="#ff7a2f">合力 ≈1000 吨力</text>
+            <text x="106" y="222" font-size="11" fill="#9aa4b8">接触分布不确定，只画合力</text>
           </svg>
         </div>
       </div>
       <div class="legend">
-        <span class="chip"><span class="sw" style="background:#1c7ed6"></span>液体压强分布（随竖直深度增大）</span>
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>原挡板承受的合力 F原</span>
+        <span class="chip"><span class="sw" style="background:#4dabf7"></span>液体压强分布（随竖直深度增大）</span>
+        <span class="chip"><span class="sw" style="background:#ff7a2f"></span>原挡板承受的合力 F原</span>
       </div>
       <figcaption>插板前，液体和固体给挡板的<b>合力一样大</b>（概念示例：1000 吨力）。</figcaption>
     </div>
@@ -151,45 +151,45 @@ body{line-height:1.85}
         <div>
           <div class="panel-title" style="color:var(--water)">液体（插板后）</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="插板后：液体对原挡板的压力完全不变">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <path d="M71,204 L49,150 L60,150 L81,200 Z" fill="rgba(47,127,209,.45)" stroke="#2f7fd1" stroke-width="1"/>
-            <path d="M81,200 L60,150 L201,150 Z" fill="rgba(47,127,209,.30)" stroke="#2f7fd1" stroke-width="1"/>
-            <line x1="49" y1="150" x2="55" y2="150" stroke="#2f7fd1" stroke-width="2.5"/>
-            <line x1="64" y1="150" x2="201" y2="150" stroke="#2f7fd1" stroke-width="2.5"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <line x1="81" y1="200" x2="52" y2="131" stroke="#5c636b" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <text x="70" y="118" font-size="12" fill="#5c636b">新挡板</text>
-            <line x1="59" y1="158" x2="53" y2="161" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="69" y1="167" x2="58" y2="172" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="79" y1="176" x2="62" y2="182" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="89" y1="184" x2="67" y2="193" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="98" y1="193" x2="71" y2="204" stroke="#1c7ed6" stroke-width="2.5" marker-end="url(#mP)"/>
-            <line x1="59" y1="158" x2="98" y2="193" stroke="#1c7ed6" stroke-width="1" stroke-dasharray="4 3"/>
-            <text x="112" y="222" font-size="11" fill="#e8590c">F原 仍 ≈1000 吨力，纹丝不动</text>
+            <line x1="20" y1="225" x2="310" y2="105" stroke="#aab4c0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M71,204 L49,150 L60,150 L81,200 Z" fill="rgba(74,163,255,.45)" stroke="#4aa3ff" stroke-width="1"/>
+            <path d="M81,200 L60,150 L201,150 Z" fill="rgba(74,163,255,.30)" stroke="#4aa3ff" stroke-width="1"/>
+            <line x1="49" y1="150" x2="55" y2="150" stroke="#4aa3ff" stroke-width="2.5"/>
+            <line x1="64" y1="150" x2="201" y2="150" stroke="#4aa3ff" stroke-width="2.5"/>
+            <line x1="71" y1="204" x2="42" y2="135" stroke="#d6dcef" stroke-width="7" stroke-linecap="round"/>
+            <line x1="81" y1="200" x2="52" y2="131" stroke="#8f9bb3" stroke-width="7" stroke-linecap="round"/>
+            <text x="18" y="128" font-size="12" fill="#d6dcef">原挡板</text>
+            <text x="70" y="118" font-size="12" fill="#8f9bb3">新挡板</text>
+            <line x1="59" y1="158" x2="53" y2="161" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="69" y1="167" x2="58" y2="172" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="79" y1="176" x2="62" y2="182" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="89" y1="184" x2="67" y2="193" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="98" y1="193" x2="71" y2="204" stroke="#4dabf7" stroke-width="2.5" marker-end="url(#mP)"/>
+            <line x1="59" y1="158" x2="98" y2="193" stroke="#4dabf7" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="112" y="222" font-size="11" fill="#ff7a2f">F原 仍 ≈1000 吨力，纹丝不动</text>
           </svg>
         </div>
         <div>
           <div class="panel-title" style="color:#aab4c0">理想刚性固体（插板后）</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="插板后：固体对原挡板的力几乎归零，上游重量改压新挡板">
-            <line x1="20" y1="225" x2="310" y2="105" stroke="#495057" stroke-width="3" stroke-linecap="round"/>
-            <path d="M71,204 L49,150 L60,150 L81,200 Z" fill="#b2bac2" stroke="#8a939e" stroke-width="1"/>
-            <path d="M81,200 L60,150 L201,150 Z" fill="#c3cad2" stroke="#8a939e" stroke-width="1"/>
-            <line x1="71" y1="204" x2="42" y2="135" stroke="#343a40" stroke-width="7" stroke-linecap="round"/>
-            <line x1="81" y1="200" x2="52" y2="131" stroke="#5c636b" stroke-width="7" stroke-linecap="round"/>
-            <text x="18" y="128" font-size="12" fill="#343a40">原挡板</text>
-            <text x="70" y="118" font-size="12" fill="#5c636b">新挡板</text>
-            <line x1="136" y1="137" x2="72" y2="153" stroke="#6741d9" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mNew)"/>
-            <text x="142" y="132" font-size="12" fill="#6741d9">上游固体压新挡板 ≈1000 吨力</text>
-            <line x1="50" y1="174" x2="32" y2="182" stroke="#e8590c" stroke-width="3" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="60" y="240" font-size="12" fill="#e8590c">F原 只剩 ≈1 kgf·sinθ</text>
+            <line x1="20" y1="225" x2="310" y2="105" stroke="#aab4c0" stroke-width="3" stroke-linecap="round"/>
+            <path d="M71,204 L49,150 L60,150 L81,200 Z" fill="#b2bac2" stroke="#a3acbd" stroke-width="1"/>
+            <path d="M81,200 L60,150 L201,150 Z" fill="#c3cad2" stroke="#a3acbd" stroke-width="1"/>
+            <line x1="71" y1="204" x2="42" y2="135" stroke="#d6dcef" stroke-width="7" stroke-linecap="round"/>
+            <line x1="81" y1="200" x2="52" y2="131" stroke="#8f9bb3" stroke-width="7" stroke-linecap="round"/>
+            <text x="18" y="128" font-size="12" fill="#d6dcef">原挡板</text>
+            <text x="70" y="118" font-size="12" fill="#8f9bb3">新挡板</text>
+            <line x1="136" y1="137" x2="72" y2="153" stroke="#9775fa" stroke-width="4.5" stroke-linecap="round" marker-end="url(#mNew)"/>
+            <text x="142" y="132" font-size="12" fill="#9775fa">上游固体压新挡板 ≈1000 吨力</text>
+            <line x1="50" y1="174" x2="32" y2="182" stroke="#ff7a2f" stroke-width="3" stroke-linecap="round" marker-end="url(#mOld)"/>
+            <text x="60" y="240" font-size="12" fill="#ff7a2f">F原 只剩 ≈1 kgf·sinθ</text>
           </svg>
         </div>
       </div>
       <div class="legend">
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>原挡板承受的合力 F原</span>
-        <span class="chip"><span class="sw" style="background:#6741d9"></span>新挡板承受的作用力</span>
-        <span class="chip"><span class="sw" style="background:rgba(47,127,209,.6)"></span>水</span>
+        <span class="chip"><span class="sw" style="background:#ff7a2f"></span>原挡板承受的合力 F原</span>
+        <span class="chip"><span class="sw" style="background:#9775fa"></span>新挡板承受的作用力</span>
+        <span class="chip"><span class="sw" style="background:rgba(74,163,255,.6)"></span>水</span>
         <span class="chip"><span class="sw" style="background:#c3cad2"></span>刚性固体</span>
       </div>
       <figcaption>插板后，分道扬镳。液体：力<b>完全不变</b>。固体：重量被新挡板接走，原挡板几乎没力了。为什么？往下看。</figcaption>
@@ -210,32 +210,32 @@ body{line-height:1.85}
     <div class="figbox">
       <svg class="wide" viewBox="0 0 640 420" role="img" aria-label="斜面上的水与原挡板受力图">
         <!-- 地面基准与斜面 -->
-        <line x1="40" y1="360" x2="300" y2="360" stroke="#98a2b3" stroke-width="2" stroke-dasharray="7 6"/>
-        <line x1="40" y1="360" x2="620" y2="115" stroke="#495057" stroke-width="4" stroke-linecap="round"/>
-        <path d="M95,360 A55,55 0 0 0 91,339" fill="none" stroke="#495057" stroke-width="2"/>
-        <text x="106" y="352" font-size="16" fill="#495057" font-style="italic">θ</text>
-        <text x="455" y="222" font-size="14" fill="#5b6472">光滑斜面</text>
+        <line x1="40" y1="360" x2="300" y2="360" stroke="#a3acbd" stroke-width="2" stroke-dasharray="7 6"/>
+        <line x1="40" y1="360" x2="620" y2="115" stroke="#aab4c0" stroke-width="4" stroke-linecap="round"/>
+        <path d="M95,360 A55,55 0 0 0 91,339" fill="none" stroke="#aab4c0" stroke-width="2"/>
+        <text x="106" y="352" font-size="16" fill="#aab4c0" font-style="italic">θ</text>
+        <text x="455" y="222" font-size="14" fill="#9aa4b8">光滑斜面</text>
         <!-- 水 -->
-        <path d="M141,317 L102,225 L360,225 Z" fill="rgba(47,127,209,.30)" stroke="#2f7fd1" stroke-width="1.5"/>
-        <line x1="102" y1="225" x2="360" y2="225" stroke="#2f7fd1" stroke-width="3"/>
-        <text x="212" y="212" font-size="13" fill="#2f7fd1">水面（水平，与大气相通）</text>
+        <path d="M141,317 L102,225 L360,225 Z" fill="rgba(74,163,255,.30)" stroke="#4aa3ff" stroke-width="1.5"/>
+        <line x1="102" y1="225" x2="360" y2="225" stroke="#4aa3ff" stroke-width="3"/>
+        <text x="212" y="212" font-size="13" fill="#4aa3ff">水面（水平，与大气相通）</text>
         <!-- 原挡板 -->
-        <line x1="141" y1="317" x2="94" y2="207" stroke="#343a40" stroke-width="10" stroke-linecap="round"/>
-        <text x="30" y="198" font-size="14" fill="#343a40">原挡板</text>
+        <line x1="141" y1="317" x2="94" y2="207" stroke="#d6dcef" stroke-width="10" stroke-linecap="round"/>
+        <text x="30" y="198" font-size="14" fill="#d6dcef">原挡板</text>
         <!-- 力 -->
-        <line x1="201" y1="256" x2="201" y2="336" stroke="#2b8a3e" stroke-width="4" marker-end="url(#mGrav)"/>
-        <text x="208" y="325" font-size="15" fill="#2b8a3e" font-style="italic">mg</text>
-        <line x1="201" y1="256" x2="132" y2="285" stroke="#2b8a3e" stroke-width="3" marker-end="url(#mGrav)"/>
-        <text x="88" y="266" font-size="14" fill="#2b8a3e" font-style="italic">mg sinθ</text>
-        <line x1="316" y1="243" x2="283" y2="165" stroke="#0b7285" stroke-width="4" marker-end="url(#mN)"/>
-        <text x="292" y="156" font-size="15" fill="#0b7285" font-style="italic">N（斜面支持力）</text>
-        <line x1="138" y1="306" x2="208" y2="276" stroke="#e8590c" stroke-width="5" marker-end="url(#mOld)"/>
-        <text x="176" y="304" font-size="15" fill="#e8590c" font-style="italic">F原</text>
+        <line x1="201" y1="256" x2="201" y2="336" stroke="#3fcf6a" stroke-width="4" marker-end="url(#mGrav)"/>
+        <text x="208" y="325" font-size="15" fill="#3fcf6a" font-style="italic">mg</text>
+        <line x1="201" y1="256" x2="132" y2="285" stroke="#3fcf6a" stroke-width="3" marker-end="url(#mGrav)"/>
+        <text x="88" y="266" font-size="14" fill="#3fcf6a" font-style="italic">mg sinθ</text>
+        <line x1="316" y1="243" x2="283" y2="165" stroke="#22c3dd" stroke-width="4" marker-end="url(#mN)"/>
+        <text x="292" y="156" font-size="15" fill="#22c3dd" font-style="italic">N（斜面支持力）</text>
+        <line x1="138" y1="306" x2="208" y2="276" stroke="#ff7a2f" stroke-width="5" marker-end="url(#mOld)"/>
+        <text x="176" y="304" font-size="15" fill="#ff7a2f" font-style="italic">F原</text>
       </svg>
       <div class="legend">
-        <span class="chip"><span class="sw" style="background:#2b8a3e"></span>重力 mg 及其沿斜面分量 mg sinθ</span>
-        <span class="chip"><span class="sw" style="background:#0b7285"></span>斜面支持力 N</span>
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>原挡板对水的作用力 F原（沿斜面指向上坡）</span>
+        <span class="chip"><span class="sw" style="background:#3fcf6a"></span>重力 mg 及其沿斜面分量 mg sinθ</span>
+        <span class="chip"><span class="sw" style="background:#22c3dd"></span>斜面支持力 N</span>
+        <span class="chip"><span class="sw" style="background:#ff7a2f"></span>原挡板对水的作用力 F原（沿斜面指向上坡）</span>
       </div>
       <figcaption>整堆水的沿斜面重力分量 mg sinθ，只能由原挡板的作用力 F原 来平衡。挡板与水的作用力是相互的：水也以同样大小的力压挡板（作用与反作用）。</figcaption>
     </div>
@@ -250,33 +250,33 @@ body{line-height:1.85}
   <figure class="reveal">
     <div class="figbox">
       <svg class="wide" viewBox="0 0 680 300" role="img" aria-label="插板前后，原挡板上的压强分布完全相同">
-        <text x="160" y="28" font-size="15" font-weight="700" fill="#3a3128" text-anchor="middle">插板前</text>
-        <text x="505" y="28" font-size="15" font-weight="700" fill="#3a3128" text-anchor="middle">插板后</text>
+        <text x="160" y="28" font-size="15" font-weight="700" fill="#e0e0ff" text-anchor="middle">插板前</text>
+        <text x="505" y="28" font-size="15" font-weight="700" fill="#e0e0ff" text-anchor="middle">插板后</text>
         <g>
-          <line x1="25" y1="250" x2="300" y2="135" stroke="#495057" stroke-width="3"/>
-          <path d="M75 229L48 165L225 165Z" fill="rgba(47,127,209,.3)" stroke="#2f7fd1"/>
-          <line x1="48" y1="165" x2="225" y2="165" stroke="#2f7fd1" stroke-width="3"/>
-          <line x1="75" y1="229" x2="42" y2="151" stroke="#343a40" stroke-width="8"/>
-          <g stroke="#1c7ed6" stroke-width="3" marker-end="url(#mP)">
+          <line x1="25" y1="250" x2="300" y2="135" stroke="#aab4c0" stroke-width="3"/>
+          <path d="M75 229L48 165L225 165Z" fill="rgba(74,163,255,.3)" stroke="#4aa3ff"/>
+          <line x1="48" y1="165" x2="225" y2="165" stroke="#4aa3ff" stroke-width="3"/>
+          <line x1="75" y1="229" x2="42" y2="151" stroke="#d6dcef" stroke-width="8"/>
+          <g stroke="#4dabf7" stroke-width="3" marker-end="url(#mP)">
             <line x1="57" y1="172" x2="48" y2="176"/><line x1="66" y1="184" x2="51" y2="190"/>
             <line x1="76" y1="198" x2="54" y2="207"/><line x1="86" y1="213" x2="59" y2="224"/>
           </g>
-          <text x="115" y="265" font-size="13" fill="#1c7ed6">同一压强分布</text>
+          <text x="115" y="265" font-size="13" fill="#4dabf7">同一压强分布</text>
         </g>
-        <line x1="340" y1="48" x2="340" y2="270" stroke="#e4dac8" stroke-dasharray="6 6"/>
+        <line x1="340" y1="48" x2="340" y2="270" stroke="#3a3f55" stroke-dasharray="6 6"/>
         <g transform="translate(345)">
-          <line x1="25" y1="250" x2="300" y2="135" stroke="#495057" stroke-width="3"/>
-          <path d="M75 229L48 165L62 165L90 223Z" fill="rgba(47,127,209,.52)" stroke="#2f7fd1"/>
-          <path d="M90 223L62 165L225 165Z" fill="rgba(47,127,209,.3)" stroke="#2f7fd1"/>
-          <line x1="48" y1="165" x2="225" y2="165" stroke="#2f7fd1" stroke-width="3"/>
-          <line x1="75" y1="229" x2="42" y2="151" stroke="#343a40" stroke-width="8"/>
-          <line x1="90" y1="223" x2="57" y2="145" stroke="#5c636b" stroke-width="8"/>
-          <g stroke="#1c7ed6" stroke-width="3" marker-end="url(#mP)">
+          <line x1="25" y1="250" x2="300" y2="135" stroke="#aab4c0" stroke-width="3"/>
+          <path d="M75 229L48 165L62 165L90 223Z" fill="rgba(74,163,255,.52)" stroke="#4aa3ff"/>
+          <path d="M90 223L62 165L225 165Z" fill="rgba(74,163,255,.3)" stroke="#4aa3ff"/>
+          <line x1="48" y1="165" x2="225" y2="165" stroke="#4aa3ff" stroke-width="3"/>
+          <line x1="75" y1="229" x2="42" y2="151" stroke="#d6dcef" stroke-width="8"/>
+          <line x1="90" y1="223" x2="57" y2="145" stroke="#8f9bb3" stroke-width="8"/>
+          <g stroke="#4dabf7" stroke-width="3" marker-end="url(#mP)">
             <line x1="57" y1="172" x2="48" y2="176"/><line x1="66" y1="184" x2="51" y2="190"/>
             <line x1="76" y1="198" x2="54" y2="207"/><line x1="86" y1="213" x2="59" y2="224"/>
           </g>
-          <text x="115" y="265" font-size="13" fill="#1c7ed6">仍是同一分布</text>
-          <text x="58" y="135" font-size="12" fill="#5c636b">新挡板</text>
+          <text x="115" y="265" font-size="13" fill="#4dabf7">仍是同一分布</text>
+          <text x="58" y="135" font-size="12" fill="#8f9bb3">新挡板</text>
         </g>
       </svg>
       <figcaption>原挡板上蓝色箭头的长度代表压强。插板没有改变任何一点的竖直深度，所以箭头和合力都不变。</figcaption>
@@ -297,18 +297,18 @@ body{line-height:1.85}
   <figure class="reveal">
     <div class="figbox">
       <svg class="wide" viewBox="0 0 640 290" role="img" aria-label="薄层水受到两个近乎相等的巨大反向力">
-        <text x="320" y="24" font-size="14" fill="#5b6472" text-anchor="middle">两板之间放大示意（上坡方向朝右 →）</text>
-        <rect x="240" y="54" width="20" height="172" fill="#343a40" rx="3"/>
+        <text x="320" y="24" font-size="14" fill="#9aa4b8" text-anchor="middle">两板之间放大示意（上坡方向朝右 →）</text>
+        <rect x="240" y="54" width="20" height="172" fill="#d6dcef" rx="3"/>
         <rect x="260" y="54" width="40" height="172" fill="#7cb7e8"/>
-        <rect x="300" y="54" width="20" height="172" fill="#5c636b" rx="3"/>
-        <text x="230" y="74" font-size="13" fill="#343a40" text-anchor="end">原挡板</text>
-        <text x="330" y="74" font-size="13" fill="#5c636b">新挡板</text>
-        <line x1="62" y1="126" x2="232" y2="126" stroke="#e8590c" stroke-width="10" stroke-linecap="round" marker-end="url(#mOld)"/>
-        <text x="145" y="103" font-size="13" fill="#e8590c" text-anchor="middle">F原 ≈ 1 000 000 kgf</text>
-        <line x1="576" y1="182" x2="328" y2="182" stroke="#6741d9" stroke-width="10" stroke-linecap="round" marker-end="url(#mNew)"/>
-        <text x="452" y="159" font-size="13" fill="#6741d9" text-anchor="middle">F新 ≈ 999 999 kgf</text>
-        <line x1="310" y1="258" x2="252" y2="258" stroke="#2b8a3e" stroke-width="4" marker-end="url(#mGrav)"/>
-        <text x="336" y="278" font-size="12" fill="#2b8a3e" text-anchor="middle">差值 ≈ 1 kgf</text>
+        <rect x="300" y="54" width="20" height="172" fill="#8f9bb3" rx="3"/>
+        <text x="230" y="74" font-size="13" fill="#d6dcef" text-anchor="end">原挡板</text>
+        <text x="330" y="74" font-size="13" fill="#8f9bb3">新挡板</text>
+        <line x1="62" y1="126" x2="232" y2="126" stroke="#ff7a2f" stroke-width="10" stroke-linecap="round" marker-end="url(#mOld)"/>
+        <text x="145" y="103" font-size="13" fill="#ff7a2f" text-anchor="middle">F原 ≈ 1 000 000 kgf</text>
+        <line x1="576" y1="182" x2="328" y2="182" stroke="#9775fa" stroke-width="10" stroke-linecap="round" marker-end="url(#mNew)"/>
+        <text x="452" y="159" font-size="13" fill="#9775fa" text-anchor="middle">F新 ≈ 999 999 kgf</text>
+        <line x1="310" y1="258" x2="252" y2="258" stroke="#3fcf6a" stroke-width="4" marker-end="url(#mGrav)"/>
+        <text x="336" y="278" font-size="12" fill="#3fcf6a" text-anchor="middle">差值 ≈ 1 kgf</text>
       </svg>
       <figcaption>不是 1 kg 水凭空产生了巨大净力；它被两个几乎相等、方向相反的大力夹住，净力仍然很小。</figcaption>
     </div>
@@ -344,19 +344,19 @@ body{line-height:1.85}
 
     <div class="figbox" style="padding:8px">
       <svg class="wide" viewBox="0 0 640 320" role="img" aria-label="交互受力示意图">
-        <text x="320" y="24" font-size="13" fill="#5b6472" text-anchor="middle">沿斜面方向放大示意（上坡方向朝右 →）</text>
-        <rect x="240" y="60" width="20" height="200" fill="#343a40" rx="3"/>
+        <text x="320" y="24" font-size="13" fill="#9aa4b8" text-anchor="middle">沿斜面方向放大示意（上坡方向朝右 →）</text>
+        <rect x="240" y="60" width="20" height="200" fill="#d6dcef" rx="3"/>
         <rect id="dLayer" x="260" y="60" width="14" height="200" fill="#7cb7e8"/>
-        <rect id="dPlateNew" x="274" y="60" width="20" height="200" fill="#5c636b" rx="3"/>
-        <text x="230" y="80" font-size="13" fill="#343a40" text-anchor="end">原挡板</text>
-        <text id="dLblNew" x="302" y="80" font-size="13" fill="#5c636b">新挡板</text>
-        <line id="dArrOld" x1="62" y1="130" x2="232" y2="130" stroke="#e8590c" stroke-width="10" stroke-linecap="round" marker-end="url(#mOld)"/>
-        <text id="dLblOld" x="145" y="108" font-size="13" fill="#e8590c" text-anchor="middle">F原 ≈ 1000 吨力</text>
-        <line id="dArrNew" x1="586" y1="200" x2="302" y2="200" stroke="#6741d9" stroke-width="10" stroke-linecap="round" marker-end="url(#mNew)"/>
-        <text id="dLblNewF" x="452" y="178" font-size="13" fill="#6741d9" text-anchor="middle">F新 ≈ 1000 吨力 − 重力分量</text>
-        <text id="dLblZero" x="360" y="205" font-size="14" fill="#6741d9" visibility="hidden">F新 = 0</text>
-        <line id="dArrG" x1="295" y1="292" x2="239" y2="292" stroke="#2b8a3e" stroke-width="4" stroke-linecap="round" marker-end="url(#mGrav)"/>
-        <text id="dLblG" x="320" y="314" font-size="12" fill="#2b8a3e" text-anchor="middle">沿斜面重力分量（指向下坡）</text>
+        <rect id="dPlateNew" x="274" y="60" width="20" height="200" fill="#8f9bb3" rx="3"/>
+        <text x="230" y="80" font-size="13" fill="#d6dcef" text-anchor="end">原挡板</text>
+        <text id="dLblNew" x="302" y="80" font-size="13" fill="#8f9bb3">新挡板</text>
+        <line id="dArrOld" x1="62" y1="130" x2="232" y2="130" stroke="#ff7a2f" stroke-width="10" stroke-linecap="round" marker-end="url(#mOld)"/>
+        <text id="dLblOld" x="145" y="108" font-size="13" fill="#ff7a2f" text-anchor="middle">F原 ≈ 1000 吨力</text>
+        <line id="dArrNew" x1="586" y1="200" x2="302" y2="200" stroke="#9775fa" stroke-width="10" stroke-linecap="round" marker-end="url(#mNew)"/>
+        <text id="dLblNewF" x="452" y="178" font-size="13" fill="#9775fa" text-anchor="middle">F新 ≈ 1000 吨力 − 重力分量</text>
+        <text id="dLblZero" x="360" y="205" font-size="14" fill="#9775fa" visibility="hidden">F新 = 0</text>
+        <line id="dArrG" x1="295" y1="292" x2="239" y2="292" stroke="#3fcf6a" stroke-width="4" stroke-linecap="round" marker-end="url(#mGrav)"/>
+        <text id="dLblG" x="320" y="314" font-size="12" fill="#3fcf6a" text-anchor="middle">沿斜面重力分量（指向下坡）</text>
       </svg>
     </div>
 
@@ -391,41 +391,41 @@ body{line-height:1.85}
         <div>
           <div class="panel-title" style="color:var(--water)">液体薄层</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="液体薄层：两侧都有巨大反向压力">
-            <rect x="110" y="50" width="14" height="150" fill="#343a40" rx="2"/>
+            <rect x="110" y="50" width="14" height="150" fill="#d6dcef" rx="2"/>
             <rect x="124" y="50" width="42" height="150" fill="#7cb7e8"/>
-            <rect x="166" y="50" width="14" height="150" fill="#5c636b" rx="2"/>
-            <text x="117" y="42" font-size="12" fill="#343a40" text-anchor="middle">原挡板</text>
-            <text x="173" y="42" font-size="12" fill="#5c636b" text-anchor="middle">新挡板</text>
-            <line x1="18" y1="110" x2="102" y2="110" stroke="#e8590c" stroke-width="7" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="55" y="95" font-size="12" fill="#e8590c" text-anchor="middle">≈1000 吨力</text>
-            <line x1="302" y1="150" x2="188" y2="150" stroke="#6741d9" stroke-width="7" stroke-linecap="round" marker-end="url(#mNew)"/>
-            <text x="248" y="135" font-size="12" fill="#6741d9" text-anchor="middle">≈1000 吨力</text>
-            <line x1="168" y1="230" x2="122" y2="230" stroke="#2b8a3e" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mGrav)"/>
-            <text x="145" y="250" font-size="12" fill="#2b8a3e" text-anchor="middle">重力分量（很小）</text>
+            <rect x="166" y="50" width="14" height="150" fill="#8f9bb3" rx="2"/>
+            <text x="117" y="42" font-size="12" fill="#d6dcef" text-anchor="middle">原挡板</text>
+            <text x="173" y="42" font-size="12" fill="#8f9bb3" text-anchor="middle">新挡板</text>
+            <line x1="18" y1="110" x2="102" y2="110" stroke="#ff7a2f" stroke-width="7" stroke-linecap="round" marker-end="url(#mOld)"/>
+            <text x="55" y="95" font-size="12" fill="#ff7a2f" text-anchor="middle">≈1000 吨力</text>
+            <line x1="302" y1="150" x2="188" y2="150" stroke="#9775fa" stroke-width="7" stroke-linecap="round" marker-end="url(#mNew)"/>
+            <text x="248" y="135" font-size="12" fill="#9775fa" text-anchor="middle">≈1000 吨力</text>
+            <line x1="168" y1="230" x2="122" y2="230" stroke="#3fcf6a" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mGrav)"/>
+            <text x="145" y="250" font-size="12" fill="#3fcf6a" text-anchor="middle">重力分量（很小）</text>
           </svg>
         </div>
         <div>
           <div class="panel-title" style="color:#aab4c0">理想刚性固体薄层（无预紧）</div>
           <svg viewBox="0 0 320 260" role="img" aria-label="刚性固体薄层：新挡板接触力为零">
-            <rect x="110" y="50" width="14" height="150" fill="#343a40" rx="2"/>
+            <rect x="110" y="50" width="14" height="150" fill="#d6dcef" rx="2"/>
             <rect x="124" y="50" width="42" height="150" fill="#c3cad2"/>
-            <rect x="166" y="50" width="14" height="150" fill="#5c636b" rx="2"/>
-            <text x="117" y="42" font-size="12" fill="#343a40" text-anchor="middle">原挡板</text>
-            <text x="173" y="42" font-size="12" fill="#5c636b" text-anchor="middle">新挡板</text>
-            <line x1="66" y1="110" x2="102" y2="110" stroke="#e8590c" stroke-width="4" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="55" y="95" font-size="12" fill="#e8590c" text-anchor="middle">仅 ≈1 kgf·sinθ</text>
-            <text x="245" y="115" font-size="12" fill="#6741d9" text-anchor="middle">F新 = 0</text>
-            <text x="245" y="132" font-size="11" fill="#5b6472" text-anchor="middle">（恰好接触，可不受力）</text>
-            <line x1="168" y1="230" x2="122" y2="230" stroke="#2b8a3e" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mGrav)"/>
-            <text x="145" y="250" font-size="12" fill="#2b8a3e" text-anchor="middle">重力分量（很小）</text>
+            <rect x="166" y="50" width="14" height="150" fill="#8f9bb3" rx="2"/>
+            <text x="117" y="42" font-size="12" fill="#d6dcef" text-anchor="middle">原挡板</text>
+            <text x="173" y="42" font-size="12" fill="#8f9bb3" text-anchor="middle">新挡板</text>
+            <line x1="66" y1="110" x2="102" y2="110" stroke="#ff7a2f" stroke-width="4" stroke-linecap="round" marker-end="url(#mOld)"/>
+            <text x="55" y="95" font-size="12" fill="#ff7a2f" text-anchor="middle">仅 ≈1 kgf·sinθ</text>
+            <text x="245" y="115" font-size="12" fill="#9775fa" text-anchor="middle">F新 = 0</text>
+            <text x="245" y="132" font-size="11" fill="#9aa4b8" text-anchor="middle">（恰好接触，可不受力）</text>
+            <line x1="168" y1="230" x2="122" y2="230" stroke="#3fcf6a" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mGrav)"/>
+            <text x="145" y="250" font-size="12" fill="#3fcf6a" text-anchor="middle">重力分量（很小）</text>
           </svg>
         </div>
       </div>
       <div class="legend">
         <span class="chip"><span class="sw" style="background:#7cb7e8"></span>水</span>
         <span class="chip"><span class="sw" style="background:#c3cad2"></span>理想刚性固体</span>
-        <span class="chip"><span class="sw" style="background:#e8590c"></span>原挡板作用力</span>
-        <span class="chip"><span class="sw" style="background:#6741d9"></span>新挡板作用力</span>
+        <span class="chip"><span class="sw" style="background:#ff7a2f"></span>原挡板作用力</span>
+        <span class="chip"><span class="sw" style="background:#9775fa"></span>新挡板作用力</span>
       </div>
       <figcaption>并排对比（上坡方向朝右）。液体：两块挡板上都有由液深决定的巨大反向压力。固体：上游新挡板作用力为零，原挡板只承担固体沿斜面的重力分量。</figcaption>
     </div>
@@ -437,29 +437,29 @@ body{line-height:1.85}
         <div>
           <div class="panel-title">垂直压：正应力</div>
           <svg viewBox="0 0 320 240" role="img" aria-label="垂直压一叠扑克牌是正应力">
-            <line x1="60" y1="172" x2="260" y2="172" stroke="#98a2b3" stroke-width="3"/>
-            <rect x="90" y="150" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <rect x="90" y="132" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <rect x="90" y="114" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <rect x="90" y="96" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <rect x="90" y="78" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <line x1="160" y1="26" x2="160" y2="66" stroke="#0b7285" stroke-width="6" stroke-linecap="round" marker-end="url(#mN)"/>
-            <text x="160" y="212" font-size="13" fill="#5b6472" text-anchor="middle">整叠被压紧，牌不错位</text>
+            <line x1="60" y1="172" x2="260" y2="172" stroke="#a3acbd" stroke-width="3"/>
+            <rect x="90" y="150" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <rect x="90" y="132" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <rect x="90" y="114" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <rect x="90" y="96" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <rect x="90" y="78" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <line x1="160" y1="26" x2="160" y2="66" stroke="#22c3dd" stroke-width="6" stroke-linecap="round" marker-end="url(#mN)"/>
+            <text x="160" y="212" font-size="13" fill="#9aa4b8" text-anchor="middle">整叠被压紧，牌不错位</text>
           </svg>
         </div>
         <div>
           <div class="panel-title">横向推：剪切应力</div>
           <svg viewBox="0 0 320 240" role="img" aria-label="横向推扑克牌顶层产生剪切应力">
-            <line x1="40" y1="172" x2="280" y2="172" stroke="#98a2b3" stroke-width="3"/>
-            <rect x="70" y="150" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <rect x="82" y="132" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <rect x="94" y="114" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <rect x="106" y="96" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <rect x="118" y="78" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#868e96"/>
-            <line x1="70" y1="160" x2="130" y2="70" stroke="#868e96" stroke-width="1.5" stroke-dasharray="5 4"/>
-            <line x1="188" y1="56" x2="252" y2="56" stroke="#e8590c" stroke-width="6" stroke-linecap="round" marker-end="url(#mOld)"/>
-            <text x="216" y="42" font-size="13" fill="#e8590c" text-anchor="middle" font-style="italic">F∥</text>
-            <text x="160" y="212" font-size="13" fill="#5b6472" text-anchor="middle">各层有错位的趋势——这就是剪切</text>
+            <line x1="40" y1="172" x2="280" y2="172" stroke="#a3acbd" stroke-width="3"/>
+            <rect x="70" y="150" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <rect x="82" y="132" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <rect x="94" y="114" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <rect x="106" y="96" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <rect x="118" y="78" width="140" height="14" rx="4" fill="#f1f3f5" stroke="#a3acbd"/>
+            <line x1="70" y1="160" x2="130" y2="70" stroke="#a3acbd" stroke-width="1.5" stroke-dasharray="5 4"/>
+            <line x1="188" y1="56" x2="252" y2="56" stroke="#ff7a2f" stroke-width="6" stroke-linecap="round" marker-end="url(#mOld)"/>
+            <text x="216" y="42" font-size="13" fill="#ff7a2f" text-anchor="middle" font-style="italic">F∥</text>
+            <text x="160" y="212" font-size="13" fill="#9aa4b8" text-anchor="middle">各层有错位的趋势——这就是剪切</text>
           </svg>
         </div>
       </div>
