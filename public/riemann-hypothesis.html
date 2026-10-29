@@ -95,9 +95,24 @@
             pointer-events: none;
             white-space: nowrap;
         }
-        #status span {
+        #status i {
             color: #66ffcc;
+            font-style: normal;
         }
+        #status button {
+            margin-left: 12px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(102, 255, 204, 0.45);
+            background: rgba(102, 255, 204, 0.1);
+            color: #66ffcc;
+            font: inherit;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        #status button:hover { background: rgba(102, 255, 204, 0.2); }
+        #status button:disabled { opacity: 0.5; cursor: default; }
+        #status button:focus-visible { outline: 2px solid #ffd966; outline-offset: 2px; }
         @media (max-width: 480px) {
             #info { top: 12px; left: 12px; right: 12px; max-width: none; padding: 14px 18px; }
             #info h1 { font-size: 1.15rem; }
@@ -123,7 +138,7 @@
             地形是概念示例，不是真实的 |ζ(s)|：高度 ∝ 偏离临界线的距离，零点被“锁定”在谷底。
         </p>
     </div>
-    <div id="status">旋转视角观察 · 前 20 个零点全部落在 <span>临界线</span> 上</div>
+    <div id="status" aria-live="polite"><span id="statusText">旋转视角观察 · 前 20 个零点全部落在 <i>临界线</i> 上</span><button id="addZero" type="button">＋ 加一个零点</button></div>
 
     <!-- Three.js r128 自托管（CSP 只允许 self） -->
     <script type="importmap">
@@ -186,6 +201,8 @@
             52.970321, 56.446248, 59.347044, 60.831779, 65.112544,
             67.079811, 69.546402, 72.067158, 75.704691, 77.144840
         ];
+        // 第 21–25 个，点“加一个零点”时依次落下（第 26 个 t≈92.5，超出图的范围）
+        const moreZeros = [79.337375, 82.910381, 84.735493, 87.425275, 88.809111];
 
         // --- 复平面网格 (σ 从 -0.5 到 1.5, t 从 -10 到 90 左右) ---
         // 为了视觉效果，将 t 轴压缩到 -6 到 6 的视觉范围内（通过缩放）
@@ -237,12 +254,14 @@
             metalness: 0.1
         });
 
-        zeroHeights.forEach((t, index) => {
-            if (t < T_MIN || t > T_MAX) return;
+        zeroHeights.forEach((t, index) => addZero(t, index, 0));
+        scene.add(zeroGroup);
+
+        function addZero(t, index, y) {
             const x = sigmaToX(0.5);
             const z = tToZ(t);
             const sphere = new THREE.Mesh(sphereGeom, sphereMat.clone());
-            sphere.position.set(x, 0, z);
+            sphere.position.set(x, y, z);
             sphere.userData.baseScale = 1.0;
             sphere.userData.phase = index * 0.8;
             zeroGroup.add(sphere);
@@ -260,8 +279,8 @@
             sprite.scale.set(0.8, 0.8, 1);
             sprite.position.copy(sphere.position);
             zeroGroup.add(sprite);
-        });
-        scene.add(zeroGroup);
+            return { sphere, sprite };
+        }
 
         // 辅助函数：创建圆形渐变纹理用于光晕
         function createGlowTexture() {
@@ -291,45 +310,49 @@
         const lowColor = new THREE.Color(0x33ffaa);
         const highColor = new THREE.Color(0x6688ff);
 
-        let idx = 0;
-        for (let ix = 0; ix < GRID_SIZE_X; ix++) {
-            for (let iz = 0; iz < GRID_SIZE_Z; iz++) {
-                const sigma = SIGMA_MIN + (ix / (GRID_SIZE_X - 1)) * SIGMA_RANGE;
-                const t = T_MIN + (iz / (GRID_SIZE_Z - 1)) * T_RANGE;
-                const x = sigmaToX(sigma);
-                const z = tToZ(t);
+        // 新零点落地后重算一遍，让它的凹陷出现
+        function updateTerrain() {
+            let idx = 0;
+            for (let ix = 0; ix < GRID_SIZE_X; ix++) {
+                for (let iz = 0; iz < GRID_SIZE_Z; iz++) {
+                    const sigma = SIGMA_MIN + (ix / (GRID_SIZE_X - 1)) * SIGMA_RANGE;
+                    const t = T_MIN + (iz / (GRID_SIZE_Z - 1)) * T_RANGE;
+                    const x = sigmaToX(sigma);
+                    const z = tToZ(t);
 
-                // 计算概念性高度：
-                // 基础高度与 |σ - 0.5| 成正比 (偏离临界线升高)
-                let height = Math.abs(sigma - 0.5) * 3.5;
+                    // 计算概念性高度：
+                    // 基础高度与 |σ - 0.5| 成正比 (偏离临界线升高)
+                    let height = Math.abs(sigma - 0.5) * 3.5;
 
-                // 在零点附近增加“凹陷”效果：如果 t 接近某个零点，降低高度
-                let minDistToZero = Infinity;
-                zeroHeights.forEach(zt => {
-                    const dist = Math.abs(t - zt);
-                    if (dist < minDistToZero) minDistToZero = dist;
-                });
-                // 凹陷宽度约 1.5 个 t 单位
-                const dipFactor = Math.exp(-minDistToZero * minDistToZero / 1.2);
-                height *= (1 - 0.85 * dipFactor); // 零点附近高度降低 85%
+                    // 在零点附近增加“凹陷”效果：如果 t 接近某个零点，降低高度
+                    let minDistToZero = Infinity;
+                    zeroHeights.forEach(zt => {
+                        const dist = Math.abs(t - zt);
+                        if (dist < minDistToZero) minDistToZero = dist;
+                    });
+                    // 凹陷宽度约 1.5 个 t 单位
+                    const dipFactor = Math.exp(-minDistToZero * minDistToZero / 1.2);
+                    height *= (1 - 0.85 * dipFactor); // 零点附近高度降低 85%
 
-                // 添加一些细微的波动，让地形更自然
-                height += 0.08 * Math.sin(sigma * 12) * Math.cos(t * 0.5);
+                    // 添加一些细微的波动，让地形更自然
+                    height += 0.08 * Math.sin(sigma * 12) * Math.cos(t * 0.5);
 
-                positions[idx * 3] = x;
-                positions[idx * 3 + 1] = height;
-                positions[idx * 3 + 2] = z;
+                    positions[idx * 3] = x;
+                    positions[idx * 3 + 1] = height;
+                    positions[idx * 3 + 2] = z;
 
-                // 颜色：根据高度混合
-                const mixFactor = Math.min(height / 3.0, 1.0);
-                const color = lowColor.clone().lerp(highColor, mixFactor);
-                colors[idx * 3] = color.r;
-                colors[idx * 3 + 1] = color.g;
-                colors[idx * 3 + 2] = color.b;
+                    // 颜色：根据高度混合
+                    const mixFactor = Math.min(height / 3.0, 1.0);
+                    const color = lowColor.clone().lerp(highColor, mixFactor);
+                    colors[idx * 3] = color.r;
+                    colors[idx * 3 + 1] = color.g;
+                    colors[idx * 3 + 2] = color.b;
 
-                idx++;
+                    idx++;
+                }
             }
         }
+        updateTerrain();
 
         const particleGeometry = new THREE.BufferGeometry();
         particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -411,6 +434,16 @@
             // 让额外粒子缓慢旋转
             extraParticles.rotation.y += 0.0005;
 
+            // 新零点自由落体，落地后加入零点列表
+            if (falling) {
+                const p = Math.min((elapsed - falling.start) / DROP_TIME, 1);
+                falling.sphere.position.y = falling.sprite.position.y = DROP_HEIGHT * (1 - p * p);
+                if (p === 1) {
+                    landZero(falling.t);
+                    falling = null;
+                }
+            }
+
             // 控制自动旋转
             controls.update();
 
@@ -448,6 +481,35 @@
 
         layout();
         window.addEventListener('resize', layout);
+
+        // --- 互动：加一个零点 ---
+        const DROP_HEIGHT = 4, DROP_TIME = 0.9;
+        const addButton = document.getElementById('addZero');
+        const statusText = document.getElementById('statusText');
+        let falling = null;
+
+        addButton.addEventListener('click', () => {
+            if (falling || !moreZeros.length) return;
+            const t = moreZeros.shift();
+            falling = { t, start: clock.elapsedTime, ...addZero(t, zeroSpheres.length, DROP_HEIGHT) };
+            addButton.disabled = true;
+        });
+
+        function landZero(t) {
+            zeroHeights.push(t);
+            updateTerrain();
+            particleGeometry.attributes.position.needsUpdate = true;
+            particleGeometry.attributes.color.needsUpdate = true;
+            if (moreZeros.length) {
+                statusText.innerHTML = `旋转视角观察 · 前 ${zeroHeights.length} 个零点全部落在 <i>临界线</i> 上`;
+                addButton.disabled = false;
+            } else {
+                statusText.innerHTML = `图里只放得下 ${zeroHeights.length} 个 · 已算出的前 10 万亿个零点也全在 <i>临界线</i> 上，但还没人证明每一个都在`;
+                addButton.hidden = true;
+            }
+            layout();
+        }
+
         animate();
 
         // 允许用户通过点击暂停/恢复自动旋转 (可选)
