@@ -60,7 +60,7 @@ a.item::before{left:18px;transform:rotate(-5deg)}a.item::after{right:18px;transf
 a.item+a.item{margin-top:30px}
 a.item:hover{transform:translateY(-3px) rotate(-.15deg);box-shadow:0 9px 24px rgba(0,0,0,.3)}
 .item .meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;color:var(--muted);font-size:.78rem}.item .qnum{display:inline-flex;align-items:center;justify-content:center;background:var(--wood-deep);border-radius:7px;color:#fff;font-weight:800;padding:3px 9px;letter-spacing:.08em}
-.item h3{font-size:clamp(1.15rem,3vw,1.4rem);line-height:1.55;margin:0 0 10px;font-weight:850;text-wrap:balance}.item .hook{color:var(--muted);font-size:.95rem;margin:0 0 17px}.item .go{font-weight:800;color:#2f6bb3}.item svg.thumb{display:block;width:100%;height:auto}
+.item h3{font-size:clamp(1.15rem,3vw,1.4rem);line-height:1.55;margin:0 0 10px;font-weight:850;text-wrap:balance}.item .hook{color:var(--muted);font-size:.95rem;margin:0 0 17px}.item .go{font-weight:800;color:#2f6bb3}.nowrap{white-space:nowrap}.item svg.thumb{display:block;width:100%;height:auto}
 .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.principle{border:1px solid rgba(242,239,228,.24);border-radius:14px;padding:20px;background:rgba(0,0,0,.08)}.principle .num{display:block;color:var(--yellow);font-size:1.45rem;font-weight:800}.principle h3{margin:5px 0 5px;font-size:1.02rem}.principle p{margin:0;color:var(--chalk-muted);font-size:.9rem}
 .coming{display:flex;align-items:center;justify-content:center;gap:12px;margin:34px 0 0;color:var(--chalk-muted);font-size:.9rem}.coming::before,.coming::after{content:"";width:54px;height:2px;background:repeating-linear-gradient(90deg,var(--chalk-line) 0 8px,transparent 8px 14px)}
 footer{max-width:980px;margin:0 auto;padding:24px 24px 46px;border-top:1px dashed rgba(242,239,228,.28);color:var(--chalk-muted);font-size:.86rem;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}footer p{margin:0}footer a{color:var(--chalk-muted)}
@@ -108,7 +108,7 @@ footer{max-width:980px;margin:0 auto;padding:24px 24px 46px;border-top:1px dashe
     <div class="item-copy">
       <div class="meta"><span class="qnum">3D 示意</span><span>数论</span><span>可旋转 · 含互动实验</span></div>
       <h3>黎曼猜想：所有零点都在一条线上吗？</h3>
-      <p class="hook">ζ 函数前 20 个非平凡零点，全部落在临界线 Re(s)=1/2 上；是不是每一个都这样，至今没人证明。亲手加几个零点，再放一个不在线上的“反例”，看它会带出什么。</p>
+      <p class="hook">ζ 函数前 20 个非平凡零点，全部落在临界线 Re(s)=1/2 上；是不是每一个都这样，至今没人证明。亲手加几个零点，再放一个不在线上的<span class="nowrap">“反例”</span>，看它会带出什么。</p>
       <span class="go">动手试试</span>
     </div>
     <svg class="thumb" viewBox="0 0 320 156" aria-hidden="true">
