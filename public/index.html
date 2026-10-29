@@ -43,9 +43,6 @@ body{overflow-x:hidden}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(5,5,16,.9) 0%,rgba(5,5,16,.55) 34%,transparent 58%);pointer-events:none}
 .hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:80px 24px 120px}
 .hero h1{margin:0;font-weight:800;font-size:clamp(2.3rem,6.2vw,4.9rem);line-height:1.2;letter-spacing:.02em;color:var(--heading);background:linear-gradient(120deg,#e0e0ff 0%,#aaccff 48%,#66ffcc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
-.cue{position:absolute;left:50%;bottom:26px;z-index:2;width:22px;height:34px;margin-left:-11px;border:1px solid var(--chalk-line);border-radius:12px;opacity:.7}
-.cue::before{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--mint);animation:cue 1.8s ease-in-out infinite}
-@keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .js .hero-copy>*{animation:up .8s cubic-bezier(.2,.75,.2,1) backwards}
 .js .hero-copy>*:nth-child(2){animation-delay:.1s}
@@ -81,7 +78,6 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
     <div class="hero-copy">
       <h1 id="site-title">直觉之外，<br>另有秩序。</h1>
     </div>
-    <div class="cue" aria-hidden="true"></div>
   </section>
 
   <section id="list" aria-labelledby="list-title">
