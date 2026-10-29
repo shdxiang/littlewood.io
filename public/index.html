@@ -31,64 +31,41 @@ body{overflow-x:hidden}
 .skip-link{position:fixed;left:16px;top:12px;z-index:100;background:var(--panel-solid);color:var(--chalk);border:1px solid var(--line);padding:8px 14px;border-radius:9px;transform:translateY(-160%);box-shadow:0 4px 18px rgba(0,0,0,.5);transition:transform .15s}
 .skip-link:focus{transform:none}
 
-/* 顶栏：悬浮在首屏之上 */
-.top{position:absolute;inset:0 0 auto;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1120px;margin:0 auto;padding:22px 24px}
-.brand{display:inline-flex;align-items:center;gap:10px;color:var(--chalk-muted);text-decoration:none;font-weight:700;letter-spacing:.08em;transition:color .15s}
-.brand:hover,.brand:focus-visible{color:var(--yellow)}
-.brand svg{width:32px;height:32px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* 首屏：全屏点阵地形 + 一句话 */
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;overflow:hidden}
 #field{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero::after{content:"";position:absolute;inset:auto 0 0;height:200px;background:linear-gradient(transparent,var(--board));pointer-events:none}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(5,5,16,.9) 0%,rgba(5,5,16,.55) 34%,transparent 58%);pointer-events:none}
-.hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:120px 24px 110px}
+.hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:80px 24px 120px}
 .hero h1{margin:0 0 14px;font-weight:800;font-size:clamp(3.4rem,9.6vw,7.6rem);line-height:1.02;letter-spacing:-.01em;color:var(--heading);background:linear-gradient(120deg,#e0e0ff 0%,#aaccff 48%,#66ffcc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
-.tagline{margin:0 0 12px;color:var(--yellow);font-weight:800;font-size:clamp(1.2rem,2.8vw,1.6rem);letter-spacing:.04em}
-.sub{margin:0 0 30px;max-width:600px;color:var(--chalk-muted);font-size:1.02rem;text-shadow:0 2px 12px rgba(5,5,16,.9)}
-.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.cta a{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:800;text-decoration:none;transition:transform .15s,background .15s,border-color .15s,color .15s}
-.cta .primary{background:var(--yellow);color:var(--board-deep);box-shadow:0 0 0 0 rgba(255,217,102,.35),0 10px 30px rgba(255,217,102,.18)}
-.cta .primary:hover,.cta .primary:focus-visible{transform:translateY(-2px);background:#ffe38a}
-.cta .ghost{color:var(--chalk);border:1px solid var(--chalk-line);background:rgba(8,8,20,.5);backdrop-filter:blur(8px)}
-.cta .ghost:hover,.cta .ghost:focus-visible{border-color:rgba(102,255,204,.6);color:var(--mint)}
+.tagline{margin:0;color:var(--yellow);font-weight:800;font-size:clamp(1.25rem,3vw,1.75rem);letter-spacing:.04em}
 .cue{position:absolute;left:50%;bottom:26px;z-index:2;width:22px;height:34px;margin-left:-11px;border:1px solid var(--chalk-line);border-radius:12px;opacity:.7}
 .cue::before{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--mint);animation:cue 1.8s ease-in-out infinite}
 @keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .js .hero-copy>*{animation:up .8s cubic-bezier(.2,.75,.2,1) backwards}
-.js .hero-copy>*:nth-child(2){animation-delay:.08s}.js .hero-copy>*:nth-child(3){animation-delay:.16s}.js .hero-copy>*:nth-child(4){animation-delay:.24s}
+.js .hero-copy>*:nth-child(2){animation-delay:.1s}
 
 /* 图解列表 */
-#list{max-width:1120px;margin:0 auto;padding:10px 24px 90px;scroll-margin-top:24px}
-.list-head{display:flex;align-items:baseline;gap:14px;margin:0 0 20px}
-.list-head h2{margin:0;font-size:1.35rem;color:var(--heading)}
-.list-head p{margin:0;color:var(--chalk-dim);font-size:.9rem}
+#list{max-width:1120px;margin:0 auto;padding:10px 24px 110px;scroll-margin-top:24px}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 a.card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border-radius:16px;color:var(--chalk);text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s}
 a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(102,255,204,.55);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 24px rgba(102,255,204,.12)}
 .card svg.thumb{display:block;width:100%;height:auto;background:var(--panel-solid);border-bottom:1px solid var(--line)}
-.card .body{display:flex;flex-direction:column;gap:8px;flex:1;padding:18px 20px 20px}
-.card .meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--chalk-dim)}
-.card .tag{display:inline-flex;align-items:center;color:var(--mint);border:1px solid rgba(102,255,204,.45);background:rgba(102,255,204,.08);border-radius:999px;font-weight:800;padding:1px 10px;letter-spacing:.08em}
-.card .new{color:var(--yellow);font-weight:800;letter-spacing:.08em}
-.card h3{margin:0;font-size:1.12rem;line-height:1.5;font-weight:800;color:var(--heading);text-wrap:balance}
-.card .hook{margin:0;font-size:.9rem;color:var(--chalk-muted)}
-.card .go{margin-top:auto;padding-top:8px;font-weight:800;color:var(--yellow);font-size:.9rem}
-.card .go::after{content:" →";transition:margin .15s}
-a.card:hover .go::after{margin-left:4px}
+.card .body{display:flex;flex-direction:column;align-items:flex-start;gap:10px;flex:1;padding:18px 20px 22px}
+.card .tag{display:inline-flex;align-items:center;color:var(--mint);border:1px solid rgba(102,255,204,.45);background:rgba(102,255,204,.08);border-radius:999px;font-weight:800;font-size:.74rem;padding:1px 10px;letter-spacing:.08em}
+.card h3{margin:0;font-size:1.15rem;line-height:1.5;font-weight:800;color:var(--heading);text-wrap:balance}
 .nowrap{white-space:nowrap}
 
-footer{max-width:1120px;margin:0 auto;padding:22px 24px 44px;border-top:1px solid var(--chalk-line);color:var(--chalk-dim);font-size:.84rem;display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap}
-footer p{margin:0}
 
 @media (max-width:960px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid a.card:first-child{grid-column:1/-1}}
 @media (max-width:640px){
-  body{font-size:15px}.top{padding:16px}.hero-copy{padding:100px 16px 96px}
-  .hero h1{font-size:clamp(3rem,15.5vw,3.9rem)}.sub{font-size:.98rem}
-  .grid{grid-template-columns:1fr}#list{padding-inline:16px}.cue{display:none}
+  body{font-size:15px}.hero{min-height:88vh;min-height:88svh}.hero-copy{padding:60px 16px 100px}
+  .hero h1{font-size:clamp(3rem,15.5vw,3.9rem)}
+  .grid{grid-template-columns:1fr}#list{padding-inline:16px}
   .hero::before{background:linear-gradient(180deg,rgba(5,5,16,.5) 0%,rgba(5,5,16,.85) 42%,rgba(5,5,16,.35) 62%,transparent 80%)}
-  footer{padding-inline:16px;display:block}footer p+p{margin-top:4px}
 }
 </style>
 </head>
@@ -99,23 +76,15 @@ footer p{margin:0}
 <main id="main-content">
   <section class="hero" aria-labelledby="site-title">
     <canvas id="field" aria-hidden="true"></canvas>
-    <header class="top">
-      <a class="brand" href="./" aria-label="Littlewood 首页">
-        <svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>
-        Littlewood
-      </a>
-    </header>
     <div class="hero-copy">
       <h1 id="site-title">Littlewood</h1>
       <p class="tagline">奇怪的答案，只是少画了一张图。</p>
-      <p class="sub">每篇只问一个看起来不可能的科学问题。<br>先猜，再把少画的那张图补上。</p>
-      <div class="cta"><a class="primary" href="./riemann-hypothesis">看最新图解</a><a class="ghost" href="#list">全部图解</a></div>
     </div>
     <div class="cue" aria-hidden="true"></div>
   </section>
 
   <section id="list" aria-labelledby="list-title">
-    <div class="list-head"><h2 id="list-title">图解</h2><p>每篇一个“不可能”，持续更新</p></div>
+    <h2 id="list-title" class="sr-only">图解</h2>
     <div class="grid">
 
   <a class="card glass" href="./riemann-hypothesis">
@@ -138,10 +107,8 @@ footer p{margin:0}
       <text x="308" y="145" font-size="12" fill="#66ffcc" text-anchor="end">全落在 Re(s) = ½ 上</text>
     </svg>
     <div class="body">
-      <div class="meta"><span class="tag">3D 示意</span><span class="new">最新</span><span>数论 · 可旋转、可加点</span></div>
+      <span class="tag">3D 示意</span>
       <h3>黎曼猜想：所有零点都在一条线上吗？</h3>
-      <p class="hook">前 20 个零点全落在同一条线上，但没人证明每一个都会。亲手加几个零点，再放一个<span class="nowrap">“反例”</span>进去。</p>
-      <span class="go">动手试试</span>
     </div>
   </a>
 
@@ -174,10 +141,8 @@ footer p{margin:0}
       <text x="160" y="171" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">高度没变，变的是“下”在哪</text>
     </svg>
     <div class="body">
-      <div class="meta"><span class="tag">图解 02</span><span>感知与参照系 · 约 7 分钟</span></div>
+      <span class="tag">图解 02</span>
       <h3>在太空失重，还会恐高吗？</h3>
-      <p class="hook">离地四百公里，舱里没人怕。出舱面朝地球，却有人确信自己正在掉下去。转个身，怕就没了。</p>
-      <span class="go">看图解</span>
     </div>
   </a>
 
@@ -202,21 +167,14 @@ footer p{margin:0}
       <text x="168" y="209" text-anchor="middle" font-size="12" fill="#e0e0ff">两板之间那条缝：只有约 1 kg 水</text>
     </svg>
     <div class="body">
-      <div class="meta"><span class="tag">图解 01</span><span>流体静力学 · 约 8 分钟</span></div>
+      <span class="tag">图解 01</span>
       <h3>为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？</h3>
-      <p class="hook">两块挡板之间只夹着一瓶水的量，挡板却顶着一千吨的力。哪儿都没算错：质量和力，本来就是两回事。</p>
-      <span class="go">看图解</span>
     </div>
   </a>
 
     </div>
   </section>
 </main>
-
-<footer>
-  <p>Littlewood · 奇怪的答案，只是少画了一张图</p>
-  <p>名字来自数学家 J. E. Littlewood</p>
-</footer>
 
 <script>
 // 首屏点阵地形：概念示意，向黎曼页致敬。高度 ∝ 偏离中线的距离，谷底一串金点。

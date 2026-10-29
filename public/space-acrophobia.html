@@ -29,7 +29,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=5">
 <link rel="stylesheet" href="./site.css?v=2">
-<link rel="stylesheet" href="./article.css?v=2">
+<link rel="stylesheet" href="./article.css?v=3">
 <style>
 body{line-height:1.85}
 /* 本篇语义色（SVG 内直接写十六进制）：真实重力 绿 #2b8a3e、前庭信号 青 #0b7285、视觉线索 蓝 #1c7ed6、大脑认定的“下” 红 #c9342a、恐惧/报警 橙 #e8590c */
@@ -44,7 +44,6 @@ body{line-height:1.85}
 <body>
 <script>document.documentElement.className+=" js";</script>
 <a class="skip-link" href="#main-content">跳到正文</a>
-<div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
 
 <!-- 全局箭头标记 + 航天员符号 -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -89,30 +88,10 @@ body{line-height:1.85}
       <p class="q">猜猜：出舱之后，面朝地球“挂”在站外，会怕吗？</p>
       <p class="a">答案：会。有人确信自己正在掉下去。转个身，就不怕了。</p>
     </div>
-    <div class="article-meta" aria-label="文章信息">
-      <span>约 7 分钟</span><time datetime="2026-09-07">2026-09-07 发布</time>
-    </div>
-    <div class="mrow">
-      <svg class="mascot" viewBox="0 0 100 104" role="img" aria-label="Littlewood 的吉祥物（木头脑袋，粉笔画的脸）">
-        <rect x="6" y="16" width="88" height="80" rx="16" fill="#a86f32"/>
-        <rect x="6" y="10" width="88" height="80" rx="16" fill="#d9a05e"/>
-        <circle class="eye" cx="36" cy="50" r="5" fill="#f7f3e8"/><circle class="eye" cx="62" cy="50" r="5" fill="#f7f3e8"/><path d="M40,64 q9,8 18,0" fill="none" stroke="#f7f3e8" stroke-width="4" stroke-linecap="round"/>
-        <rect x="64" y="84" width="24" height="7.5" rx="2.5" fill="#e8c86a" transform="rotate(-20 76 88)"/>
-      </svg>
-      <div class="say"><b>Littlewood 说：</b>没写错。恐高怕的不是“高”，是“哪边是下”。</div>
-    </div>
   </div>
 </header>
 
 <main id="main-content">
-
-<nav class="quicknav" aria-label="文章快速导航">
-  <a href="#compare" aria-current="location">先看对比</a>
-  <a href="#signals">恐高从哪来</a>
-  <a href="#lab">动手试试</a>
-  <a href="#why">为什么讲道理没用</a>
-  <a href="#pitfalls">误解排雷</a>
-</nav>
 
 <section id="compare">
   <h2><span class="num" aria-hidden="true">1</span>先看两组对比图：舱内 vs 出舱</h2>
@@ -333,73 +312,6 @@ body{line-height:1.85}
   </div>
 </section>
 
-<div class="layer-break reveal"><span>到这里已经讲完核心。下面是可选的深入解释。</span></div>
-
-<section id="why">
-  <h2><span class="num" aria-hidden="true">4</span>为什么“知道很安全”没有用</h2>
-  <p>航天员当然知道自己系着安全绳，也知道轨道上不会“掉”。可报警照样响。因为报警走的是一条<b>快路</b>，念头走的是一条<b>慢路</b>，快路不等慢路。</p>
-
-  <figure class="reveal">
-    <div class="figbox">
-      <svg class="wide" viewBox="0 0 640 250" role="img" aria-label="两条路：眼睛和前庭的信号走快路，几十毫秒内触发报警；“我很安全”的念头走慢路，晚到，而且改不了快路的结论">
-        <rect x="16" y="30" width="120" height="44" rx="10" fill="#141430" stroke="#4dabf7" stroke-width="2.5"/>
-        <text x="76" y="58" font-size="13" font-weight="700" fill="#4dabf7" text-anchor="middle">眼睛</text>
-        <rect x="16" y="90" width="120" height="44" rx="10" fill="#141430" stroke="#22c3dd" stroke-width="2.5"/>
-        <text x="76" y="118" font-size="13" font-weight="700" fill="#22c3dd" text-anchor="middle">前庭</text>
-        <rect x="16" y="180" width="120" height="44" rx="10" fill="#141430" stroke="#a3acbd" stroke-width="2.5" stroke-dasharray="5 4"/>
-        <text x="76" y="208" font-size="13" font-weight="700" fill="#a3acbd" text-anchor="middle">念头：我很安全</text>
-        <line x1="140" y1="52" x2="250" y2="76" stroke="#4dabf7" stroke-width="5" stroke-linecap="round" marker-end="url(#mVis)"/>
-        <line x1="140" y1="112" x2="250" y2="90" stroke="#22c3dd" stroke-width="5" stroke-linecap="round" marker-end="url(#mVest)"/>
-        <rect x="262" y="52" width="130" height="60" rx="12" fill="#141430" stroke="#e0e0ff" stroke-width="2.5"/>
-        <text x="327" y="78" font-size="13" font-weight="700" fill="#e0e0ff" text-anchor="middle">平衡与警戒</text>
-        <text x="327" y="98" font-size="11" fill="#b8c0e0" text-anchor="middle">几十毫秒，不经思考</text>
-        <line x1="400" y1="82" x2="500" y2="82" stroke="#ff7a2f" stroke-width="7" stroke-linecap="round" marker-end="url(#mFear)"/>
-        <rect x="512" y="52" width="112" height="60" rx="12" fill="#1a1430" stroke="#ff7a2f" stroke-width="2.5"/>
-        <text x="568" y="78" font-size="13" font-weight="800" fill="#ff7a2f" text-anchor="middle">报警</text>
-        <text x="568" y="98" font-size="11" fill="#ff7a2f" text-anchor="middle">抓紧、心跳、腿软</text>
-        <line x1="140" y1="202" x2="320" y2="202" stroke="#a3acbd" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" marker-end="url(#mGrey)"/>
-        <rect x="330" y="176" width="150" height="52" rx="12" fill="#141430" stroke="#a3acbd" stroke-width="2" stroke-dasharray="5 4"/>
-        <text x="405" y="198" font-size="12" font-weight="700" fill="#a3acbd" text-anchor="middle">推理</text>
-        <text x="405" y="216" font-size="11" fill="#a3acbd" text-anchor="middle">秒级，晚到</text>
-        <path d="M480,202 L560,202 L560,130" fill="none" stroke="#a3acbd" stroke-width="3" stroke-dasharray="6 5"/>
-        <line x1="546" y1="140" x2="574" y2="122" stroke="#ff6b6b" stroke-width="4" stroke-linecap="round"/>
-        <line x1="574" y1="140" x2="546" y2="122" stroke="#ff6b6b" stroke-width="4" stroke-linecap="round"/>
-        <text x="600" y="150" font-size="11" fill="#ff6b6b" text-anchor="end">劝不动</text>
-        <text x="200" y="40" font-size="12" font-weight="700" fill="#e0e0ff">快路</text>
-        <text x="200" y="192" font-size="12" font-weight="700" fill="#a3acbd">慢路</text>
-      </svg>
-      <figcaption>眼睛和前庭直接接到平衡与警戒系统，几十毫秒就出结果。“我系着绳子”要先想一想，等它想完，警报早就响了，而且它没有关掉警报的权限。</figcaption>
-    </div>
-  </figure>
-
-  <p>玻璃栈道是地面上的同一件事：明知玻璃能承重，腿照样软。所以有效的办法不是讲道理，而是<b>换掉快路的输入</b>：转个身让地球离开脚下，或者盯着近处的扶手，给眼睛一个稳定参照。训练里正是这样做的。</p>
-
-  <details class="card compact-details">
-    <summary>出舱训练怎么应对？</summary>
-    <p>先在水下和虚拟现实里反复模拟出舱，让快路“见过”这个画面；出舱时优先看近处的站体结构和扶手，不长时间盯着脚下的地球；感到坠落感就改变身体朝向，把地球转到侧面或头顶。多数人几次之后报警就弱了，这和地面上治疗恐高的“逐步暴露”是同一个原理。</p>
-  </details>
-  <details class="card compact-details">
-    <summary>这些说法有出处吗？</summary>
-    <p>航天员 Jerry Linenger 在回忆录《Off the Planet》（2000）里描述 1997 年在和平号出舱时，抓着机械臂末端伸出站外，“确信自己正在掉下去”，只能死死抓住。这类报告在航天医学里被称为出舱高度眩晕（EVA height vertigo）；麻省理工学院 Charles Oman 关于失重下空间定向的研究讨论了视觉重定向错觉和这一现象。本文的机理解释是简化版，恐惧指示为示意值。</p>
-  </details>
-</section>
-
-<section id="pitfalls">
-  <h2><span class="num" aria-hidden="true">✗</span>三个最容易混淆的地方</h2>
-  <div class="mis reveal">
-    <p><span class="no">不是：</span>失重没有“下”，所以不会恐高。</p>
-    <p><span class="yes">而是：</span>前庭沉默后，视觉独占“下”的决定权；眼睛说地球在脚下，恐高就回来。</p>
-  </div>
-  <div class="mis reveal">
-    <p><span class="no">不是：</span>恐高由高度触发。</p>
-    <p><span class="yes">而是：</span>由“哪边是下、下方参照有多远”触发。400 km 全程没变，朝向一变，感受就变。</p>
-  </div>
-  <div class="mis reveal">
-    <p><span class="no">不是：</span>出舱真的会“掉下去”。</p>
-    <p><span class="yes">而是：</span>人和站一起在轨道上落，脱离系绳是慢慢飘走，不是掉。真正的危险和感到的恐惧，并不对应。</p>
-  </div>
-</section>
-
 <section id="summary">
   <h2><span class="num" aria-hidden="true">∑</span>最后只记住这两行</h2>
   <div class="key reveal">
@@ -410,15 +322,11 @@ body{line-height:1.85}
 
 </main>
 
-<button class="backtop" id="backTop" type="button" aria-label="返回文章顶部">↑</button>
-
 <footer>
-  <a href="./">← 返回 Littlewood 首页</a><br>
-  Littlewood · 奇怪的答案，只是少画了一张图<br>
-  文中恐惧指示均为「概念示例」，不是测量值；资料出处见第 4 节。
+  <a href="./">← Littlewood</a> · 恐惧指示为「概念示例」，不是测量值。出处：Jerry Linenger《Off the Planet》(2000) 对 1997 年和平号出舱的记述；Charles Oman 关于失重下空间定向与 EVA height vertigo 的研究。
 </footer>
 
-<script src="./article.js?v=1"></script>
+<script src="./article.js?v=2"></script>
 <script>
 (function(){
   var gaze = 'earth';
