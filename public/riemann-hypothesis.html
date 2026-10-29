@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黎曼猜想 · 临界线锁定 · 小木块</title>
+    <meta name="description" content="黎曼猜想的三维示意：ζ 函数前 20 个非平凡零点全部落在临界线 Re(s)=1/2 上。">
+    <link rel="canonical" href="https://littlewood.io/riemann-hypothesis">
+    <meta name="theme-color" content="#050510">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="小木块">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:url" content="https://littlewood.io/riemann-hypothesis">
+    <meta property="og:title" content="黎曼猜想 · 临界线锁定">
+    <meta property="og:description" content="ζ 函数前 20 个非平凡零点全部落在临界线 Re(s)=1/2 上。">
+    <meta property="og:image" content="https://littlewood.io/og-index.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=4">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=4">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=4">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=4">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #050510;
+            font-family: 'Segoe UI', 'PingFang SC', sans-serif;
+            color: #e0e0ff;
+        }
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(8, 8, 20, 0.75);
+            backdrop-filter: blur(8px);
+            padding: 20px 28px;
+            border-radius: 12px;
+            border: 1px solid rgba(120, 140, 255, 0.25);
+            max-width: 380px;
+            pointer-events: none;
+            z-index: 10;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+        #info h1 {
+            margin: 0 0 8px;
+            font-size: 1.4rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #aaccff;
+        }
+        #info p {
+            margin: 6px 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #b8c0e0;
+        }
+        #info .highlight {
+            color: #ffd966;
+            font-weight: 500;
+        }
+        #info .critical {
+            color: #66ffcc;
+            font-weight: 500;
+        }
+        #status {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(8, 8, 20, 0.7);
+            backdrop-filter: blur(6px);
+            padding: 10px 28px;
+            border-radius: 30px;
+            border: 1px solid rgba(120, 140, 255, 0.2);
+            font-size: 0.85rem;
+            color: #8899cc;
+            letter-spacing: 0.5px;
+            z-index: 10;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        #status span {
+            color: #66ffcc;
+        }
+        @media (max-width: 480px) {
+            #info { top: 12px; left: 12px; right: 12px; max-width: none; padding: 14px 18px; }
+            #info h1 { font-size: 1.15rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h1>黎曼猜想 · Riemann Hypothesis</h1>
+        <p>ζ函数的所有<span class="highlight">非平凡零点</span>都位于<span class="critical">临界线 Re(s)=1/2</span> 上。</p>
+        <p style="font-size:0.82rem; opacity:0.75; margin-top:12px;">
+            <span style="color:#ffd966;">●</span> 发光点：已知非平凡零点 (1/2 + i·t)<br>
+            <span style="color:#66ffcc;">━</span> 亮线：临界线 σ = 0.5<br>
+            地形是概念示例，不是真实的 |ζ(s)|：高度 ∝ 偏离临界线的距离，零点被“锁定”在谷底。
+        </p>
+    </div>
+    <div id="status">旋转视角观察 · 前 20 个零点全部落在 <span>临界线</span> 上</div>
+
+    <!-- Three.js r128 自托管（CSP 只允许 self） -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./vendor/three-r128/build/three.module.js",
+                "three/addons/": "./vendor/three-r128/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // --- 初始化场景、相机、渲染器 ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050510);
+        scene.fog = new THREE.FogExp2(0x050510, 0.015);
+
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(8, 6, 18);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = false;
+        document.body.appendChild(renderer.domElement);
+
+        // --- 控制器 ---
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.06;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.6;
+        controls.enableZoom = true;
+        controls.zoomSpeed = 0.8;
+        controls.target.set(0, 0, 0);
+        controls.maxPolarAngle = Math.PI / 2.1;
+        controls.minDistance = 6;
+        controls.maxDistance = 40;
+
+        // --- 灯光 ---
+        const ambientLight = new THREE.AmbientLight(0x404060);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xaaccff, 0.8);
+        dirLight.position.set(5, 10, 7);
+        scene.add(dirLight);
+
+        const pointLight = new THREE.PointLight(0x66ffcc, 1.5, 30);
+        pointLight.position.set(0, 2, 0);
+        scene.add(pointLight);
+
+        // --- 已知非平凡零点的虚部 (前20个) ---
+        const zeroHeights = [
+            14.134725, 21.022040, 25.010858, 30.424876, 32.935062,
+            37.586178, 40.918719, 43.327073, 48.005151, 49.773832,
+            52.970321, 56.446248, 59.347044, 60.831779, 65.112544,
+            67.079811, 69.546402, 72.067158, 75.704691, 77.144840
+        ];
+
+        // --- 复平面网格 (σ 从 -0.5 到 1.5, t 从 -10 到 90 左右) ---
+        // 为了视觉效果，将 t 轴压缩到 -6 到 6 的视觉范围内（通过缩放）
+        const T_MIN = -10, T_MAX = 90;
+        const T_RANGE = T_MAX - T_MIN;
+        const SIGMA_MIN = -0.2, SIGMA_MAX = 1.2;
+        const SIGMA_RANGE = SIGMA_MAX - SIGMA_MIN;
+
+        // 将数学坐标映射到场景坐标：x = (σ - 0.5) * SCALE_X, z = (t - 40) * SCALE_Z
+        const SCALE_X = 6;
+        const SCALE_Z = 0.18; // t 范围大，需要压缩
+        const T_CENTER = 40; // 视觉中心对应的 t 值
+
+        function sigmaToX(sigma) {
+            return (sigma - 0.5) * SCALE_X;
+        }
+        function tToZ(t) {
+            return (t - T_CENTER) * SCALE_Z;
+        }
+
+        // --- 1. 绘制临界线 σ = 0.5 (一条发光的线) ---
+        const criticalLinePoints = [];
+        for (let i = 0; i <= 200; i++) {
+            const t = T_MIN + (i / 200) * T_RANGE;
+            criticalLinePoints.push(new THREE.Vector3(sigmaToX(0.5), 0, tToZ(t)));
+        }
+        const criticalLineGeometry = new THREE.BufferGeometry().setFromPoints(criticalLinePoints);
+        const criticalLineMaterial = new THREE.LineBasicMaterial({ color: 0x66ffcc, linewidth: 1 }); // linewidth not supported everywhere
+        const criticalLine = new THREE.Line(criticalLineGeometry, criticalLineMaterial);
+        scene.add(criticalLine);
+
+        // 额外加一条更亮的细线（使用 TubeGeometry 或 简单的 LineSegments 加发光）
+        const glowLineGeom = new THREE.BufferGeometry().setFromPoints(criticalLinePoints);
+        const glowLineMat = new THREE.LineBasicMaterial({ color: 0x33ffaa, transparent: true, opacity: 0.3 });
+        const glowLine = new THREE.Line(glowLineGeom, glowLineMat);
+        glowLine.scale.set(1.005, 1, 1);
+        scene.add(glowLine);
+
+        // --- 2. 非平凡零点 (发光球体) ---
+        const zeroGroup = new THREE.Group();
+        const zeroSpheres = [];
+
+        const sphereGeom = new THREE.SphereGeometry(0.15, 16, 16);
+        const sphereMat = new THREE.MeshStandardMaterial({
+            color: 0xffd966,
+            emissive: 0xffaa00,
+            emissiveIntensity: 2.0,
+            roughness: 0.2,
+            metalness: 0.1
+        });
+
+        zeroHeights.forEach((t, index) => {
+            if (t < T_MIN || t > T_MAX) return;
+            const x = sigmaToX(0.5);
+            const z = tToZ(t);
+            const sphere = new THREE.Mesh(sphereGeom, sphereMat.clone());
+            sphere.position.set(x, 0, z);
+            sphere.userData.baseScale = 1.0;
+            sphere.userData.phase = index * 0.8;
+            zeroGroup.add(sphere);
+            zeroSpheres.push(sphere);
+
+            // 添加光晕效果 (使用 Sprite 或 点光源)
+            const glowSpriteMat = new THREE.SpriteMaterial({
+                map: createGlowTexture(),
+                color: 0xffd966,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+            const sprite = new THREE.Sprite(glowSpriteMat);
+            sprite.scale.set(0.8, 0.8, 1);
+            sprite.position.copy(sphere.position);
+            zeroGroup.add(sprite);
+        });
+        scene.add(zeroGroup);
+
+        // 辅助函数：创建圆形渐变纹理用于光晕
+        function createGlowTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255, 220, 100, 1)');
+            gradient.addColorStop(0.4, 'rgba(255, 180, 50, 0.6)');
+            gradient.addColorStop(1, 'rgba(255, 150, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 64);
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // --- 3. 粒子地形：表现 |ζ(s)| 的概念性高度 ---
+        // 高度函数：在临界线附近为 0，偏离越远越高；在零点附近形成凹陷。
+        // 这是一个概念性可视化，并非精确的 ζ 函数计算。
+        const GRID_SIZE_X = 80;
+        const GRID_SIZE_Z = 120;
+        const particleCount = GRID_SIZE_X * GRID_SIZE_Z;
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        // 颜色映射：低处偏绿(0,1,0.8)，高处偏蓝紫(0.2,0.4,1.0)
+        const lowColor = new THREE.Color(0x33ffaa);
+        const highColor = new THREE.Color(0x6688ff);
+
+        let idx = 0;
+        for (let ix = 0; ix < GRID_SIZE_X; ix++) {
+            for (let iz = 0; iz < GRID_SIZE_Z; iz++) {
+                const sigma = SIGMA_MIN + (ix / (GRID_SIZE_X - 1)) * SIGMA_RANGE;
+                const t = T_MIN + (iz / (GRID_SIZE_Z - 1)) * T_RANGE;
+                const x = sigmaToX(sigma);
+                const z = tToZ(t);
+
+                // 计算概念性高度：
+                // 基础高度与 |σ - 0.5| 成正比 (偏离临界线升高)
+                let height = Math.abs(sigma - 0.5) * 3.5;
+
+                // 在零点附近增加“凹陷”效果：如果 t 接近某个零点，降低高度
+                let minDistToZero = Infinity;
+                zeroHeights.forEach(zt => {
+                    const dist = Math.abs(t - zt);
+                    if (dist < minDistToZero) minDistToZero = dist;
+                });
+                // 凹陷宽度约 1.5 个 t 单位
+                const dipFactor = Math.exp(-minDistToZero * minDistToZero / 1.2);
+                height *= (1 - 0.85 * dipFactor); // 零点附近高度降低 85%
+
+                // 添加一些细微的波动，让地形更自然
+                height += 0.08 * Math.sin(sigma * 12) * Math.cos(t * 0.5);
+
+                positions[idx * 3] = x;
+                positions[idx * 3 + 1] = height;
+                positions[idx * 3 + 2] = z;
+
+                // 颜色：根据高度混合
+                const mixFactor = Math.min(height / 3.0, 1.0);
+                const color = lowColor.clone().lerp(highColor, mixFactor);
+                colors[idx * 3] = color.r;
+                colors[idx * 3 + 1] = color.g;
+                colors[idx * 3 + 2] = color.b;
+
+                idx++;
+            }
+        }
+
+        const particleGeometry = new THREE.BufferGeometry();
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.08,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.85,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            sizeAttenuation: true
+        });
+
+        const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+        scene.add(particleSystem);
+
+        // --- 4. 添加一些“相位”光晕粒子，增加视觉丰富度 ---
+        const extraParticlesGeom = new THREE.BufferGeometry();
+        const extraCount = 600;
+        const extraPos = new Float32Array(extraCount * 3);
+        const extraCol = new Float32Array(extraCount * 3);
+        for (let i = 0; i < extraCount; i++) {
+            const sigma = 0.3 + Math.random() * 0.4; // 集中在临界线附近
+            const t = T_MIN + Math.random() * T_RANGE;
+            const x = sigmaToX(sigma);
+            const z = tToZ(t);
+            // 高度略微随机，漂浮在谷底附近
+            const y = Math.random() * 0.3 + 0.1;
+
+            extraPos[i * 3] = x;
+            extraPos[i * 3 + 1] = y;
+            extraPos[i * 3 + 2] = z;
+
+            const c = new THREE.Color(0x66ffcc).lerp(new THREE.Color(0xffd966), Math.random());
+            extraCol[i * 3] = c.r;
+            extraCol[i * 3 + 1] = c.g;
+            extraCol[i * 3 + 2] = c.b;
+        }
+        extraParticlesGeom.setAttribute('position', new THREE.BufferAttribute(extraPos, 3));
+        extraParticlesGeom.setAttribute('color', new THREE.BufferAttribute(extraCol, 3));
+        const extraParticlesMat = new THREE.PointsMaterial({
+            size: 0.06,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.5,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        const extraParticles = new THREE.Points(extraParticlesGeom, extraParticlesMat);
+        scene.add(extraParticles);
+
+        // --- 动画 ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            const delta = clock.getDelta();
+            const elapsed = clock.getElapsedTime();
+
+            // 零点球体脉动
+            zeroSpheres.forEach((sphere, i) => {
+                const scale = 1.0 + 0.3 * Math.sin(elapsed * 2.5 + sphere.userData.phase);
+                sphere.scale.set(scale, scale, scale);
+                // 光晕精灵也稍微缩放
+                // 注意：精灵是单独添加的，这里通过遍历 zeroGroup 来调整
+            });
+
+            // 让光晕精灵也脉动（简单遍历 zeroGroup 中的 Sprite）
+            zeroGroup.children.forEach(child => {
+                if (child.isSprite) {
+                    const s = 0.7 + 0.15 * Math.sin(elapsed * 2.0 + child.position.z * 0.5);
+                    child.scale.set(s, s, 1);
+                }
+            });
+
+            // 粒子地形轻微上下浮动 (通过顶点着色器或直接修改 attribute 会比较耗性能，
+            // 这里让整个粒子系统轻微旋转或移动来产生动态感)
+            // 让额外粒子缓慢旋转
+            extraParticles.rotation.y += 0.0005;
+
+            // 控制自动旋转
+            controls.update();
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // --- 窗口自适应 ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // 允许用户通过点击暂停/恢复自动旋转 (可选)
+        renderer.domElement.addEventListener('click', () => {
+            controls.autoRotate = !controls.autoRotate;
+        });
+    </script>
+</body>
+</html>
