@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Littlewood · 奇怪的答案，只是少画了一张图</title>
+<title>Littlewood · 想不通的，才值得想</title>
 <meta name="description" content="Littlewood：每篇只问一个看起来不可能的科学问题，先猜，再用几张图把它画明白。">
 <link rel="canonical" href="https://littlewood.io/">
 <meta name="theme-color" content="#050510">
@@ -11,14 +11,14 @@
 <meta property="og:site_name" content="Littlewood">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:url" content="https://littlewood.io/">
-<meta property="og:title" content="Littlewood · 奇怪的答案，只是少画了一张图">
+<meta property="og:title" content="Littlewood · 想不通的，才值得想">
 <meta property="og:description" content="每次只问一个看起来“不可能”的科学问题，用几张图把它画明白。">
 <meta property="og:image" content="https://littlewood.io/og-index.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Littlewood：奇怪的答案，只是少画了一张图">
+<meta property="og:image:alt" content="Littlewood：想不通的，才值得想">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Littlewood · 奇怪的答案，只是少画了一张图">
+<meta name="twitter:title" content="Littlewood · 想不通的，才值得想">
 <meta name="twitter:description" content="每次只问一个看起来“不可能”的科学问题，用几张图把它画明白。">
 <meta name="twitter:image" content="https://littlewood.io/og-index.png">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=5">
@@ -31,9 +31,9 @@ body{overflow-x:hidden}
 .skip-link{position:fixed;left:16px;top:12px;z-index:100;background:var(--panel-solid);color:var(--chalk);border:1px solid var(--line);padding:8px 14px;border-radius:9px;transform:translateY(-160%);box-shadow:0 4px 18px rgba(0,0,0,.5);transition:transform .15s}
 .skip-link:focus{transform:none}
 
-.logo{position:absolute;left:max(24px,calc((100vw - 1120px) / 2 + 24px));top:26px;z-index:5;display:block;width:40px;height:40px;border-radius:9px;transition:transform .15s,filter .15s}
-.logo svg{display:block;width:100%;height:100%}
-.logo:hover,.logo:focus-visible{transform:translateY(-1px);filter:drop-shadow(0 0 10px rgba(255,217,102,.45))}
+.brand{position:absolute;left:max(24px,calc((100vw - 1120px) / 2 + 24px));top:24px;z-index:5;display:inline-flex;align-items:center;gap:10px;color:var(--chalk-muted);text-decoration:none;font-weight:700;letter-spacing:.08em;transition:color .15s}
+.brand svg{width:34px;height:34px;flex:none}
+.brand:hover,.brand:focus-visible{color:var(--yellow)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* 首屏：全屏点阵地形 + 一句话 */
@@ -42,8 +42,7 @@ body{overflow-x:hidden}
 .hero::after{content:"";position:absolute;inset:auto 0 0;height:200px;background:linear-gradient(transparent,var(--board));pointer-events:none}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(5,5,16,.9) 0%,rgba(5,5,16,.55) 34%,transparent 58%);pointer-events:none}
 .hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:80px 24px 120px}
-.hero h1{margin:0 0 14px;font-weight:800;font-size:clamp(3.4rem,9.6vw,7.6rem);line-height:1.02;letter-spacing:-.01em;color:var(--heading);background:linear-gradient(120deg,#e0e0ff 0%,#aaccff 48%,#66ffcc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
-.tagline{margin:0;color:var(--yellow);font-weight:800;font-size:clamp(1.25rem,3vw,1.75rem);letter-spacing:.04em}
+.hero h1{margin:0;font-weight:800;font-size:clamp(2.3rem,6.2vw,4.9rem);line-height:1.2;letter-spacing:.02em;color:var(--heading);background:linear-gradient(120deg,#e0e0ff 0%,#aaccff 48%,#66ffcc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
 .cue{position:absolute;left:50%;bottom:26px;z-index:2;width:22px;height:34px;margin-left:-11px;border:1px solid var(--chalk-line);border-radius:12px;opacity:.7}
 .cue::before{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--mint);animation:cue 1.8s ease-in-out infinite}
 @keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
@@ -64,8 +63,8 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
 
 @media (max-width:960px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid a.card:first-child{grid-column:1/-1}}
 @media (max-width:640px){
-  body{font-size:15px}.logo{left:16px;top:16px;width:36px;height:36px}.hero{min-height:88vh;min-height:88svh}.hero-copy{padding:60px 16px 100px}
-  .hero h1{font-size:clamp(3rem,15.5vw,3.9rem)}
+  body{font-size:15px}.brand{left:16px;top:16px}.brand svg{width:30px;height:30px}.hero{min-height:88vh;min-height:88svh}.hero-copy{padding:60px 16px 100px}
+  .hero h1{font-size:clamp(1.9rem,8.6vw,2.4rem)}
   .grid{grid-template-columns:1fr}#list{padding-inline:16px}
   .hero::before{background:linear-gradient(180deg,rgba(5,5,16,.5) 0%,rgba(5,5,16,.85) 42%,rgba(5,5,16,.35) 62%,transparent 80%)}
 }
@@ -78,10 +77,9 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
 <main id="main-content">
   <section class="hero" aria-labelledby="site-title">
     <canvas id="field" aria-hidden="true"></canvas>
-    <a class="logo" href="./" aria-label="Littlewood"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg></a>
+    <a class="brand" href="./" aria-label="Littlewood 首页"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>Littlewood</a>
     <div class="hero-copy">
-      <h1 id="site-title">Littlewood</h1>
-      <p class="tagline">奇怪的答案，只是少画了一张图。</p>
+      <h1 id="site-title">想不通的，<br>才值得想。</h1>
     </div>
     <div class="cue" aria-hidden="true"></div>
   </section>
@@ -278,7 +276,7 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
 })();
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Littlewood","url":"https://littlewood.io/","description":"奇怪的答案，只是少画了一张图。","inLanguage":"zh-CN"}
+{"@context":"https://schema.org","@type":"WebSite","name":"Littlewood","url":"https://littlewood.io/","description":"想不通的，才值得想。","inLanguage":"zh-CN"}
 </script>
 </body>
 </html>
