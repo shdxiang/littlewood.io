@@ -101,6 +101,14 @@
         @media (max-width: 480px) {
             #info { top: 12px; left: 12px; right: 12px; max-width: none; padding: 14px 18px; }
             #info h1 { font-size: 1.15rem; }
+            #status { bottom: 12px; padding: 8px 16px; width: max-content; max-width: calc(100% - 24px); box-sizing: border-box; white-space: normal; text-align: center; }
+        }
+        @media (max-height: 500px) {
+            #info { top: 12px; left: 12px; max-width: 300px; padding: 12px 18px; }
+            #info .home { margin-bottom: 4px; }
+            #info h1 { font-size: 1.05rem; }
+            #info p { font-size: 0.8rem; line-height: 1.5; }
+            #status { bottom: 12px; padding: 8px 20px; }
         }
     </style>
 </head>
@@ -410,14 +418,37 @@
             requestAnimationFrame(animate);
         }
 
-        animate();
+        // --- 窗口自适应：场景居中放进信息框和底栏之外的空白区，空白区太窄时相机后退 ---
+        const BASE_DIST = camera.position.length();
+        const infoBox = document.getElementById('info');
+        const statusBar = document.getElementById('status');
+        let fitDist = BASE_DIST;
 
-        // --- 窗口自适应 ---
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        function layout() {
+            const W = window.innerWidth, H = window.innerHeight;
+            const r = infoBox.getBoundingClientRect(), s = statusBar.getBoundingClientRect();
+            const below = { x: 0, y: r.bottom, w: W, h: s.top - r.bottom };
+            const right = { x: r.right, y: 0, w: W - r.right, h: s.top };
+            const a = below.w * below.h >= right.w * right.h ? below : right;
+
+            renderer.setSize(W, H);
+            camera.aspect = W / H;
+            camera.setViewOffset(W, H, W / 2 - (a.x + a.w / 2), H / 2 - (a.y + a.h / 2), W, H);
+
+            // 场景投影约 17×9 个单位宽高（含旋转余量）；空白区按至少 40% 屏幕算，避免极端尺寸下相机退太远
+            const tanHalf = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+            const d = Math.max(BASE_DIST,
+                8.5 * H / (Math.max(a.w, W * 0.4) * tanHalf),
+                4.5 * H / (Math.max(a.h, H * 0.4) * tanHalf));
+            // 按比例缩放，保留用户自己的缩放
+            camera.position.sub(controls.target).multiplyScalar(d / fitDist).add(controls.target);
+            fitDist = d;
+            controls.maxDistance = Math.max(40, d * 1.6);
+        }
+
+        layout();
+        window.addEventListener('resize', layout);
+        animate();
 
         // 允许用户通过点击暂停/恢复自动旋转 (可选)
         renderer.domElement.addEventListener('click', () => {
