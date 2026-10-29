@@ -43,6 +43,20 @@
             z-index: 10;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         }
+        #info .home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: #b8c0e0;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            pointer-events: auto;
+        }
+        #info .home:hover, #info .home:focus-visible { color: #ffd966; }
+        #info .home svg { width: 30px; height: auto; transform: rotate(-3deg); }
         #info h1 {
             margin: 0 0 8px;
             font-size: 1.4rem;
@@ -92,6 +106,7 @@
 </head>
 <body>
     <div id="info">
+        <a class="home" href="./"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>小木块</a>
         <h1>黎曼猜想 · Riemann Hypothesis</h1>
         <p>ζ函数的所有<span class="highlight">非平凡零点</span>都位于<span class="critical">临界线 Re(s)=1/2</span> 上。</p>
         <p style="font-size:0.82rem; opacity:0.75; margin-top:12px;">
