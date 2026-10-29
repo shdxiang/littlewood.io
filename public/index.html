@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Littlewood · 把反直觉的科学问题画明白</title>
+<title>Littlewood · 奇怪的答案，只是少画了一张图</title>
 <meta name="description" content="Littlewood：每篇只问一个看起来不可能的科学问题，先猜，再用几张图把它画明白。">
 <link rel="canonical" href="https://littlewood.io/">
 <meta name="theme-color" content="#050510">
@@ -11,14 +11,14 @@
 <meta property="og:site_name" content="Littlewood">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:url" content="https://littlewood.io/">
-<meta property="og:title" content="Littlewood · 把反直觉的科学问题画明白">
+<meta property="og:title" content="Littlewood · 奇怪的答案，只是少画了一张图">
 <meta property="og:description" content="每次只问一个看起来“不可能”的科学问题，用几张图把它画明白。">
 <meta property="og:image" content="https://littlewood.io/og-index.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Littlewood：把反直觉的科学问题画明白">
+<meta property="og:image:alt" content="Littlewood：奇怪的答案，只是少画了一张图">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Littlewood · 把反直觉的科学问题画明白">
+<meta name="twitter:title" content="Littlewood · 奇怪的答案，只是少画了一张图">
 <meta name="twitter:description" content="每次只问一个看起来“不可能”的科学问题，用几张图把它画明白。">
 <meta name="twitter:image" content="https://littlewood.io/og-index.png">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=5">
@@ -36,8 +36,6 @@ body{overflow-x:hidden}
 .brand{display:inline-flex;align-items:center;gap:10px;color:var(--chalk-muted);text-decoration:none;font-weight:700;letter-spacing:.08em;transition:color .15s}
 .brand:hover,.brand:focus-visible{color:var(--yellow)}
 .brand svg{width:32px;height:32px}
-.top .gh{color:var(--chalk-dim);text-decoration:none;font-size:.85rem;letter-spacing:.06em;transition:color .15s}
-.top .gh:hover,.top .gh:focus-visible{color:var(--mint)}
 
 /* 首屏：全屏点阵地形 + 一句话 */
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;overflow:hidden}
@@ -45,7 +43,6 @@ body{overflow-x:hidden}
 .hero::after{content:"";position:absolute;inset:auto 0 0;height:200px;background:linear-gradient(transparent,var(--board));pointer-events:none}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(5,5,16,.9) 0%,rgba(5,5,16,.55) 34%,transparent 58%);pointer-events:none}
 .hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:120px 24px 110px}
-.eyebrow{margin:0 0 12px;color:var(--mint);font-size:.88rem;font-weight:700;letter-spacing:.3em}
 .hero h1{margin:0 0 14px;font-weight:800;font-size:clamp(3.4rem,9.6vw,7.6rem);line-height:1.02;letter-spacing:-.01em;color:var(--heading);background:linear-gradient(120deg,#e0e0ff 0%,#aaccff 48%,#66ffcc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
 .tagline{margin:0 0 12px;color:var(--yellow);font-weight:800;font-size:clamp(1.2rem,2.8vw,1.6rem);letter-spacing:.04em}
 .sub{margin:0 0 30px;max-width:600px;color:var(--chalk-muted);font-size:1.02rem;text-shadow:0 2px 12px rgba(5,5,16,.9)}
@@ -60,7 +57,7 @@ body{overflow-x:hidden}
 @keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .js .hero-copy>*{animation:up .8s cubic-bezier(.2,.75,.2,1) backwards}
-.js .hero-copy>*:nth-child(2){animation-delay:.08s}.js .hero-copy>*:nth-child(3){animation-delay:.16s}.js .hero-copy>*:nth-child(4){animation-delay:.24s}.js .hero-copy>*:nth-child(5){animation-delay:.32s}
+.js .hero-copy>*:nth-child(2){animation-delay:.08s}.js .hero-copy>*:nth-child(3){animation-delay:.16s}.js .hero-copy>*:nth-child(4){animation-delay:.24s}
 
 /* 图解列表 */
 #list{max-width:1120px;margin:0 auto;padding:10px 24px 90px;scroll-margin-top:24px}
@@ -83,7 +80,7 @@ a.card:hover .go::after{margin-left:4px}
 .nowrap{white-space:nowrap}
 
 footer{max-width:1120px;margin:0 auto;padding:22px 24px 44px;border-top:1px solid var(--chalk-line);color:var(--chalk-dim);font-size:.84rem;display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap}
-footer p{margin:0}footer a{color:var(--chalk-dim)}footer a:hover{color:var(--mint)}
+footer p{margin:0}
 
 @media (max-width:960px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid a.card:first-child{grid-column:1/-1}}
 @media (max-width:640px){
@@ -107,13 +104,11 @@ footer p{margin:0}footer a{color:var(--chalk-dim)}footer a:hover{color:var(--min
         <svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>
         Littlewood
       </a>
-      <a class="gh" href="https://github.com/shdxiang/littlewood.io">GitHub</a>
     </header>
     <div class="hero-copy">
-      <p class="eyebrow">反直觉 · 科学 · 图解</p>
       <h1 id="site-title">Littlewood</h1>
-      <p class="tagline">把反直觉的科学问题画明白。</p>
-      <p class="sub">奇怪的答案，往往只是少画了一张图。<br>每篇只问一个看起来不可能的问题：先猜，再把图补上。</p>
+      <p class="tagline">奇怪的答案，只是少画了一张图。</p>
+      <p class="sub">每篇只问一个看起来不可能的科学问题。<br>先猜，再把少画的那张图补上。</p>
       <div class="cta"><a class="primary" href="./riemann-hypothesis">看最新图解</a><a class="ghost" href="#list">全部图解</a></div>
     </div>
     <div class="cue" aria-hidden="true"></div>
@@ -219,8 +214,8 @@ footer p{margin:0}footer a{color:var(--chalk-dim)}footer a:hover{color:var(--min
 </main>
 
 <footer>
-  <p>Littlewood · 把反直觉的科学问题画明白</p>
-  <p>名字来自数学家 J. E. Littlewood · <a href="https://github.com/shdxiang/littlewood.io">源码（GitHub，MIT）</a></p>
+  <p>Littlewood · 奇怪的答案，只是少画了一张图</p>
+  <p>名字来自数学家 J. E. Littlewood</p>
 </footer>
 
 <script>
@@ -325,7 +320,7 @@ footer p{margin:0}footer a{color:var(--chalk-dim)}footer a:hover{color:var(--min
 })();
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Littlewood","url":"https://littlewood.io/","description":"把反直觉的科学问题画明白。","inLanguage":"zh-CN"}
+{"@context":"https://schema.org","@type":"WebSite","name":"Littlewood","url":"https://littlewood.io/","description":"奇怪的答案，只是少画了一张图。","inLanguage":"zh-CN"}
 </script>
 </body>
 </html>
