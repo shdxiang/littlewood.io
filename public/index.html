@@ -31,6 +31,9 @@ body{overflow-x:hidden}
 .skip-link{position:fixed;left:16px;top:12px;z-index:100;background:var(--panel-solid);color:var(--chalk);border:1px solid var(--line);padding:8px 14px;border-radius:9px;transform:translateY(-160%);box-shadow:0 4px 18px rgba(0,0,0,.5);transition:transform .15s}
 .skip-link:focus{transform:none}
 
+.logo{position:absolute;left:max(24px,calc((100vw - 1120px) / 2 + 24px));top:26px;z-index:5;display:block;width:40px;height:40px;border-radius:9px;transition:transform .15s,filter .15s}
+.logo svg{display:block;width:100%;height:100%}
+.logo:hover,.logo:focus-visible{transform:translateY(-1px);filter:drop-shadow(0 0 10px rgba(255,217,102,.45))}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* 首屏：全屏点阵地形 + 一句话 */
@@ -55,14 +58,13 @@ a.card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border-rad
 a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(102,255,204,.55);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 24px rgba(102,255,204,.12)}
 .card svg.thumb{display:block;width:100%;height:auto;background:var(--panel-solid);border-bottom:1px solid var(--line)}
 .card .body{display:flex;flex-direction:column;align-items:flex-start;gap:10px;flex:1;padding:18px 20px 22px}
-.card .tag{display:inline-flex;align-items:center;color:var(--mint);border:1px solid rgba(102,255,204,.45);background:rgba(102,255,204,.08);border-radius:999px;font-weight:800;font-size:.74rem;padding:1px 10px;letter-spacing:.08em}
 .card h3{margin:0;font-size:1.15rem;line-height:1.5;font-weight:800;color:var(--heading);text-wrap:balance}
 .nowrap{white-space:nowrap}
 
 
 @media (max-width:960px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid a.card:first-child{grid-column:1/-1}}
 @media (max-width:640px){
-  body{font-size:15px}.hero{min-height:88vh;min-height:88svh}.hero-copy{padding:60px 16px 100px}
+  body{font-size:15px}.logo{left:16px;top:16px;width:36px;height:36px}.hero{min-height:88vh;min-height:88svh}.hero-copy{padding:60px 16px 100px}
   .hero h1{font-size:clamp(3rem,15.5vw,3.9rem)}
   .grid{grid-template-columns:1fr}#list{padding-inline:16px}
   .hero::before{background:linear-gradient(180deg,rgba(5,5,16,.5) 0%,rgba(5,5,16,.85) 42%,rgba(5,5,16,.35) 62%,transparent 80%)}
@@ -76,6 +78,7 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
 <main id="main-content">
   <section class="hero" aria-labelledby="site-title">
     <canvas id="field" aria-hidden="true"></canvas>
+    <a class="logo" href="./" aria-label="Littlewood"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg></a>
     <div class="hero-copy">
       <h1 id="site-title">Littlewood</h1>
       <p class="tagline">奇怪的答案，只是少画了一张图。</p>
@@ -107,7 +110,6 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
       <text x="308" y="145" font-size="12" fill="#66ffcc" text-anchor="end">全落在 Re(s) = ½ 上</text>
     </svg>
     <div class="body">
-      <span class="tag">3D 示意</span>
       <h3>黎曼猜想：所有零点都在一条线上吗？</h3>
     </div>
   </a>
@@ -141,7 +143,6 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
       <text x="160" y="171" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">高度没变，变的是“下”在哪</text>
     </svg>
     <div class="body">
-      <span class="tag">图解 02</span>
       <h3>在太空失重，还会恐高吗？</h3>
     </div>
   </a>
@@ -167,7 +168,6 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
       <text x="168" y="209" text-anchor="middle" font-size="12" fill="#e0e0ff">两板之间那条缝：只有约 1 kg 水</text>
     </svg>
     <div class="body">
-      <span class="tag">图解 01</span>
       <h3>为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？</h3>
     </div>
   </a>

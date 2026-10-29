@@ -29,7 +29,7 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=5">
 <link rel="stylesheet" href="./site.css?v=2">
-<link rel="stylesheet" href="./article.css?v=3">
+<link rel="stylesheet" href="./article.css?v=4">
 <style>
 body{line-height:1.85}
 /* 力箭头语义色（SVG 内直接写十六进制）：F原 橙 #e8590c、F新 紫 #6741d9、重力 绿 #2b8a3e、支持力 青 #0b7285、压强分布 蓝 #1c7ed6 */
@@ -63,7 +63,7 @@ body{line-height:1.85}
   <div class="wrap">
     <nav class="topbar" aria-label="站点">
       <a class="home" href="./"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>Littlewood</a>
-      <span class="series"><b>图解 01</b>流体静力学</span>
+      <span class="series">流体静力学</span>
     </nav>
     <h1>为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？</h1>
     <div class="conflict">
@@ -78,7 +78,7 @@ body{line-height:1.85}
 <main id="main-content">
 
 <section id="compare">
-  <h2><span class="num" aria-hidden="true">1</span>先看两组对比图：液体 vs 固体</h2>
+  <h2>先看两组对比图：液体 vs 固体</h2>
   <p>先不讲公式，看图。同样质量的一楔子<b style="color:#9ecbe8">水</b>和一块<b style="color:#cfd6dd">理想刚性固体</b>，同一个光滑斜面，同一块挡板。问题只有一个：插入新挡板<b>前后</b>，原挡板受的力怎么变？</p>
 
   <figure class="reveal">
@@ -179,7 +179,7 @@ body{line-height:1.85}
 </section>
 
 <section id="pressure">
-  <h2><span class="num" aria-hidden="true">2</span>插入新挡板，为什么原挡板受力不变？</h2>
+  <h2>插入新挡板，为什么原挡板受力不变？</h2>
   <h3 style="margin-top:0">先看只有一块挡板时，1000 吨力从哪来</h3>
   <p>斜面上装着一大楔子水，下坡端被原挡板拦住。斜面是光滑的，帮不上沿斜面方向的忙；侧壁也不沿斜面出力。所以整堆水「想沿斜面往下溜」的那部分重力，<b>只能全部由原挡板顶住</b>：</p>
   <div class="formula"><i>F</i><sub>原</sub> = <i>m</i> <i>g</i> sin<i>θ</i><span class="fnote">m 为全部液体的质量</span></div>
@@ -269,7 +269,7 @@ body{line-height:1.85}
 </section>
 
 <section>
-  <h2><span class="num" aria-hidden="true">3</span>只有 1 kg 水，巨大的力从哪里来？</h2>
+  <h2>只有 1 kg 水，巨大的力从哪里来？</h2>
   <p>把两板推到只差 1 mm，薄层水约 1 kg。原挡板仍给它约 1 000 000 kgf 的力；新挡板从反方向给它约 999 999 kgf。两者的差，才是这层水沿斜面的重力分量：</p>
   <div class="formula"><i>F</i><sub>原</sub> − <i>F</i><sub>新</sub> = <i>m</i><sub>薄层</sub><i>g</i> sin<i>θ</i></div>
 
@@ -297,7 +297,7 @@ body{line-height:1.85}
 </section>
 
 <section class="demo" id="lab">
-  <h2><span class="num" aria-hidden="true">☆</span>拖动挡板，换一种材料试试</h2>
+  <h2>拖动挡板，换一种材料试试</h2>
   <div class="card reveal">
     <fieldset>
       <legend>选择薄层材料</legend>
@@ -349,7 +349,7 @@ body{line-height:1.85}
 </section>
 
 <section id="solid">
-  <h2><span class="num" aria-hidden="true">4</span>为什么换成固体，答案就变了？</h2>
+  <h2>为什么换成固体，答案就变了？</h2>
   <div class="panels">
     <div class="card reveal">
       <h3 style="color:var(--water);margin-top:0">静止液体</h3>
@@ -364,7 +364,7 @@ body{line-height:1.85}
 </section>
 
 <section id="summary">
-  <h2><span class="num" aria-hidden="true">∑</span>最后只记住这两行</h2>
+  <h2>最后只记住这两行</h2>
   <div class="key reveal">
     <p><b>挡板上的力：</b>看相邻材料怎样传力，不是只看旁边有多少质量。</p>
     <p><b>静止的水：</b>压强只看竖直深度。因此薄层可以质量很小、两侧压力很大，而净力仍然很小。</p>
@@ -374,7 +374,7 @@ body{line-height:1.85}
 </main>
 
 <footer>
-  <a href="./">← Littlewood</a> · 文中数字均为「概念示例」，只为看清数量级；理想模型的假设见第 2 节。
+  <a href="./">← Littlewood</a> · 文中数字均为「概念示例」，只为看清数量级；理想模型的假设见「这个结论需要哪些理想条件」。
 </footer>
 
 <script src="./article.js?v=2"></script>
