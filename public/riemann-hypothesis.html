@@ -113,6 +113,13 @@
         #status button:hover { background: rgba(102, 255, 204, 0.2); }
         #status button:disabled { opacity: 0.5; cursor: default; }
         #status button:focus-visible { outline: 2px solid #ffd966; outline-offset: 2px; }
+        #status #cxToggle { margin-left: 8px; color: #ff8899; border-color: rgba(255, 85, 119, 0.45); background: rgba(255, 85, 119, 0.1); }
+        #status #cxToggle:hover { background: rgba(255, 85, 119, 0.2); }
+        #status.cx { white-space: normal; width: min(560px, calc(100% - 24px)); box-sizing: border-box; border-radius: 18px; text-align: center; }
+        #cxPanel { margin-top: 8px; }
+        #cxPanel label { color: #ff8899; margin-right: 6px; }
+        #cxPanel input { width: min(280px, 75%); vertical-align: middle; accent-color: #ff5577; pointer-events: auto; }
+        #cxPanel p { margin: 6px 0 0; font-size: 0.78rem; line-height: 1.5; opacity: 0.8; }
         @media (max-width: 480px) {
             #info { top: 12px; left: 12px; right: 12px; max-width: none; padding: 14px 18px; }
             #info h1 { font-size: 1.15rem; }
@@ -138,7 +145,14 @@
             地形是概念示例，不是真实的 |ζ(s)|：高度 ∝ 偏离临界线的距离，零点被“锁定”在谷底。
         </p>
     </div>
-    <div id="status" aria-live="polite"><span id="statusText">旋转视角观察 · 前 20 个零点全部落在 <i>临界线</i> 上</span><button id="addZero" type="button">＋ 加一个零点</button></div>
+    <div id="status">
+        <span id="statusText" aria-live="polite">旋转视角观察 · 前 20 个零点全部落在 <i>临界线</i> 上</span><button id="addZero" type="button">＋ 加一个零点</button><button id="cxToggle" type="button" aria-pressed="false">放一个反例</button>
+        <div id="cxPanel" hidden>
+            <label for="cxSigma">σ</label>
+            <input id="cxSigma" type="range" min="0.05" max="0.95" step="0.01" value="0.75" autocomplete="off">
+            <p>零点只要离开临界线，就一定关于它成对出现。图里这个高度其实早已验算过，没有反例；真要有，只能藏在 t &gt; 3×10¹² 的更高处。</p>
+        </div>
+    </div>
 
     <!-- Three.js r128 自托管（CSP 只允许 self） -->
     <script type="importmap">
@@ -203,6 +217,10 @@
         ];
         // 第 21–25 个，点“加一个零点”时依次落下（第 26 个 t≈92.5，超出图的范围）
         const moreZeros = [79.337375, 82.910381, 84.735493, 87.425275, 88.809111];
+
+        // 假想反例：放在 t=35（两个真零点之间），σ 由滑块控制；镜像在 1−σ
+        const CX_T = 35;
+        let cxOn = false, cxS = 0.75;
 
         // --- 复平面网格 (σ 从 -0.5 到 1.5, t 从 -10 到 90 左右) ---
         // 为了视觉效果，将 t 轴压缩到 -6 到 6 的视觉范围内（通过缩放）
@@ -334,6 +352,14 @@
                     const dipFactor = Math.exp(-minDistToZero * minDistToZero / 1.2);
                     height *= (1 - 0.85 * dipFactor); // 零点附近高度降低 85%
 
+                    // 假想反例：在 (σ, t) 和镜像 (1−σ, t) 各挖一个坑
+                    if (cxOn) {
+                        for (const s of [cxS, 1 - cxS]) {
+                            const d2 = ((sigma - s) / 0.06) ** 2 + ((t - CX_T) / 1.1) ** 2;
+                            height *= 1 - 0.95 * Math.exp(-d2);
+                        }
+                    }
+
                     // 添加一些细微的波动，让地形更自然
                     height += 0.08 * Math.sin(sigma * 12) * Math.cos(t * 0.5);
 
@@ -439,8 +465,9 @@
                 const p = Math.min((elapsed - falling.start) / DROP_TIME, 1);
                 falling.sphere.position.y = falling.sprite.position.y = DROP_HEIGHT * (1 - p * p);
                 if (p === 1) {
-                    landZero(falling.t);
+                    const t = falling.t;
                     falling = null;
+                    landZero(t);
                 }
             }
 
@@ -497,17 +524,102 @@
 
         function landZero(t) {
             zeroHeights.push(t);
+            refreshTerrain();
+            renderStatus();
+            layout();
+        }
+
+        function refreshTerrain() {
             updateTerrain();
             particleGeometry.attributes.position.needsUpdate = true;
             particleGeometry.attributes.color.needsUpdate = true;
-            if (moreZeros.length) {
+        }
+
+        // --- 互动：放一个假想反例 ---
+        const cxToggle = document.getElementById('cxToggle');
+        const cxPanel = document.getElementById('cxPanel');
+        const cxInput = document.getElementById('cxSigma');
+        const cxMat = new THREE.MeshStandardMaterial({
+            color: 0xff5577,
+            emissive: 0xff2244,
+            emissiveIntensity: 2.0,
+            roughness: 0.2,
+            metalness: 0.1
+        });
+        const cxGlow = createGlowTexture();
+        const cxGroup = new THREE.Group();
+        const cxPair = [0, 1].map(() => {
+            const sphere = new THREE.Mesh(sphereGeom, cxMat);
+            const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+                map: cxGlow,
+                color: 0xff5577,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            }));
+            sprite.scale.set(0.8, 0.8, 1);
+            cxGroup.add(sphere, sprite);
+            return { sphere, sprite };
+        });
+        // 连接这一对的细线，正好被临界线平分
+        const cxLine = new THREE.Line(
+            new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
+            new THREE.LineBasicMaterial({ color: 0xff5577, transparent: true, opacity: 0.6 })
+        );
+        cxGroup.add(cxLine);
+        cxGroup.visible = false;
+        scene.add(cxGroup);
+
+        function placeCx() {
+            const z = tToZ(CX_T);
+            [cxS, 1 - cxS].forEach((s, i) => {
+                cxPair[i].sphere.position.set(sigmaToX(s), 0, z);
+                cxPair[i].sprite.position.copy(cxPair[i].sphere.position);
+            });
+            const line = cxLine.geometry.attributes.position;
+            line.setXYZ(0, sigmaToX(cxS), 0, z);
+            line.setXYZ(1, sigmaToX(1 - cxS), 0, z);
+            line.needsUpdate = true;
+            // σ = 0.5 时两点重合，只剩一个
+            cxPair[1].sphere.visible = cxPair[1].sprite.visible = cxLine.visible = !onLine();
+        }
+
+        function onLine() {
+            return Math.abs(cxS - 0.5) < 0.005;
+        }
+
+        cxToggle.addEventListener('click', () => {
+            cxOn = !cxOn;
+            cxGroup.visible = cxOn;
+            refreshTerrain();
+            renderStatus();
+            layout();
+        });
+        cxInput.addEventListener('input', () => {
+            cxS = +cxInput.value;
+            placeCx();
+            refreshTerrain();
+            renderStatus();
+        });
+        cxS = +cxInput.value;
+        placeCx();
+
+        function renderStatus() {
+            if (cxOn) {
+                statusText.innerHTML = onLine()
+                    ? 'σ = 0.50：回到<i>临界线</i>上，只剩一个零点，不算反例'
+                    : `假想反例：σ = ${cxS.toFixed(2)}，它的镜像 σ = ${(1 - cxS).toFixed(2)}`;
+            } else if (moreZeros.length) {
                 statusText.innerHTML = `旋转视角观察 · 前 ${zeroHeights.length} 个零点全部落在 <i>临界线</i> 上`;
-                addButton.disabled = false;
             } else {
                 statusText.innerHTML = `图里只放得下 ${zeroHeights.length} 个 · 已算出的前 10 万亿个零点也全在 <i>临界线</i> 上，但还没人证明每一个都在`;
-                addButton.hidden = true;
             }
-            layout();
+            addButton.hidden = cxOn || !moreZeros.length;
+            addButton.disabled = !!falling;
+            cxPanel.hidden = !cxOn;
+            cxToggle.textContent = cxOn ? '收起反例' : '放一个反例';
+            cxToggle.setAttribute('aria-pressed', cxOn);
+            statusBar.classList.toggle('cx', cxOn);
         }
 
         animate();
