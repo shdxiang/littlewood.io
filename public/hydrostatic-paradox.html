@@ -294,7 +294,7 @@ function placeTags() {
 
 // --- 布局 / 循环 ---
 // 场景放进文字块和底栏之外的空白区（共用 scene.js）
-const layout = fitStage({ camera, renderer, controls, radius: 3.3 });
+fitStage({ camera, renderer, controls, radius: 3.3 });
 const clock = new THREE.Clock();
 let running = false, raf = 0;
 function frame() {

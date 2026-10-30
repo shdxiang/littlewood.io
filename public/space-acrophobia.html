@@ -327,7 +327,7 @@ $('viewBtn').addEventListener('click', () => {
 
 // --- 布局 / 循环 ---
 // 场景放进文字块和底栏之外的空白区（共用 scene.js）；第一人称时相机由镜头切换接管，不动它
-const layout = fitStage({ camera, renderer, controls, radius: 3.4, canMove: () => !firstPerson && blend === 0 });
+fitStage({ camera, renderer, controls, radius: 3.4, canMove: () => !firstPerson && blend === 0 });
 const clock = new THREE.Clock();
 let running = false, raf = 0;
 function frame() {

@@ -1,13 +1,8 @@
-/* 小木块 全站基础：深蓝黑底、毛玻璃面板、金/青强调、淡紫白文字。各页只写自己的部分。 */
+/* Littlewood 首页和 404 的基础：深蓝黑底、毛玻璃面板、金/青强调、淡紫白文字。3D 场景页用 scene.css。 */
 :root{
-  --board:#050510; --board-deep:#030308; --chalk:#e0e0ff; --chalk-muted:#b8c0e0; --chalk-dim:#8899cc;
+  --board:#050510; --board-deep:#030308; --chalk:#e0e0ff; --chalk-muted:#b8c0e0;
   --yellow:#ffd966; --mint:#66ffcc; --heading:#aaccff;
-  --chalk-line:rgba(120,140,255,.25);
-  --panel:rgba(8,8,20,.75); --panel-solid:#0b0b1e; --panel-2:rgba(120,140,255,.08);
-  --paper:var(--panel); --card:var(--panel); --ink:#e0e0ff; --muted:#b8c0e0; --line:rgba(120,140,255,.25);
-  --wood:#d9a05e; --wood-deep:#a86f32; --blue:#66ffcc; --red:#ff6b7a; --green:#5fd3a0;
-  --fig-paper:#f3f1ec;
-  --math:Georgia,"Times New Roman","Songti SC",SimSun,serif;
+  --panel:rgba(8,8,20,.75); --panel-solid:#0b0b1e; --line:rgba(120,140,255,.25);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -22,7 +17,7 @@ body{
   font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC",sans-serif;
   line-height:1.8;font-size:16px;
 }
-a{color:var(--blue)}
+a{color:var(--mint)}
 /* 毛玻璃面板：全站面板统一用它 */
 .glass{background:var(--panel);border:1px solid var(--line);border-radius:14px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 8px 32px rgba(0,0,0,.5)}
 :focus-visible{outline:2px solid var(--yellow);outline-offset:3px;border-radius:6px}

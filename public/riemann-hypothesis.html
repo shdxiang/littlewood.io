@@ -378,7 +378,7 @@
         const clock = new THREE.Clock();
 
         function animate() {
-            const delta = clock.getDelta();
+            clock.getDelta();   // 推进 elapsedTime，脉动和落点动画都读它
             const elapsed = clock.getElapsedTime();
 
             // 零点球体和光晕精灵脉动
