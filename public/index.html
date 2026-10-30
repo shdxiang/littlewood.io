@@ -31,7 +31,7 @@ body{overflow-x:hidden}
 .skip-link{position:fixed;left:16px;top:12px;z-index:100;background:var(--panel-solid);color:var(--chalk);border:1px solid var(--line);padding:8px 14px;border-radius:9px;transform:translateY(-160%);box-shadow:0 4px 18px rgba(0,0,0,.5);transition:transform .15s}
 .skip-link:focus{transform:none}
 
-.brand{position:absolute;left:max(24px,calc((100vw - 1120px) / 2 + 24px));top:24px;z-index:5;display:inline-flex;align-items:center;gap:10px;color:var(--chalk-muted);text-decoration:none;font-weight:700;letter-spacing:.08em;transition:color .15s}
+.brand{position:absolute;left:max(24px,calc((100vw - 1120px) / 2 + 24px));top:24px;z-index:5;display:inline-flex;align-items:center;gap:10px;color:var(--chalk-muted);text-decoration:none;font-size:.95rem;font-weight:700;letter-spacing:.08em;transition:color .15s}
 .brand svg{width:34px;height:34px;flex:none}
 .brand:hover,.brand:focus-visible{color:var(--yellow)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -42,7 +42,7 @@ body{overflow-x:hidden}
 .hero::after{content:"";position:absolute;inset:auto 0 0;height:200px;background:linear-gradient(transparent,var(--board));pointer-events:none}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(5,5,16,.9) 0%,rgba(5,5,16,.55) 34%,transparent 58%);pointer-events:none}
 .hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:80px 24px 100px}
-.hero h1{margin:0;font-weight:800;font-size:clamp(2.3rem,6.2vw,4.9rem);line-height:1.2;letter-spacing:.02em;color:var(--heading);background:linear-gradient(120deg,#e0e0ff 0%,#aaccff 48%,#66ffcc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
+.hero h1{margin:0;font-weight:800;font-size:clamp(2.4rem,5.6vw,4.5rem);line-height:1.18;letter-spacing:.02em;color:var(--heading);background:linear-gradient(120deg,#e0e0ff 0%,#aaccff 48%,#66ffcc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .js .hero-copy>*{animation:up .8s cubic-bezier(.2,.75,.2,1) backwards}
 .js .hero-copy>*:nth-child(2){animation-delay:.1s}
@@ -53,8 +53,8 @@ body{overflow-x:hidden}
 a.card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border-radius:16px;color:var(--chalk);text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s}
 a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(102,255,204,.55);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 24px rgba(102,255,204,.12)}
 .card svg.thumb{display:block;width:100%;height:auto;background:var(--panel-solid);border-bottom:1px solid var(--line)}
-.card .body{display:flex;flex-direction:column;align-items:flex-start;gap:10px;flex:1;padding:18px 20px 22px}
-.card h3{margin:0;font-size:1.15rem;line-height:1.5;font-weight:800;color:var(--heading);text-wrap:balance}
+.card .body{display:flex;flex-direction:column;align-items:flex-start;gap:10px;flex:1;padding:20px 22px 24px}
+.card h3{margin:0;font-size:1.3rem;line-height:1.5;font-weight:800;color:var(--heading);text-wrap:balance}
 .nowrap{white-space:nowrap}
 
 
@@ -63,12 +63,12 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
   a.card{flex-direction:row;align-items:stretch}
   .card svg.thumb{width:44%;max-width:360px;height:auto;align-self:center;border-bottom:0;border-right:1px solid var(--line)}
   .card .body{justify-content:center;padding:20px 24px}
-  .card h3{font-size:1.25rem}
+  .card h3{font-size:1.35rem}
 }
 @media (max-width:640px){
   body{font-size:15px}.brand{left:16px;top:16px}.brand svg{width:30px;height:30px}.hero{min-height:clamp(520px,82vh,760px);min-height:clamp(520px,82svh,760px)}.hero-copy{padding:60px 16px 90px}
-  .hero h1{font-size:clamp(1.9rem,8.6vw,2.4rem)}
-  a.card{flex-direction:column}.card svg.thumb{width:100%;max-width:none;border-right:0;border-bottom:1px solid var(--line)}.card .body{padding:18px 20px 22px}.card h3{font-size:1.15rem}#list{padding-inline:16px}
+  .hero h1{font-size:clamp(2.1rem,9.2vw,2.6rem)}
+  a.card{flex-direction:column}.card svg.thumb{width:100%;max-width:none;border-right:0;border-bottom:1px solid var(--line)}.card .body{padding:18px 20px 22px}.card h3{font-size:1.2rem}#list{padding-inline:16px}
   .hero::before{background:linear-gradient(180deg,rgba(5,5,16,.5) 0%,rgba(5,5,16,.85) 42%,rgba(5,5,16,.35) 62%,transparent 80%)}
 }
 </style>
