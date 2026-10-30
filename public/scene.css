@@ -1,29 +1,29 @@
 /* 全屏 three.js 示意页共用样式（黎曼、太空恐高、流体静力学）。
-   结构：两栏。左边 .panel 是实底的文字面板：顶栏、问题、答案、操作、读数、为什么、注。右边 .stage 只放场景，什么都不盖。
-   手机上改成三行：顶栏、场景（固定在上面）、面板（在下面滚动）。页面自己的按钮配色和场景内标签写在页内 <style>。 */
-:root{--line:rgba(120,140,255,.25);--panel-w:420px}
+   结构：三行，所有尺寸一样。顶栏；.stage 场景固定在上面（约 56% 视口高，手机 44%）；.panel 是实底的文字面板，在下面滚动：
+   问题、答案、操作、读数、为什么、注。场景上什么都不盖。面板内容居中在 848px（和顶栏同宽）。页面自己的按钮配色和场景内标签写在页内 <style>。 */
+:root{--line:rgba(120,140,255,.25);--col:848px}
 html,body{height:100%}
 body{margin:0;overflow:hidden;background:#050510;color:#e0e0ff;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC",sans-serif;line-height:1.7;
-  display:grid;grid-template-columns:var(--panel-w) 1fr;grid-template-rows:auto 1fr;height:100vh;height:100svh}
-.topbar{grid-column:1;grid-row:1;display:flex;align-items:center;justify-content:space-between;gap:10px 16px;padding:22px 28px 14px;border-bottom:1px solid var(--line)}
+  display:grid;grid-template-rows:auto minmax(0,56svh) minmax(0,1fr);height:100vh;height:100svh}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;width:min(100% - 32px,var(--col));margin:0 auto;padding:22px 0 12px;border-bottom:1px solid var(--line)}
 .topbar .home{display:inline-flex;align-items:center;gap:10px;color:#b8c0e0;text-decoration:none;font-weight:700;font-size:1rem;letter-spacing:.08em;transition:color .15s}
 .topbar .home svg{width:30px;height:auto;flex:none}
 .topbar .home:hover,.topbar .home:focus-visible{color:#ffd966}
 .topbar .series{color:#8899cc;font-size:.92rem;letter-spacing:.06em}
-.panel{grid-column:1;grid-row:2;overflow:auto;overscroll-behavior:contain;padding:22px 28px 30px;border-right:1px solid var(--line);display:flex;flex-direction:column;scrollbar-width:thin;scrollbar-color:rgba(120,140,255,.3) transparent}
-.stage{grid-column:2;grid-row:1/3;position:relative;overflow:hidden;background:#050510}
+.stage{grid-row:2;position:relative;overflow:hidden;background:#050510;border-bottom:1px solid var(--line)}
 .stage canvas{position:absolute;inset:0;display:block;touch-action:none}
+.panel{grid-row:3;overflow:auto;overscroll-behavior:contain;padding:22px max(16px,calc((100% - var(--col)) / 2)) 36px;scrollbar-width:thin;scrollbar-color:rgba(120,140,255,.3) transparent}
 
 /* 文字 */
-.panel h1{margin:0 0 12px;font-size:1.45rem;font-weight:800;line-height:1.4;color:#ffd966;text-wrap:balance}
-.panel p{margin:0 0 10px;font-size:.95rem;color:#b8c0e0}
+.panel h1{margin:0 0 12px;font-size:1.55rem;font-weight:800;line-height:1.4;color:#ffd966;text-wrap:balance}
+.panel p{margin:0 0 10px;font-size:1rem;color:#b8c0e0;max-width:40em}
 .panel .answer{color:#e0e0ff;font-weight:600}
 .panel .highlight{color:#ffd966;font-weight:500}
 .panel .critical{color:#66ffcc;font-weight:500}
 .nowrap{white-space:nowrap}
 
 /* 操作：一行两个按钮，下面一行滑块 */
-.controls{margin-top:16px;display:grid;gap:10px}
+.controls{margin-top:18px;display:grid;gap:10px;max-width:560px}
 .controls .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .controls button{margin:0;padding:9px 12px;border-radius:999px;border:1px solid rgba(192,140,255,.45);background:rgba(192,140,255,.1);color:#cfa8ff;font:inherit;font-weight:700;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
 .controls button:hover{background:rgba(192,140,255,.2)}
@@ -39,26 +39,24 @@ body{margin:0;overflow:hidden;background:#050510;color:#e0e0ff;font-family:'Sego
 .controls .ctl output{color:#ffd966;white-space:nowrap;min-width:5.5em;text-align:right}
 
 /* 读数：一行数字，一句观察 */
-.readout{margin-top:12px;padding:12px 14px;border-radius:12px;background:rgba(120,140,255,.08);border:1px solid var(--line)}
+.readout{margin-top:14px;max-width:560px;padding:12px 14px;border-radius:12px;background:rgba(120,140,255,.08);border:1px solid var(--line)}
 .readout .nums{font-size:.95rem;font-weight:700;color:#e0e0ff;display:flex;flex-wrap:wrap;gap:4px 14px}
 .readout .nums i{font-style:normal;color:#66ffcc}
 .readout .insight{margin:6px 0 0;font-size:.9rem;line-height:1.6;color:#b8c0e0}
 .readout .insight:only-child{margin:0}
 
 /* 为什么 + 注 */
-.panel details{margin-top:18px}
+.panel details{margin-top:20px}
 .panel summary{cursor:pointer;color:#66ffcc;font-size:.95rem;font-weight:700;list-style-position:inside}
 .panel details p{margin:8px 0 0;font-size:.9rem;color:#b8c0e0}
-.panel .legend{margin:auto 0 0;padding-top:22px;font-size:.8rem;line-height:1.65;color:#8899cc}
+.panel .legend{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:.8rem;line-height:1.65;color:#8899cc}
 .panel .legend p{margin:0 0 4px;font-size:inherit;color:inherit}
 
-@media (min-width:1600px){:root{--panel-w:480px}}
-/* 手机 / 竖屏：顶栏，场景固定在上，面板在下滚动 */
-@media (max-width:700px),(orientation:portrait) and (max-width:900px){
-  body{grid-template-columns:1fr;grid-template-rows:auto minmax(0,44svh) minmax(0,1fr)}
-  .topbar{grid-column:1;grid-row:1;padding:14px 16px 10px}
-  .stage{grid-column:1;grid-row:2;border-bottom:1px solid var(--line)}
-  .panel{grid-column:1;grid-row:3;border-right:0;padding:18px 16px 28px}
+/* 手机：场景矮一点，给文字留地方 */
+@media (max-width:700px){
+  body{grid-template-rows:auto minmax(0,44svh) minmax(0,1fr)}
+  .topbar{padding:14px 0 10px}
+  .panel{padding-top:18px;padding-bottom:28px}
   .panel h1{font-size:1.3rem}
 }
 @media (max-height:500px) and (orientation:landscape){
