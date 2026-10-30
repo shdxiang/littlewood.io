@@ -21,7 +21,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=5">
     <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
     <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=5">
-    <link rel="stylesheet" href="./scene.css?v=1">
+    <link rel="stylesheet" href="./scene.css?v=2">
     <style>
         /* 本页：反例按钮和面板 */
         #status #cxToggle { color: #ff8899; border-color: rgba(255, 85, 119, 0.45); background: rgba(255, 85, 119, 0.1); }
@@ -73,6 +73,7 @@
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { fitScene } from './scene.js?v=1';
 
         // --- 初始化场景、相机、渲染器 ---
         const scene = new THREE.Scene();
@@ -404,36 +405,8 @@
             requestAnimationFrame(animate);
         }
 
-        // --- 窗口自适应：场景居中放进信息框和底栏之外的空白区，空白区太窄时相机后退 ---
-        const BASE_DIST = camera.position.length();
-        const infoBox = document.getElementById('info');
-        const statusBar = document.getElementById('status');
-        let fitDist = BASE_DIST;
-
-        function layout() {
-            const W = window.innerWidth, H = window.innerHeight;
-            const r = infoBox.getBoundingClientRect(), s = statusBar.getBoundingClientRect();
-            const below = { x: 0, y: r.bottom, w: W, h: s.top - r.bottom };
-            const right = { x: r.right, y: 0, w: W - r.right, h: s.top };
-            const a = below.w * below.h >= right.w * right.h ? below : right;
-
-            renderer.setSize(W, H);
-            camera.aspect = W / H;
-            camera.setViewOffset(W, H, W / 2 - (a.x + a.w / 2), H / 2 - (a.y + a.h / 2), W, H);
-
-            // 场景投影约 17×9 个单位宽高（含旋转余量）；空白区按至少 40% 屏幕算，避免极端尺寸下相机退太远
-            const tanHalf = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-            const d = Math.max(BASE_DIST,
-                8.5 * H / (Math.max(a.w, W * 0.4) * tanHalf),
-                4.5 * H / (Math.max(a.h, H * 0.4) * tanHalf));
-            // 按比例缩放，保留用户自己的缩放
-            camera.position.sub(controls.target).multiplyScalar(d / fitDist).add(controls.target);
-            fitDist = d;
-            controls.maxDistance = Math.max(40, d * 1.6);
-        }
-
-        layout();
-        window.addEventListener('resize', layout);
+        // --- 窗口自适应：场景放进文字块和底栏之外的空白区（共用 scene.js）---
+        const layout = fitScene({ camera, renderer, controls, extent: [8.5, 4.5], minFrac: 0.4 });
 
         // --- 互动：加一个零点 ---
         const DROP_HEIGHT = 4, DROP_TIME = reduceMotion ? 0.01 : 0.9;

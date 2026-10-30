@@ -9,7 +9,7 @@ canvas{display:block}
 .topbar .home:hover,.topbar .home:focus-visible{color:#ffd966}
 .topbar .series{color:#8899cc;font-size:.92rem;letter-spacing:.06em}
 
-/* 场景上方的遮罩：左上角压暗，场景转到文字底下时也读得清 */
+/* 场景上方的遮罩：桌面压暗左上角，手机压暗下半（文字贴在底栏上方），背景的星空和网格不抢文字 */
 #scrim{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse 48% 60% at 16% 22%,rgba(5,5,16,.92),rgba(5,5,16,.55) 55%,transparent 100%),linear-gradient(180deg,rgba(5,5,16,.7),transparent 30%)}
 
 /* 标题区：不加框，与图解页标题同一套写法 */
@@ -41,10 +41,11 @@ canvas{display:block}
 
 @media (max-width:480px){
   .topbar{top:34px;left:12px;right:12px}
-  #info{top:96px;left:12px;right:12px;max-width:none}
+  /* 手机：场景在上，文字块贴在底栏上方；底栏高度由 scene.js 写进 --status-h */
+  #info{top:auto;bottom:calc(var(--status-h,130px) + 18px);left:12px;right:12px;max-width:none}
   #info p{font-size:.9rem}
   #info .legend{font-size:.78rem}
-  #scrim{background:linear-gradient(180deg,rgba(5,5,16,.9) 0%,rgba(5,5,16,.75) 38%,transparent 58%)}
+  #scrim{background:linear-gradient(0deg,rgba(5,5,16,.94) 0%,rgba(5,5,16,.82) 42%,transparent 62%)}
   #status{bottom:12px;padding:10px 14px 12px;width:calc(100% - 24px);border-radius:18px}
   #status #statusText{flex-basis:100%;font-size:.8rem}
   #status button{flex:1 1 0;padding:6px 8px}

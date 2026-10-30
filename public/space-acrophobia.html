@@ -28,7 +28,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=5">
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=5">
-<link rel="stylesheet" href="./scene.css?v=1">
+<link rel="stylesheet" href="./scene.css?v=2">
 <style>
 /* 本页：恐惧读数用报警橙，“下”用红 */
 #status .fear{color:#ff7a2f;font-weight:700;white-space:nowrap}
@@ -72,6 +72,7 @@
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { fitScene } from './scene.js?v=1';
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = id => document.getElementById(id);
@@ -298,11 +299,8 @@ $('viewBtn').addEventListener('click', () => {
 });
 
 // --- 布局 / 循环 ---
-function layout() {
-  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
-}
-addEventListener('resize', layout);
+// 场景放进文字块和底栏之外的空白区（共用 scene.js）；第一人称时相机由镜头切换接管，不动它
+const layout = fitScene({ camera, renderer, controls, radius: 4.2, canMove: () => !firstPerson && blend === 0 });
 const clock = new THREE.Clock();
 let running = false, raf = 0;
 function frame() {
@@ -332,7 +330,7 @@ function frame() {
 function start() { if (running) return; running = true; clock.getDelta(); if (!raf) raf = requestAnimationFrame(frame); }
 function stop() { running = false; }
 document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
-renderStatus(); layout(); start();
+renderStatus(); start();
 </script>
 </body>
 </html>
