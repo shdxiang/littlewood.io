@@ -37,19 +37,19 @@ body{overflow-x:hidden}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* 首屏：全屏点阵地形 + 一句话 */
-.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+.hero{position:relative;min-height:clamp(540px,84vh,860px);min-height:clamp(540px,84svh,860px);display:flex;align-items:center;overflow:hidden}
 #field{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero::after{content:"";position:absolute;inset:auto 0 0;height:200px;background:linear-gradient(transparent,var(--board));pointer-events:none}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(5,5,16,.9) 0%,rgba(5,5,16,.55) 34%,transparent 58%);pointer-events:none}
-.hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:80px 24px 120px}
+.hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:80px 24px 100px}
 .hero h1{margin:0;font-weight:800;font-size:clamp(2.3rem,6.2vw,4.9rem);line-height:1.2;letter-spacing:.02em;color:var(--heading);background:linear-gradient(120deg,#e0e0ff 0%,#aaccff 48%,#66ffcc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .js .hero-copy>*{animation:up .8s cubic-bezier(.2,.75,.2,1) backwards}
 .js .hero-copy>*:nth-child(2){animation-delay:.1s}
 
 /* 图解列表 */
-#list{max-width:1120px;margin:0 auto;padding:10px 24px 110px;scroll-margin-top:24px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+#list{max-width:1120px;margin:0 auto;padding:0 24px 96px;scroll-margin-top:24px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 a.card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border-radius:16px;color:var(--chalk);text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s}
 a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(102,255,204,.55);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 24px rgba(102,255,204,.12)}
 .card svg.thumb{display:block;width:100%;height:auto;background:var(--panel-solid);border-bottom:1px solid var(--line)}
@@ -58,11 +58,17 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
 .nowrap{white-space:nowrap}
 
 
-@media (max-width:960px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid a.card:first-child{grid-column:1/-1}}
+@media (max-width:960px){
+  .grid{grid-template-columns:1fr;gap:16px}
+  a.card{flex-direction:row;align-items:stretch}
+  .card svg.thumb{width:44%;max-width:360px;height:auto;align-self:center;border-bottom:0;border-right:1px solid var(--line)}
+  .card .body{justify-content:center;padding:20px 24px}
+  .card h3{font-size:1.25rem}
+}
 @media (max-width:640px){
-  body{font-size:15px}.brand{left:16px;top:16px}.brand svg{width:30px;height:30px}.hero{min-height:88vh;min-height:88svh}.hero-copy{padding:60px 16px 100px}
+  body{font-size:15px}.brand{left:16px;top:16px}.brand svg{width:30px;height:30px}.hero{min-height:clamp(520px,82vh,760px);min-height:clamp(520px,82svh,760px)}.hero-copy{padding:60px 16px 90px}
   .hero h1{font-size:clamp(1.9rem,8.6vw,2.4rem)}
-  .grid{grid-template-columns:1fr}#list{padding-inline:16px}
+  a.card{flex-direction:column}.card svg.thumb{width:100%;max-width:none;border-right:0;border-bottom:1px solid var(--line)}.card .body{padding:18px 20px 22px}.card h3{font-size:1.15rem}#list{padding-inline:16px}
   .hero::before{background:linear-gradient(180deg,rgba(5,5,16,.5) 0%,rgba(5,5,16,.85) 42%,rgba(5,5,16,.35) 62%,transparent 80%)}
 }
 </style>
@@ -104,7 +110,7 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
       <text x="308" y="145" font-size="12" fill="#66ffcc" text-anchor="end">全落在 Re(s) = ½ 上</text>
     </svg>
     <div class="body">
-      <h3>黎曼猜想：所有零点都在一条线上吗？</h3>
+      <h3>黎曼猜想：<span class="nowrap">所有零点</span>都在一条线上吗？</h3>
     </div>
   </a>
 
@@ -162,7 +168,7 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
       <text x="168" y="209" text-anchor="middle" font-size="12" fill="#e0e0ff">两板之间那条缝：只有约 1 kg 水</text>
     </svg>
     <div class="body">
-      <h3>为什么 1 千克的薄层水，仍可能让挡板承受 1000 吨力？</h3>
+      <h3>为什么 <span class="nowrap">1 千克</span>的薄层水，仍可能让挡板承受 <span class="nowrap">1000 吨力</span>？</h3>
     </div>
   </a>
 
