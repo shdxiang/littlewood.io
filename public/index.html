@@ -37,11 +37,11 @@ body{overflow-x:hidden}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* 首屏：全屏点阵地形 + 一句话 */
-.hero{position:relative;min-height:clamp(540px,84vh,860px);min-height:clamp(540px,84svh,860px);display:flex;align-items:center;overflow:hidden}
+.hero{position:relative;min-height:max(540px,84vh);min-height:max(540px,84svh);display:flex;align-items:center;overflow:hidden}
 #field{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero::after{content:"";position:absolute;inset:auto 0 0;height:200px;background:linear-gradient(transparent,var(--board));pointer-events:none}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(5,5,16,.9) 0%,rgba(5,5,16,.55) 34%,transparent 58%);pointer-events:none}
-.hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:80px 24px 100px}
+.hero-copy{position:relative;z-index:2;width:100%;max-width:1120px;margin:0 auto;padding:80px 24px calc(100px + 12vh)}
 .hero h1{margin:0;font-weight:800;font-size:clamp(2.4rem,5.6vw,4.5rem);line-height:1.18;letter-spacing:.02em;color:var(--heading);background:linear-gradient(120deg,#e0e0ff 0%,#aaccff 48%,#66ffcc 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .js .hero-copy>*{animation:up .8s cubic-bezier(.2,.75,.2,1) backwards}
@@ -58,6 +58,14 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
 .nowrap{white-space:nowrap}
 
 
+/* 大屏：内容列放宽，标语和卡片跟着放大 */
+@media (min-width:1600px){
+  .hero-copy,#list{max-width:1280px}
+  .brand{left:max(24px,calc((100vw - 1280px) / 2 + 24px))}
+  .hero h1{font-size:clamp(2.4rem,5.6vw,5.2rem)}
+  .grid{gap:24px}
+  .card h3{font-size:1.4rem}
+}
 @media (max-width:960px){
   .grid{grid-template-columns:1fr;gap:16px}
   a.card{flex-direction:row;align-items:stretch}
