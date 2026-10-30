@@ -48,12 +48,12 @@ body{overflow-x:hidden}
 .js .hero-copy>*:nth-child(2){animation-delay:.1s}
 
 /* 图解列表 */
-#list{max-width:1120px;margin:0 auto;padding:4px 24px 88px;scroll-margin-top:24px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+#list{max-width:1120px;margin:0 auto;padding:28px 24px 104px;scroll-margin-top:24px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
 a.card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border-radius:16px;color:var(--chalk);text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s}
 a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(102,255,204,.55);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 24px rgba(102,255,204,.12)}
 .card svg.thumb{display:block;width:100%;height:auto;background:var(--panel-solid);border-bottom:1px solid var(--line)}
-.card .body{display:flex;flex-direction:column;align-items:flex-start;gap:10px;flex:1;padding:20px 22px 24px}
+.card .body{display:flex;flex-direction:column;align-items:flex-start;gap:10px;flex:1;padding:22px 24px 26px}
 .card h3{margin:0;font-size:1.3rem;line-height:1.5;font-weight:800;color:var(--heading);text-wrap:balance}
 .nowrap{white-space:nowrap}
 
@@ -63,7 +63,8 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
   .hero-copy,#list{max-width:1280px}
   .brand{left:max(24px,calc((100vw - 1280px) / 2 + 24px))}
   .hero h1{font-size:clamp(2.2rem,4.8vw,4.4rem)}
-  .grid{gap:24px}
+  .grid{gap:28px}
+  #list{padding-top:36px}
   .card h3{font-size:1.4rem}
 }
 @media (max-width:960px){
@@ -74,9 +75,9 @@ a.card:hover,a.card:focus-visible{transform:translateY(-4px);border-color:rgba(1
   .card h3{font-size:1.35rem}
 }
 @media (max-width:640px){
-  body{font-size:15px}.brand{left:16px;top:16px}.brand svg{width:30px;height:30px}.hero{min-height:clamp(440px,60vh,600px);min-height:clamp(440px,60svh,600px);align-items:flex-start}.hero-copy{padding:76px 16px 0}
+  body{font-size:15px}.brand{left:16px;top:16px}.brand svg{width:30px;height:30px}.hero{min-height:clamp(440px,60vh,600px);min-height:clamp(440px,60svh,600px);align-items:flex-start}.hero-copy{padding:72px 16px 0}
   .hero h1{font-size:clamp(2.1rem,9.2vw,2.6rem)}
-  a.card{flex-direction:column}.card svg.thumb{width:100%;max-width:none;border-right:0;border-bottom:1px solid var(--line)}.card .body{padding:18px 20px 22px}.card h3{font-size:1.2rem}#list{padding-inline:16px}
+  a.card{flex-direction:column}.card svg.thumb{width:100%;max-width:none;border-right:0;border-bottom:1px solid var(--line)}.card .body{padding:18px 20px 22px}.card h3{font-size:1.2rem}#list{padding:20px 16px 72px}.grid{gap:16px}
   .hero::before{background:linear-gradient(180deg,rgba(5,5,16,.5) 0%,rgba(5,5,16,.85) 42%,rgba(5,5,16,.35) 62%,transparent 80%)}
 }
 </style>
