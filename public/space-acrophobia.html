@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>在太空失重，还会恐高吗？ · Littlewood</title>
-<meta name="description" content="空间站离地 400 公里，舱内没人恐高；出舱面朝地球，有人却确信自己正在掉下去，转个身又不怕了。用几张图看懂：恐高怕的不是高度，而是大脑认定的“下”在哪边。">
+<meta name="description" content="空间站离地 400 公里，舱内没人恐高；出舱面朝地球，有人却确信自己正在掉下去，转个身又不怕了。一个可以转身、可以切到航天员眼中的 3D 场景：恐高怕的不是高度，是大脑认定的“下”在哪边。">
 <link rel="canonical" href="https://littlewood.io/space-acrophobia">
 <meta name="theme-color" content="#050510">
 <meta property="og:type" content="article">
@@ -18,7 +18,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="航天员抓着空间站扶手，脚下是地球，一支红色箭头标出大脑认定的“下”">
 <meta property="article:published_time" content="2026-09-07">
-<meta property="article:modified_time" content="2026-09-07">
+<meta property="article:modified_time" content="2026-10-30">
 <meta property="article:section" content="感知与参照系">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="在太空失重，还会恐高吗？">
@@ -28,399 +28,311 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=5">
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=5">
-<link rel="stylesheet" href="./site.css?v=2">
-<link rel="stylesheet" href="./article.css?v=5">
+<link rel="stylesheet" href="./scene.css?v=1">
 <style>
-body{line-height:1.85}
-/* 本篇语义色（SVG 内直接写十六进制）：真实重力 绿 #2b8a3e、前庭信号 青 #0b7285、视觉线索 蓝 #1c7ed6、大脑认定的“下” 红 #c9342a、恐惧/报警 橙 #e8590c */
-:root{--grav:#3fcf6a;--vest:#22c3dd;--vis:#4dabf7;--down:#ff6b6b;--fear:#ff7a2f}
-.mbtn.active[data-gaze="earth"]{background:var(--vis);border-color:var(--vis);color:#fff;box-shadow:0 3px 0 #155fa3}
-.mbtn.active[data-gaze="rail"]{background:#5b6472;border-color:#5b6472;color:#fff;box-shadow:0 3px 0 #454c55}
-.ro.vest .val{color:var(--vest)} .ro.vis .val{color:var(--down)} .ro.fear .val{color:var(--fear)}
-.barrow .tag{width:4.6em;color:var(--fear)}
-.bfill{background:var(--fear)}
+/* 本页：恐惧读数用报警橙，“下”用红 */
+#status .fear{color:#ff7a2f;font-weight:700;white-space:nowrap}
+#info .down{color:#ff6b6b;font-weight:600}
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"在太空失重，还会恐高吗？","inLanguage":"zh-CN","datePublished":"2026-09-07","dateModified":"2026-10-30","author":{"@type":"Organization","name":"Littlewood"},"publisher":{"@type":"Organization","name":"Littlewood"},"mainEntityOfPage":"https://littlewood.io/space-acrophobia","image":"https://littlewood.io/og-space-acrophobia.png"}
+</script>
 </head>
 <body>
-<script>document.documentElement.className+=" js";</script>
-<a class="skip-link" href="#main-content">跳到正文</a>
-
-<!-- 全局箭头标记 + 航天员符号 -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <marker id="mGrav" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3fcf6a"/></marker>
-    <marker id="mVest" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#22c3dd"/></marker>
-    <marker id="mVis" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4dabf7"/></marker>
-    <marker id="mDown" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ff6b6b"/></marker>
-    <marker id="mFear" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ff7a2f"/></marker>
-    <marker id="mGrey" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#a3acbd"/></marker>
-    <!-- 航天员：双手在原点，脚朝 +y -->
-    <g id="astro">
-      <path d="M-10,0 L-12,24 M10,0 L12,24" stroke="#e9e6dd" stroke-width="5" stroke-linecap="round"/>
-      <circle cx="0" cy="32" r="13" fill="#e9e6dd" stroke="#a3acbd" stroke-width="2"/>
-      <path d="M-7,30 a7,6 0 0 1 14,0 v5 h-14 z" fill="#e0e0ff"/>
-      <rect x="-13" y="46" width="26" height="36" rx="7" fill="#e9e6dd" stroke="#a3acbd" stroke-width="2"/>
-      <path d="M-7,82 L-9,110 M7,82 L9,110" stroke="#e9e6dd" stroke-width="7" stroke-linecap="round"/>
-      <path d="M-14,110 h10 M4,110 h10" stroke="#a3acbd" stroke-width="4" stroke-linecap="round"/>
-    </g>
-    <!-- 站立的人：手臂下垂 -->
-    <g id="astro-stand">
-      <circle cx="0" cy="32" r="13" fill="#e9e6dd" stroke="#a3acbd" stroke-width="2"/>
-      <path d="M-7,30 a7,6 0 0 1 14,0 v5 h-14 z" fill="#e0e0ff"/>
-      <rect x="-13" y="46" width="26" height="36" rx="7" fill="#e9e6dd" stroke="#a3acbd" stroke-width="2"/>
-      <path d="M-13,52 L-19,84 M13,52 L19,84" stroke="#e9e6dd" stroke-width="5" stroke-linecap="round"/>
-      <path d="M-7,82 L-9,110 M7,82 L9,110" stroke="#e9e6dd" stroke-width="7" stroke-linecap="round"/>
-      <path d="M-14,110 h10 M4,110 h10" stroke="#a3acbd" stroke-width="4" stroke-linecap="round"/>
-    </g>
-  </defs>
-</svg>
-
-<header class="hero">
-  <div class="wrap">
-    <nav class="topbar" aria-label="站点">
-      <a class="home" href="./"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>Littlewood</a>
-      <span class="series">感知与参照系</span>
-    </nav>
-    <h1>在太空失重，还会恐高吗？</h1>
-    <div class="conflict">
-      <p>空间站离地约 <b>400 km</b>，比任何悬崖都高上千倍。</p>
-      <p>舱内的航天员飘在窗边看地球，一点也不怕。</p>
-      <p class="q">猜猜：出舱之后，面朝地球“挂”在站外，会怕吗？</p>
-      <p class="a">答案：会。有人确信自己正在掉下去。转个身，就不怕了。</p>
-    </div>
-  </div>
-</header>
-
-<main id="main-content">
-
-<section id="compare">
-  <h2>先看两组对比图：舱内 vs 出舱</h2>
-  <p>同一位航天员，同一个高度。区别只有一个：眼睛看到的“下面”是什么。</p>
-
-  <figure class="reveal">
-    <div class="figbox">
-      <div class="panels">
-        <div>
-          <div class="panel-title" style="color:#aab4c0">图A · 舱内</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="舱内：四面都是舱壁，没有哪一面像深渊，大脑找不到“下”，不恐高">
-            <rect x="18" y="18" width="284" height="224" rx="14" fill="#0d0d24" stroke="#a3acbd" stroke-width="2.5"/>
-            <g stroke="#2c2c48" stroke-width="1.5">
-              <line x1="18" y1="74" x2="302" y2="74"/><line x1="18" y1="186" x2="302" y2="186"/>
-              <line x1="92" y1="18" x2="92" y2="242"/><line x1="228" y1="18" x2="228" y2="242"/>
-            </g>
-            <circle cx="256" cy="46" r="18" fill="#1d2a46" stroke="#a3acbd" stroke-width="2"/>
-            <path d="M240,54 a18,18 0 0 0 32,0 z" fill="#4c8fd8"/>
-            <text x="256" y="90" font-size="10" fill="#b8c0e0" text-anchor="middle">窗外：一小片地球</text>
-            <g transform="translate(150,70) rotate(-35)"><use href="#astro"/></g>
-            <circle cx="258" cy="190" r="30" fill="none" stroke="#a3acbd" stroke-width="2" stroke-dasharray="4 4"/>
-            <text x="258" y="195" font-size="15" font-weight="700" fill="#a3acbd" text-anchor="middle">下 = ？</text>
-            <text x="34" y="226" font-size="12" fill="#e0e0ff">四面都是墙，没有一面像深渊</text>
-            <text x="34" y="44" font-size="12" font-weight="700" fill="#3fcf6a">恐惧：无</text>
-          </svg>
-        </div>
-        <div>
-          <div class="panel-title" style="color:#ff6b7a">图B · 出舱，面朝地球</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="出舱面朝地球：眼睛把地球当成地面，大脑认定“下”就是地球方向，恐高回来了">
-            <rect x="0" y="0" width="320" height="260" fill="#0d0d24"/>
-            <circle cx="160" cy="620" r="420" fill="#4c8fd8"/>
-            <path d="M40,222 q40,-18 80,-4 t70,-8 t60,6" fill="#6aa96b" opacity=".85"/>
-            <circle cx="160" cy="620" r="420" fill="none" stroke="#9fc4ee" stroke-width="6" opacity=".7"/>
-            <rect x="0" y="34" width="150" height="14" fill="#a3acbd"/>
-            <g stroke="#9aa4b8" stroke-width="3"><line x1="30" y1="34" x2="30" y2="48"/><line x1="70" y1="34" x2="70" y2="48"/><line x1="110" y1="34" x2="110" y2="48"/></g>
-            <rect x="140" y="30" width="24" height="22" rx="4" fill="#9aa4b8"/>
-            <g transform="translate(152,52)"><use href="#astro"/></g>
-            <line x1="226" y1="70" x2="226" y2="176" stroke="#ff6b6b" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
-            <text x="236" y="112" font-size="12" font-weight="700" fill="#ff6b6b">大脑认定的“下”</text>
-            <text x="236" y="130" font-size="12" fill="#ff6b6b">= 400 km 深渊</text>
-            <line x1="60" y1="70" x2="60" y2="176" stroke="#3fcf6a" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#mGrav)"/>
-            <text x="14" y="116" font-size="10" fill="#3fcf6a">真实重力</text>
-            <text x="14" y="130" font-size="10" fill="#3fcf6a">感觉不到</text>
-            <text x="160" y="246" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">地球（示意，未按比例）</text>
-            <text x="200" y="26" font-size="12" font-weight="700" fill="#ff7a2f">恐惧：强</text>
-          </svg>
-        </div>
-      </div>
-      <div class="legend">
-        <span class="chip"><span class="sw" style="background:#ff6b6b"></span>大脑认定的“下”</span>
-        <span class="chip"><span class="sw" style="background:#3fcf6a"></span>真实重力（和空间站一起自由落体，感觉不到）</span>
-      </div>
-      <figcaption>高度一样，都是离地约 400 km。舱内没有“下”，也就没有深渊；出舱面朝地球，眼睛把地球当成地面，“下”出现了，深渊也出现了。</figcaption>
-    </div>
-  </figure>
-
-  <div class="key reveal">
-    <p><b>恐高的前提，是大脑先认定一个“下”。</b> 舱内没有这个“下”，出舱面朝地球时，眼睛替大脑定了一个。同一个人转个身，让地球到侧面或头顶，“下”换了地方，恐惧就跟着消失。</p>
-  </div>
-</section>
-
-<section id="signals">
-  <h2>地面上的恐高，从哪来</h2>
-  <p>站在崖边，大脑同时收到三路信号，三路指向同一个方向。它们一致时，报警最响。</p>
-
-  <figure class="reveal">
-    <div class="figbox">
-      <svg class="wide" viewBox="0 0 640 300" role="img" aria-label="崖边的人：眼睛、前庭和“掉下去会死”的念头三路信号进入大脑，指向同一个“下”，于是报警">
-        <path d="M0,150 L200,150 L200,300 L0,300 Z" fill="#2a2a44"/>
-        <path d="M200,150 L214,300 L640,300 L640,296 L214,296" fill="#0d0d24"/>
-        <path d="M200,150 L200,300" stroke="#a3acbd" stroke-width="3"/>
-        <line x1="0" y1="150" x2="200" y2="150" stroke="#a3acbd" stroke-width="3"/>
-        <g transform="translate(175,40)"><use href="#astro-stand"/></g>
-        <text x="330" y="292" font-size="11" fill="#b8c0e0">很远的地面：近处参照物没了</text>
-        <line x1="175" y1="72" x2="235" y2="292" stroke="#4dabf7" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#mVis)"/>
-        <g transform="translate(455,60)">
-          <ellipse cx="0" cy="0" rx="86" ry="52" fill="#141430" stroke="#e0e0ff" stroke-width="2.5"/>
-          <text x="0" y="-8" font-size="14" font-weight="700" fill="#e0e0ff" text-anchor="middle">大脑</text>
-          <text x="0" y="12" font-size="12" fill="#e0e0ff" text-anchor="middle">三路一致：“下”在脚下，</text>
-          <text x="0" y="28" font-size="12" fill="#e0e0ff" text-anchor="middle">而且很深</text>
-        </g>
-        <line x1="250" y1="120" x2="368" y2="70" stroke="#4dabf7" stroke-width="4" stroke-linecap="round" marker-end="url(#mVis)"/>
-        <text x="250" y="60" font-size="12" font-weight="700" fill="#4dabf7">眼睛：脚下空荡荡</text>
-        <line x1="250" y1="160" x2="372" y2="98" stroke="#22c3dd" stroke-width="4" stroke-linecap="round" marker-end="url(#mVest)"/>
-        <text x="262" y="182" font-size="12" font-weight="700" fill="#22c3dd">前庭：重力朝这边</text>
-        <line x1="300" y1="215" x2="410" y2="120" stroke="#a3acbd" stroke-width="3" stroke-linecap="round" stroke-dasharray="5 5" marker-end="url(#mGrey)"/>
-        <text x="300" y="240" font-size="12" font-weight="700" fill="#a3acbd">念头：掉下去会死</text>
-        <line x1="545" y1="60" x2="600" y2="60" stroke="#ff7a2f" stroke-width="6" stroke-linecap="round" marker-end="url(#mFear)"/>
-        <text x="628" y="44" font-size="13" font-weight="800" fill="#ff7a2f" text-anchor="end">报警</text>
-        <text x="628" y="112" font-size="11" fill="#ff7a2f" text-anchor="end">腿软、抓紧、后退</text>
-      </svg>
-      <div class="legend">
-        <span class="chip"><span class="sw" style="background:#4dabf7"></span>视觉线索</span>
-        <span class="chip"><span class="sw" style="background:#22c3dd"></span>前庭信号（内耳感受重力方向）</span>
-        <span class="chip"><span class="sw" style="background:#a3acbd"></span>念头（知道会摔）</span>
-        <span class="chip"><span class="sw" style="background:#ff7a2f"></span>报警</span>
-      </div>
-      <figcaption>崖边：眼睛、前庭、念头三路信号都说“下在脚下，而且很深”。恐高不是一路信号的事，是三路合起来的事。</figcaption>
-    </div>
-  </figure>
-  <p>三路里最硬的是<b style="color:var(--vest)">前庭</b>：内耳里的小石子被重力压着，直接报告“重力朝哪边”。地面上它永远在线，所以“下”从来不用想。到了轨道上，它第一个失灵。</p>
-</section>
-
-<section id="down">
-  <h2>失重里，“下”是谁定的</h2>
-  <p>空间站和舱内的人一起绕地球自由落体，内耳里的小石子不再被压向任何一边。前庭沉默，大脑只剩一路可用：<b style="color:var(--vis)">眼睛</b>。于是规则变成：<b>哪一面看起来像地板，哪一面就是“下”。</b></p>
-
-  <figure class="reveal">
-    <div class="figbox">
-      <div class="panels">
-        <div>
-          <div class="panel-title" style="color:#aab4c0">脚朝地板站着</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="舱内脚朝地板：眼睛看到脚下是地板，大脑把地板定为“下”">
-            <rect x="18" y="18" width="284" height="224" rx="14" fill="#0d0d24" stroke="#a3acbd" stroke-width="2.5"/>
-            <rect x="18" y="206" width="284" height="36" rx="0" fill="#2c2c48"/>
-            <text x="160" y="230" font-size="11" fill="#9aa4b8" text-anchor="middle">看起来像地板的那一面</text>
-            <g transform="translate(120,84)"><use href="#astro"/></g>
-            <line x1="218" y1="96" x2="218" y2="196" stroke="#ff6b6b" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
-            <text x="230" y="150" font-size="12" font-weight="700" fill="#ff6b6b">下 = 地板</text>
-            <g transform="translate(48,50)">
-              <circle r="14" fill="#141430" stroke="#a3acbd" stroke-width="2" stroke-dasharray="3 3"/>
-              <text y="4" font-size="10" fill="#a3acbd" text-anchor="middle">前庭</text>
-            </g>
-            <text x="48" y="80" font-size="10" fill="#a3acbd" text-anchor="middle">= 0</text>
-          </svg>
-        </div>
-        <div>
-          <div class="panel-title" style="color:#aab4c0">同一个人，转 180°</div>
-          <svg viewBox="0 0 320 260" role="img" aria-label="同一个人头朝地板：眼睛看到脚下是天花板，大脑把天花板定为“下”，整个舱像翻了过来">
-            <rect x="18" y="18" width="284" height="224" rx="14" fill="#0d0d24" stroke="#a3acbd" stroke-width="2.5"/>
-            <rect x="18" y="206" width="284" height="36" fill="#2c2c48"/>
-            <text x="160" y="230" font-size="11" fill="#9aa4b8" text-anchor="middle">刚才的地板</text>
-            <rect x="18" y="18" width="284" height="30" rx="14" fill="#1c1c38"/>
-            <text x="160" y="38" font-size="11" fill="#9aa4b8" text-anchor="middle">刚才的天花板，现在“像地板”</text>
-            <g transform="translate(120,196) rotate(180)"><use href="#astro"/></g>
-            <line x1="218" y1="184" x2="218" y2="64" stroke="#ff6b6b" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
-            <text x="230" y="128" font-size="12" font-weight="700" fill="#ff6b6b">下 = 天花板</text>
-            <g transform="translate(48,120)">
-              <circle r="14" fill="#141430" stroke="#a3acbd" stroke-width="2" stroke-dasharray="3 3"/>
-              <text y="4" font-size="10" fill="#a3acbd" text-anchor="middle">前庭</text>
-            </g>
-            <text x="48" y="150" font-size="10" fill="#a3acbd" text-anchor="middle">= 0</text>
-          </svg>
-        </div>
-      </div>
-      <div class="legend">
-        <span class="chip"><span class="sw" style="background:#ff6b6b"></span>大脑认定的“下”</span>
-        <span class="chip"><span class="sw" style="background:#a3acbd"></span>前庭沉默，不投票</span>
-      </div>
-      <figcaption>失重里“下”跟着眼睛走。航天员转个身，整个舱在感觉上翻了过来，这叫<b>视觉重定向错觉</b>。大脑认真得很：眼睛说哪边是下，它就按哪边准备。</figcaption>
-    </div>
-  </figure>
-
-  <div class="key reveal">
-    <p>把这条规则带到舱外：<b>眼睛看到脚下是地球，大脑就把 400 km 深渊定为“下”。</b> 前庭本来可以反驳“你没在掉”，但它现在沉默。视觉一家说了算，恐高回来了。</p>
-  </div>
-
-  <details class="card compact-details">
-    <summary>为什么轨道上前庭会沉默？</summary>
-    <p>空间站不是“没有重力”，离地 400 km 处的重力仍有地面的约 90%。它是在自由落体，只不过横向速度快到落不到地面，一直绕着地球“落”。人和站一起落，人相对站没有任何被压住的感觉，内耳里的小石子也就不再被压向任何一边。前庭报告的“重力方向”是 0，不是因为重力没了，而是因为没人挡着你落。</p>
+<nav class="topbar" aria-label="站点">
+  <a class="home" href="./"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>Littlewood</a>
+  <span class="series">感知与参照系</span>
+</nav>
+<div id="scrim" aria-hidden="true"></div>
+<div id="info">
+  <h1>在太空失重，还会恐高吗？</h1>
+  <p>空间站离地 <span class="nowrap">400 km</span>。舱内没人怕；出舱面朝地球，有人确信自己正在掉下去。</p>
+  <p class="answer">转个身，就不怕了。恐高怕的不是高度，是大脑认定的<span class="down">“下”</span>在哪边。</p>
+  <details>
+    <summary>为什么</summary>
+    <p>地面上，“下”由内耳的前庭直接报告，眼睛只是帮腔。失重里人和站一起自由落体，前庭沉默，定“下”的只剩眼睛：哪一面看起来像地板，哪一面就是“下”。出舱面朝地球，脚下的 400 km 就成了深渊；转个身让地球到侧面或头顶，“下”换了地方，恐惧跟着消失。</p>
   </details>
-</section>
-
-<section class="demo" id="lab">
-  <h2>出舱之后，转个身试试</h2>
-  <div class="card reveal">
-    <p style="margin-top:0">你抓着站外的扶手，离地 400 km。拖动滑块改变身体朝向，再切换眼睛看哪里。</p>
-    <fieldset>
-      <legend>眼睛盯着哪里</legend>
-      <div class="mbtns">
-        <button class="mbtn active" data-gaze="earth" type="button" aria-pressed="true">望向地球</button>
-        <button class="mbtn" data-gaze="rail" type="button" aria-pressed="false">盯着扶手</button>
-      </div>
-    </fieldset>
-
-    <label for="thetaSlider"><b>身体朝向：</b><output id="thetaVal" for="thetaSlider">地球在脚下</output></label>
-    <input type="range" id="thetaSlider" min="0" max="180" step="1" value="0" aria-describedby="thetaHint">
-    <div class="barnote" id="thetaHint" style="display:flex;justify-content:space-between"><span>地球在脚下</span><span>地球在侧面</span><span>地球在头顶</span></div>
-
-    <div class="readouts">
-      <div class="ro"><div class="lbl">离地高度</div><div class="val">400 km（不变）</div></div>
-      <div class="ro vest"><div class="lbl">前庭信号</div><div class="val">0（和站一起落）</div></div>
-      <div class="ro vis"><div class="lbl">大脑认定的“下”</div><div class="val" id="downVal">脚下的地球</div></div>
-      <div class="ro fear"><div class="lbl">恐惧指示（概念示例）</div><div class="val" id="fearVal">92 / 100</div></div>
-    </div>
-
-    <div class="demo-insight" aria-live="polite"><span>当前观察</span><b id="demoInsight">地球在脚下：眼睛说“下面是 400 km 深渊”，前庭沉默不反驳。报警。</b></div>
-
-    <div class="figbox" style="padding:8px">
-      <svg class="wide" viewBox="0 0 640 340" role="img" aria-label="交互示意图：航天员抓着站外扶手，随滑块转动身体；红色箭头是大脑认定的“下”，绿色虚线箭头是感觉不到的真实重力">
-        <rect x="0" y="0" width="640" height="340" fill="#0d0d24"/>
-        <circle id="earth" cx="320" cy="900" r="600" fill="#4c8fd8"/>
-        <path id="earthLand" d="M120,318 q60,-22 120,-6 t110,-10 t100,8 t90,-2 L640,340 L120,340 Z" fill="#6aa96b" opacity=".85"/>
-        <circle cx="320" cy="900" r="600" fill="none" stroke="#9fc4ee" stroke-width="7" opacity=".7"/>
-        <text x="320" y="334" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">地球 · 约 400 km 之下（示意，未按比例）</text>
-        <rect x="0" y="162" width="300" height="16" fill="#a3acbd"/>
-        <g stroke="#9aa4b8" stroke-width="3"><line x1="40" y1="162" x2="40" y2="178"/><line x1="100" y1="162" x2="100" y2="178"/><line x1="160" y1="162" x2="160" y2="178"/><line x1="220" y1="162" x2="220" y2="178"/></g>
-        <text x="16" y="152" font-size="12" fill="#9aa4b8">空间站桁架</text>
-        <rect x="296" y="156" width="28" height="28" rx="5" fill="#9aa4b8"/>
-        <text x="330" y="150" font-size="11" fill="#9aa4b8">扶手</text>
-        <line id="gazeLine" x1="320" y1="202" x2="320" y2="300" stroke="#4dabf7" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#mVis)"/>
-        <g id="astroG" transform="translate(320,170) rotate(0)"><use href="#astro"/></g>
-        <line x1="520" y1="130" x2="520" y2="230" stroke="#3fcf6a" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#mGrav)"/>
-        <text x="534" y="176" font-size="11" fill="#3fcf6a">真实重力</text>
-        <text x="534" y="192" font-size="11" fill="#3fcf6a">感觉不到</text>
-        <g id="downArrow" transform="translate(320,170) rotate(0)">
-          <line x1="52" y1="30" x2="52" y2="120" stroke="#ff6b6b" stroke-width="6" stroke-linecap="round" marker-end="url(#mDown)"/>
-        </g>
-        <text id="downLbl" x="624" y="40" font-size="12" font-weight="700" fill="#ff6b6b" text-anchor="end">大脑认定的“下”：脚下的地球</text>
-        <text id="gazeLbl" x="16" y="40" font-size="12" font-weight="700" fill="#4dabf7">眼睛：望向地球</text>
-      </svg>
-    </div>
-
-    <div class="bars">
-      <div class="barrow"><span class="tag">恐惧指示</span><div class="btrack"><div class="bfill" id="barFear" style="width:92%"></div></div></div>
-      <p class="barnote">恐惧指示只是示意，不是测量值。它想说的只有一件事：高度全程没变，变的是“下”在哪。</p>
-    </div>
+  <p class="legend">拖动旋转，滑块转身，切到航天员眼中看看脚下 · 恐惧指示为概念示例，不是测量值 · 出处：Jerry Linenger《Off the Planet》(2000)；Charles Oman 关于 EVA height vertigo 的研究</p>
+</div>
+<div id="status">
+  <span id="statusText" aria-live="polite"><span class="fear" id="fearVal">恐惧 92 / 100</span> · <b id="insight">地球在脚下：眼睛说“下面是 400 km 深渊”，前庭沉默不反驳。报警。</b></span>
+  <button id="viewBtn" type="button" aria-pressed="false">航天员眼中</button>
+  <button id="gazeBtn" type="button" aria-pressed="false">盯着扶手</button>
+  <div class="ctl">
+    <label for="theta">身体朝向</label>
+    <input id="theta" type="range" min="0" max="180" step="1" value="0" autocomplete="off">
+    <output id="thetaOut" for="theta">地球在脚下</output>
   </div>
-</section>
+</div>
 
-<section id="summary">
-  <h2>最后只记住这两行</h2>
-  <div class="key reveal">
-    <p><b>恐高：</b>大脑先定“下”，再怕“下”。</p>
-    <p><b>失重：</b>定“下”的只剩眼睛。所以眼睛看到什么在脚下，你就怕什么。</p>
-  </div>
-</section>
-
-</main>
-
-<footer>
-  <a href="./">← Littlewood</a> · 恐惧指示为「概念示例」，不是测量值。出处：Jerry Linenger《Off the Planet》(2000) 对 1997 年和平号出舱的记述；Charles Oman 关于失重下空间定向与 EVA height vertigo 的研究。
-</footer>
-
-<script src="./article.js?v=2"></script>
-<script>
-(function(){
-  var gaze = 'earth';
-  var slider = document.getElementById('thetaSlider');
-  var $ = function(id){ return document.getElementById(id); };
-  var lastZone = '';
-
-  var insights = {
-    'earth-feet': '地球在脚下：眼睛说“下面是 400 km 深渊”，前庭沉默不反驳。报警。',
-    'earth-low': '地球斜在脚下：“下”还指着深渊，报警略弱，但仍在响。',
-    'earth-side': '地球在侧面：它更像一面墙，不像深渊。恐惧明显下降。',
-    'earth-high': '地球斜在头顶：“下”指向空无一物的太空，深渊感基本消失。',
-    'earth-head': '地球在头顶：它成了“天花板”。同样的高度，几乎不怕。',
-    'rail': '盯着扶手：近处参照物回来了，“下”跟着站体走，地球退成背景。这就是训练里教的办法。'
-  };
-
-  // 概念示例：恐惧指示 = 基线 + 视觉把“下”指向地球的程度
-  function fearOf(theta, g){
-    var c = Math.max(0, Math.cos(theta * Math.PI / 180));
-    return Math.round(g === 'earth' ? 12 + 80 * c : 6 + 12 * c);
-  }
-  function zoneOf(theta, g){
-    if (g === 'rail') return 'rail';
-    if (theta < 30) return 'earth-feet';
-    if (theta < 75) return 'earth-low';
-    if (theta < 105) return 'earth-side';
-    if (theta < 150) return 'earth-high';
-    return 'earth-head';
-  }
-  var downText = {
-    'earth-feet': '脚下的地球', 'earth-low': '斜下方的地球', 'earth-side': '侧面的地球（像墙）',
-    'earth-high': '斜上方的太空', 'earth-head': '头顶的太空（地球成了天花板）', 'rail': '随站体（近处参照）'
-  };
-  var thetaText = function(t){
-    if (t < 15) return '地球在脚下';
-    if (t < 75) return '地球在脚下偏 ' + t + '°';
-    if (t < 105) return '地球在侧面';
-    if (t < 165) return '地球在头顶偏 ' + (180 - t) + '°';
-    return '地球在头顶';
-  };
-
-  document.querySelectorAll('.mbtn').forEach(function(b){
-    b.addEventListener('click', function(){
-      gaze = b.dataset.gaze;
-      document.querySelectorAll('.mbtn').forEach(function(x){ x.classList.toggle('active', x === b); x.setAttribute('aria-pressed', x === b); });
-      render();
-    });
-  });
-  slider.addEventListener('input', render);
-
-  function render(){
-    var theta = parseInt(slider.value, 10);
-    var zone = zoneOf(theta, gaze);
-    var fear = fearOf(theta, gaze);
-
-    $('thetaVal').textContent = thetaText(theta);
-    slider.setAttribute('aria-valuetext', thetaText(theta));
-    $('downVal').textContent = downText[zone];
-    $('fearVal').textContent = fear + ' / 100';
-    $('barFear').style.width = fear + '%';
-    if (zone !== lastZone){ $('demoInsight').textContent = insights[zone]; lastZone = zone; }
-
-    // 航天员绕扶手转动（脚朝 +y；rotate(-θ) 让脚先转向右侧再转向头顶）
-    var rot = 'translate(320,170) rotate(' + (-theta) + ')';
-    $('astroG').setAttribute('transform', rot);
-    $('downArrow').setAttribute('transform', rot); // “下”= 脚的方向：眼睛把哪边当地板，哪边就是下
-    $('downLbl').textContent = '大脑认定的“下”：' + downText[zone];
-    var rad = theta * Math.PI / 180;
-    var hx = 320 + 32 * Math.sin(rad), hy = 170 + 32 * Math.cos(rad); // 头盔位置
-    var gl = $('gazeLine');
-    gl.setAttribute('x1', hx.toFixed(1)); gl.setAttribute('y1', hy.toFixed(1));
-    if (gaze === 'earth'){
-      gl.setAttribute('x2', hx.toFixed(1)); gl.setAttribute('y2', 300);
-      $('gazeLbl').textContent = '眼睛：望向地球';
-      $('earth').setAttribute('opacity', 1); $('earthLand').setAttribute('opacity', .85);
-      $('downArrow').setAttribute('visibility', 'visible'); $('downLbl').setAttribute('visibility', 'visible');
-    } else {
-      gl.setAttribute('x2', 314); gl.setAttribute('y2', 174);
-      $('gazeLbl').textContent = '眼睛：盯着扶手（近处参照）';
-      $('earth').setAttribute('opacity', .35); $('earthLand').setAttribute('opacity', .3);
-      $('downArrow').setAttribute('visibility', 'hidden'); $('downLbl').setAttribute('visibility', 'hidden');
-    }
-  }
-
-  // 自检：面朝地球比盯扶手更怕；地球在头顶比在脚下更不怕
-  console.assert(fearOf(0, 'earth') > fearOf(0, 'rail') && fearOf(180, 'earth') < fearOf(0, 'earth'), 'fear model check failed');
-
-  render();
-})();
+<!-- Three.js r128 自托管（CSP 只允许 self） -->
+<script type="importmap">
+{"imports":{"three":"./vendor/three-r128/build/three.module.js","three/addons/":"./vendor/three-r128/examples/jsm/"}}
 </script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Article","headline":"在太空失重，还会恐高吗？","description":"空间站离地 400 公里，舱内没人恐高；出舱面朝地球，有人却确信自己正在掉下去。恐高怕的不是高度，而是大脑认定的“下”在哪边。","image":"https://littlewood.io/og-space-acrophobia.png","datePublished":"2026-09-07","dateModified":"2026-09-07","mainEntityOfPage":"https://littlewood.io/space-acrophobia","author":{"@type":"Organization","name":"Littlewood","url":"https://littlewood.io/"},"publisher":{"@type":"Organization","name":"Littlewood","url":"https://littlewood.io/","logo":{"@type":"ImageObject","url":"https://littlewood.io/icon-512.png?v=5"}},"articleSection":"感知与参照系","inLanguage":"zh-CN"}
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = id => document.getElementById(id);
+
+// --- 场景、相机、渲染器 ---
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x050510);
+const camera = new THREE.PerspectiveCamera(62, innerWidth / innerHeight, 0.05, 6000);
+camera.position.set(5.6, 0.4, 7.6);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));   // 地球是逐像素算噪声的，别把手机算垮
+renderer.outputEncoding = THREE.sRGBEncoding;
+document.body.appendChild(renderer.domElement);
+
+// 第三人称：绕着航天员转
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, -0.4, 0.4);
+controls.enableDamping = true; controls.dampingFactor = 0.06;
+controls.enablePan = false;
+controls.minDistance = 2.6; controls.maxDistance = 16;
+// 舱段在 -Z 一侧，相机只在它前面这半边转；可以转到脚下仰视
+controls.minAzimuthAngle = -1.25; controls.maxAzimuthAngle = 1.25;
+controls.minPolarAngle = 0.45; controls.maxPolarAngle = 2.55;
+controls.autoRotate = false;
+
+// --- 灯光：太阳 + 地球反照 ---
+scene.add(new THREE.HemisphereLight(0xcfe0ff, 0x16408a, 0.6));
+scene.add(new THREE.AmbientLight(0x303050, 0.5));
+const sun = new THREE.DirectionalLight(0xfff2dc, 1.5);
+sun.position.set(40, 30, 18);
+scene.add(sun);
+
+// --- 星空 ---
+{
+  const n = 2200, pos = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) {
+    const u = Math.random() * 2 - 1, phi = Math.random() * Math.PI * 2, r = 2600;
+    const s = Math.sqrt(1 - u * u);
+    pos.set([r * s * Math.cos(phi), r * u, r * s * Math.sin(phi)], i * 3);
+  }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0xdde6ff, size: 2, sizeAttenuation: false, transparent: true, opacity: 0.85 })));
+}
+
+// --- 地球：概念比例。从 400 km 高度看，地球的视半径约 70°，这里用 R=420、距离 470 复现这个张角。
+//     贴图用着色器里的分形噪声现算（大陆、地形、云、掠射角的蓝色大气），无论镜头多近都不糊 ---
+const EARTH_R = 420, EARTH_D = 470;
+const earthMat = new THREE.ShaderMaterial({
+  uniforms: { uSun: { value: new THREE.Vector3(40, 30, 18).normalize() }, uTime: { value: 0 } },
+  vertexShader: `
+    varying vec3 vP; varying vec3 vW; varying vec3 vN;
+    void main(){ vP = position; vN = normalize(mat3(modelMatrix) * normal); vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }`,
+  fragmentShader: `
+    precision highp float;
+    uniform vec3 uSun; uniform float uTime;
+    varying vec3 vP; varying vec3 vW; varying vec3 vN;
+    float hash(vec3 p){ p = fract(p * 0.3183099 + vec3(.1, .2, .3)); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
+    float noise(vec3 x){ vec3 i = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);
+      return mix(mix(mix(hash(i), hash(i + vec3(1,0,0)), f.x), mix(hash(i + vec3(0,1,0)), hash(i + vec3(1,1,0)), f.x), f.y),
+                 mix(mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,0,1)), f.x), mix(hash(i + vec3(0,1,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z); }
+    // 一次循环同时得到粗（大陆）和细（地形）两档
+    void fbm2(vec3 p, out float coarse, out float fine){ float a = .5, s = 0.0; coarse = 0.0;
+      for (int i = 0; i < 8; i++){ s += a * noise(p); if (i == 2) coarse = s; p = p * 2.03 + vec3(1.7, 9.2, 3.1); a *= .5; } fine = s; }
+    float fbm(vec3 p, int n){ float a = .5, s = 0.0; for (int i = 0; i < 5; i++){ if (i >= n) break; s += a * noise(p); p = p * 2.03 + vec3(1.7, 9.2, 3.1); a *= .5; } return s; }
+    void main(){
+      vec3 p = normalize(vP);
+      float land, h; fbm2(p * 3.2, land, h);
+      land = land / .875; h = h / .996;
+      float coast = smoothstep(.49, .52, land + (h - .5) * .12);
+      vec3 ocean = mix(vec3(.04, .16, .42), vec3(.09, .32, .66), fbm(p * 10.0, 3) / .875);
+      vec3 ground = mix(vec3(.20, .40, .16), vec3(.56, .47, .27), smoothstep(.40, .66, h));
+      ground = mix(ground, vec3(.86, .86, .82), smoothstep(.74, .86, h));
+      ground = mix(ground, vec3(.93), smoothstep(.86, .95, abs(p.y)));
+      vec3 col = mix(ocean, ground, coast);
+      float cloud = smoothstep(.54, .70, fbm(p * 7.0 + vec3(uTime * .015, 0.0, 0.0), 5) / .97);
+      col = mix(col, vec3(1.0), cloud * .92);
+      vec3 n = normalize(vN);
+      float lit = max(dot(n, uSun), 0.0);
+      col *= .18 + .95 * lit;
+      vec3 v = normalize(cameraPosition - vW);
+      float haze = pow(1.0 - max(dot(n, v), 0.0), 2.5);
+      col = mix(col, vec3(.45, .68, 1.0) * (.3 + .8 * lit), haze * .75);
+      gl_FragColor = vec4(col, 1.0);
+    }`
+});
+const earth = new THREE.Mesh(new THREE.SphereGeometry(EARTH_R, 128, 96), earthMat);
+earth.position.set(0, -EARTH_D, 0);
+earth.rotation.z = Math.PI / 2;   // 极轴横过来：航天员脚下是赤道一带的海陆，不是极冠
+scene.add(earth);
+const atmo = new THREE.Mesh(new THREE.SphereGeometry(EARTH_R * 1.03, 96, 64), new THREE.MeshBasicMaterial({ color: 0x5aa8ff, transparent: true, opacity: .28, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false }));
+atmo.position.copy(earth.position);
+scene.add(atmo);
+
+// --- 空间站：舱段、桁架、太阳翼、扶手 ---
+const hull = new THREE.MeshStandardMaterial({ color: 0xd9dde6, roughness: .55, metalness: .25 });
+const dark = new THREE.MeshStandardMaterial({ color: 0x2a3350, roughness: .7, metalness: .3 });
+const panelMat = new THREE.MeshStandardMaterial({ color: 0x1b2a6b, roughness: .35, metalness: .5, emissive: 0x0a1230 });
+const gold = new THREE.MeshStandardMaterial({ color: 0xffd966, roughness: .4, metalness: .6, emissive: 0x553300, emissiveIntensity: .4 });
+const station = new THREE.Group();
+const MOD_Z = -2.5, MOD_R = 1.7;
+const mod = new THREE.Mesh(new THREE.CylinderGeometry(MOD_R, MOD_R, 11, 48), hull);
+mod.rotation.z = Math.PI / 2; mod.position.set(0, 0, MOD_Z); station.add(mod);
+for (const px of [-4.2, -1.4, 1.4, 4.2]) {        // 舱段环肋
+  const rib = new THREE.Mesh(new THREE.TorusGeometry(MOD_R + .04, .06, 8, 48), dark);
+  rib.rotation.y = Math.PI / 2; rib.position.set(px, 0, MOD_Z); station.add(rib);
+}
+for (const px of [-6.1, 6.1]) {                   // 端盖
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(1.2, MOD_R, 1.2, 48), hull);
+  cap.rotation.z = px < 0 ? -Math.PI / 2 : Math.PI / 2; cap.position.set(px, 0, MOD_Z); station.add(cap);
+}
+const truss = new THREE.Mesh(new THREE.BoxGeometry(52, .7, .7), dark);
+truss.position.set(0, 2.6, MOD_Z); station.add(truss);
+for (let i = -24; i <= 24; i += 2) {              // 桁架斜撑
+  const s = new THREE.Mesh(new THREE.BoxGeometry(.08, .08, 1.0), hull);
+  s.position.set(i, 2.6, MOD_Z); s.rotation.x = (i / 2) % 2 ? .6 : -.6; station.add(s);
+}
+for (const sx of [-1, 1]) for (const k of [0, 1]) {  // 太阳翼：每侧两片
+  const p = new THREE.Mesh(new THREE.BoxGeometry(9.5, 3.8, .1), panelMat);
+  p.position.set(sx * (12 + k * 10.5), 5.0, MOD_Z); station.add(p);
+  const frame = new THREE.Mesh(new THREE.BoxGeometry(9.7, .12, .16), hull);
+  frame.position.set(sx * (12 + k * 10.5), 3.05, MOD_Z); station.add(frame);
+  const mast = new THREE.Mesh(new THREE.BoxGeometry(.14, 2.1, .14), hull);
+  mast.position.set(sx * (12 + k * 10.5), 4.0, MOD_Z); station.add(mast);
+}
+// 扶手：金色，在舱段外壁，航天员的手抓在这里（世界原点）
+const rail = new THREE.Mesh(new THREE.CylinderGeometry(.04, .04, 1.5, 12), gold);
+rail.rotation.z = Math.PI / 2; station.add(rail);
+for (const sx of [-.6, .6]) {
+  const st = new THREE.Mesh(new THREE.CylinderGeometry(.035, .035, .8, 10), hull);
+  st.rotation.x = Math.PI / 2; st.position.set(sx, 0, -.4); station.add(st);
+}
+scene.add(station);
+
+// --- 航天员：手在原点，身体朝 -Y，面朝舱段（-Z）。转身 = 在舱壁平面里绕 Z 轴转，手始终抓着扶手、脸始终朝着舱段 ---
+const suit = new THREE.MeshStandardMaterial({ color: 0xe9e6dd, roughness: .8 });
+const visorMat = new THREE.MeshStandardMaterial({ color: 0x2e3f63, roughness: .15, metalness: .7, emissive: 0x0c1430 });
+const astro = new THREE.Group();
+function tube(a, b, r, mat) {
+  const d = new THREE.Vector3().subVectors(b, a), len = d.length();
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 10), mat);
+  m.position.copy(a).addScaledVector(d, .5);
+  m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize());
+  return m;
+}
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
+const BZ = .32;   // 躯干在手后方：手臂向前伸到扶手
+const torso = new THREE.Mesh(new THREE.BoxGeometry(.56, .74, .34), suit); torso.position.set(0, .05, .22 + BZ); astro.add(torso);
+const pack = new THREE.Mesh(new THREE.BoxGeometry(.5, .62, .26), suit); pack.position.set(0, .1, .5 + BZ); astro.add(pack);
+const head = new THREE.Group();
+head.add(new THREE.Mesh(new THREE.SphereGeometry(.21, 24, 18), suit));
+const visor = new THREE.Mesh(new THREE.SphereGeometry(.17, 24, 18, 0, Math.PI * 2, 0, Math.PI * .55), visorMat);
+visor.rotation.x = -Math.PI / 2; visor.position.z = -.07; head.add(visor);
+head.position.set(0, .62, .2 + BZ); astro.add(head);
+const arms = [];
+for (const sx of [-1, 1]) {
+  const arm = tube(V(sx * .33, .3, .22 + BZ), V(sx * .3, 0, 0), .07, suit); arms.push(arm); astro.add(arm);   // 上臂到手
+  const hand = new THREE.Mesh(new THREE.SphereGeometry(.075, 14, 10), suit); hand.position.set(sx * .3, 0, 0); astro.add(hand);
+  astro.add(tube(V(sx * .15, -.3, .22 + BZ), V(sx * .16, -1.15, .27 + BZ), .085, suit));  // 腿
+  const boot = new THREE.Mesh(new THREE.BoxGeometry(.17, .12, .3), suit); boot.position.set(sx * .16, -1.22, .3 + BZ); astro.add(boot);
+}
+scene.add(astro);
+const bodyCore = [torso, pack, head, ...arms];   // 第一人称时不画，免得挡住视线
+
+// --- 状态 ---
+let theta = 0;              // 身体朝向：0 地球在脚下，180 地球在头顶
+let gaze = 'earth';         // 眼睛：earth 望向地球 / rail 盯着扶手
+let firstPerson = false;
+const insights = {
+  'earth-feet': '地球在脚下：眼睛说“下面是 400 km 深渊”，前庭沉默不反驳。报警。',
+  'earth-low': '地球斜在脚下：“下”还指着深渊，报警略弱，但仍在响。',
+  'earth-side': '地球在侧面：它更像一面墙，不像深渊。恐惧明显下降。',
+  'earth-high': '地球斜在头顶：“下”指向空无一物的太空，深渊感基本消失。',
+  'earth-head': '地球在头顶：它成了“天花板”。同样的高度，几乎不怕。',
+  'rail': '盯着扶手：近处参照物回来了，“下”跟着站体走，地球退成背景。这就是训练里教的办法。'
+};
+// 概念示例：恐惧指示 = 基线 + 视觉把“下”指向地球的程度
+const fearOf = (t, g) => { const c = Math.max(0, Math.cos(t * Math.PI / 180)); return Math.round(g === 'earth' ? 12 + 80 * c : 6 + 12 * c); };
+const zoneOf = (t, g) => g === 'rail' ? 'rail' : t < 30 ? 'earth-feet' : t < 75 ? 'earth-low' : t < 105 ? 'earth-side' : t < 150 ? 'earth-high' : 'earth-head';
+const thetaText = t => t < 15 ? '地球在脚下' : t < 75 ? `地球在脚下偏 ${t}°` : t < 105 ? '地球在侧面' : t < 165 ? `地球在头顶偏 ${180 - t}°` : '地球在头顶';
+console.assert(fearOf(0, 'earth') > fearOf(0, 'rail') && fearOf(180, 'earth') < fearOf(0, 'earth'), 'fear model check failed');
+
+function renderStatus() {
+  $('fearVal').textContent = `恐惧 ${fearOf(theta, gaze)} / 100`;
+  $('insight').textContent = insights[zoneOf(theta, gaze)];
+  $('thetaOut').textContent = thetaText(theta);
+  $('viewBtn').setAttribute('aria-pressed', String(firstPerson));
+  $('gazeBtn').setAttribute('aria-pressed', String(gaze === 'rail'));
+}
+$('theta').addEventListener('input', e => { theta = +e.target.value; renderStatus(); });
+$('gazeBtn').addEventListener('click', () => { gaze = gaze === 'earth' ? 'rail' : 'earth'; renderStatus(); });
+
+// --- 第一人称：相机放到头盔里，顺着身体的朝向看向地球或扶手；在两种视角之间平滑过渡 ---
+const EYE = new THREE.Vector3(0, .62, .42);
+const FOV_ORBIT = 62, FOV_EARTH = 70, FOV_RAIL = 46;   // 望向地球用广角把深渊收进来，盯扶手是窄视野
+const fpPos = new THREE.Vector3(), fpQuat = new THREE.Quaternion();
+const tmpV = new THREE.Vector3(), tmpQ = new THREE.Quaternion(), tmpUp = new THREE.Vector3(), tmpM = new THREE.Matrix4(), tmpT = new THREE.Vector3();
+const clamp = THREE.MathUtils.clamp;
+function firstPersonPose() {
+  astro.updateMatrixWorld();
+  fpPos.copy(EYE).applyMatrix4(astro.matrixWorld);
+  let yaw = 0, pitch;
+  if (gaze === 'earth') {
+    // 地球方向换算到身体坐标系，再按脖子能转的范围看过去：低头最多 66°，抬头最多 40°（头盔里仰不了太多）
+    tmpV.set(0, -1, 0).applyQuaternion(tmpQ.copy(astro.quaternion).invert());
+    yaw = clamp(Math.atan2(-tmpV.x, -tmpV.z), -1.1, 1.1);
+    pitch = clamp(Math.asin(clamp(tmpV.y, -1, 1)), -1.15, 0.7);
+  } else {
+    pitch = -0.7;                                 // 盯着扶手和舱壁：低头，舱壁占上半，手和扶手在下半
+  }
+  tmpV.set(-Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw) * Math.cos(pitch)).applyQuaternion(astro.quaternion);
+  tmpUp.set(0, 1, 0).applyQuaternion(astro.quaternion);
+  tmpM.lookAt(fpPos, tmpT.copy(fpPos).add(tmpV), tmpUp);
+  fpQuat.setFromRotationMatrix(tmpM);
+}
+let blend = 0, blendTarget = 0;                 // 0 = 第三人称，1 = 第一人称
+const savedPos = new THREE.Vector3(), savedQuat = new THREE.Quaternion();
+const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+$('viewBtn').addEventListener('click', () => {
+  firstPerson = !firstPerson;
+  if (firstPerson) { savedPos.copy(camera.position); savedQuat.copy(camera.quaternion); controls.enabled = false; }
+  blendTarget = firstPerson ? 1 : 0;
+  renderStatus();
+});
+
+// --- 布局 / 循环 ---
+function layout() {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+}
+addEventListener('resize', layout);
+const clock = new THREE.Clock();
+let running = false, raf = 0;
+function frame() {
+  raf = 0;
+  const dt = Math.min(clock.getDelta(), .05);
+  astro.rotation.z = theta * Math.PI / 180;
+  if (blend !== blendTarget) {
+    const speed = reduceMotion ? 1 / .01 : 1 / .9;
+    blend = blendTarget > blend ? Math.min(1, blend + dt * speed) : Math.max(0, blend - dt * speed);
+  }
+  const fovTarget = blend > .5 ? (gaze === 'earth' ? FOV_EARTH : FOV_RAIL) : FOV_ORBIT;
+  if (Math.abs(camera.fov - fovTarget) > .05) { camera.fov += (fovTarget - camera.fov) * Math.min(1, dt * 6); camera.updateProjectionMatrix(); }
+  if (blend > 0) {
+    firstPersonPose();
+    const k = ease(blend);
+    camera.position.lerpVectors(savedPos, fpPos, k);
+    camera.quaternion.slerpQuaternions(savedQuat, fpQuat, k);
+  } else {
+    controls.enabled = true;
+    controls.update();
+  }
+  for (const m of bodyCore) m.visible = blend < .6;   // 相机进了头盔就别画躯干和头
+  earth.rotation.x += dt * .0025; earthMat.uniforms.uTime.value += dt;   // 地面慢慢从脚下滑过，云也在动
+  renderer.render(scene, camera);
+  if (running) raf = requestAnimationFrame(frame);
+}
+function start() { if (running) return; running = true; clock.getDelta(); if (!raf) raf = requestAnimationFrame(frame); }
+function stop() { running = false; }
+document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+renderStatus(); layout(); start();
 </script>
-
 </body>
 </html>
