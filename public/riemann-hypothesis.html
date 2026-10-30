@@ -21,18 +21,14 @@
     <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=5">
     <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
     <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=5">
-    <link rel="stylesheet" href="./scene.css?v=2">
+    <link rel="stylesheet" href="./scene.css?v=3">
     <style>
-        /* 本页：反例按钮和面板 */
-        #status #cxToggle { color: #ff8899; border-color: rgba(255, 85, 119, 0.45); background: rgba(255, 85, 119, 0.1); }
-        #status #cxToggle:hover { background: rgba(255, 85, 119, 0.2); }
-        .cx #status { width: 560px; border-radius: 18px; }
-        #cxPanel { flex-basis: 100%; margin-top: 2px; }
-        #cxPanel label { color: #ff8899; margin-right: 6px; }
-        #cxPanel input { width: min(280px, 75%); vertical-align: middle; accent-color: #ff5577; pointer-events: auto; }
-        #cxPanel p { margin: 6px 0 0; font-size: 0.78rem; line-height: 1.5; opacity: 0.8; }
-        /* 小屏做反例实验时先收起图例，给场景腾地方 */
-        @media (max-width: 900px) and (max-height: 740px) { .cx #info .legend { display: none; } }
+        /* 本页：反例按钮用红 */
+        .controls #cxToggle { color: #ff8899; border-color: rgba(255, 85, 119, 0.45); background: rgba(255, 85, 119, 0.1); }
+        .controls #cxToggle:hover { background: rgba(255, 85, 119, 0.2); }
+        .controls #cxToggle[aria-pressed="true"] { background: #ff8899; color: #2a0a12; border-color: #ff8899; }
+        .controls #cxPanel input { accent-color: #ff5577; }
+        .controls #cxPanel output { color: #ff8899; }
     </style>
 </head>
 <body>
@@ -40,27 +36,33 @@
         <a class="home" href="./"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>Littlewood</a>
         <span class="series">数论</span>
     </nav>
-    <div id="scrim" aria-hidden="true"></div>
-    <div id="info">
+    <aside class="panel">
         <h1>黎曼猜想：<span class="nowrap">所有零点</span>都在一条线上吗？</h1>
-        <p>猜想说：ζ 函数的所有<span class="highlight">非平凡零点</span>都落在<span class="critical nowrap">临界线 Re(s) = 1/2</span> 上。</p>
-        <p class="legend">
-            <span style="color:#ffd966;">●</span> 发光点：已知非平凡零点 (1/2 + i·t)<br>
-            <span id="legendAdded" hidden><span style="color:#c08cff;">●</span> 紫点：你加的零点<br></span>
-            <span style="color:#66ffcc;">━</span> 亮线：临界线 σ = 0.5<br>
-            地形是概念示例，不是真实的 |ζ(s)|：高度 ∝ 偏离临界线的距离，零点被<span class="nowrap">“锁定”</span>在谷底。
-        </p>
-    </div>
-    <div id="status">
-        <span id="statusText" aria-live="polite">拖动旋转，轻点暂停 · 前 20 个零点全部落在 <i>临界线</i>&nbsp;上</span><button id="addZero" type="button">＋ 加一个零点</button><button id="cxToggle" type="button" aria-pressed="false">放一个反例</button>
-        <div id="cxPanel" hidden>
-            <label for="cxSigma">σ</label>
-            <input id="cxSigma" type="range" min="0.05" max="0.95" step="0.01" value="0.75" autocomplete="off">
-            <p>离开临界线的零点一定四个一组：左右关于临界线对称，上下关于实轴对称。这个高度早已验算过，没有反例；真要有，只能在 t &gt; 3×10¹² 以上。</p>
+        <p>猜想说：ζ 函数的所有<span class="highlight">非平凡零点</span>都落在<span class="critical nowrap">临界线 Re(s) = 1/2</span> 上。地形是概念示例：高度 ∝ 偏离临界线的距离，零点被<span class="nowrap">“锁定”</span>在谷底。</p>
+        <div class="controls">
+            <div class="row">
+                <button id="addZero" type="button">＋ 加一个零点</button>
+                <button id="cxToggle" type="button" aria-pressed="false">放一个反例</button>
+            </div>
+            <div class="ctl" id="cxPanel" hidden>
+                <label for="cxSigma">反例 σ</label>
+                <input id="cxSigma" type="range" min="0.05" max="0.95" step="0.01" value="0.75" autocomplete="off">
+                <output for="cxSigma" id="cxOut">0.75</output>
+            </div>
         </div>
-    </div>
+        <div class="readout">
+            <p class="insight" id="statusText" aria-live="polite">拖动旋转，轻点暂停 · 前 20 个零点全部落在 <i>临界线</i>&nbsp;上</p>
+            <p class="insight" id="cxNote" hidden>离开临界线的零点一定四个一组：左右关于临界线对称，上下关于实轴对称。这个高度早已验算过，没有反例；真要有，只能在 t &gt; 3×10¹² 以上。</p>
+        </div>
+        <div class="legend">
+            <p><span style="color:#ffd966;">●</span> 发光点：已知非平凡零点 (1/2 + i·t)</p>
+            <p id="legendAdded" hidden><span style="color:#c08cff;">●</span> 紫点：你加的零点</p>
+            <p><span style="color:#66ffcc;">━</span> 亮线：临界线 σ = 0.5</p>
+        </div>
+    </aside>
+    <div class="stage"></div>
 
-    <!-- Three.js r128 自托管（CSP 只允许 self） -->
+<!-- Three.js r128 自托管（CSP 只允许 self） -->
     <script type="importmap">
         {
             "imports": {
@@ -73,7 +75,7 @@
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { fitScene } from './scene.js?v=1';
+        import { fitStage } from './scene.js?v=2';
 
         // --- 初始化场景、相机、渲染器 ---
         const scene = new THREE.Scene();
@@ -88,7 +90,6 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.shadowMap.enabled = false;
-        document.body.appendChild(renderer.domElement);
 
         // --- 控制器 ---
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -406,7 +407,7 @@
         }
 
         // --- 窗口自适应：场景放进文字块和底栏之外的空白区（共用 scene.js）---
-        const layout = fitScene({ camera, renderer, controls, extent: [8.5, 4.5], minFrac: 0.4 });
+        const layout = fitStage({ camera, renderer, controls, extent: [9.5, 5.5] });
 
         // --- 互动：加一个零点 ---
         const DROP_HEIGHT = 4, DROP_TIME = reduceMotion ? 0.01 : 0.9;
@@ -496,6 +497,7 @@
             layout();
         });
         cxInput.addEventListener('input', () => {
+            document.getElementById('cxOut').value = (+cxInput.value).toFixed(2);
             cxS = +cxInput.value;
             placeCx();
             refreshTerrain();
@@ -525,7 +527,7 @@
             cxPanel.hidden = !cxOn;
             cxToggle.textContent = cxOn ? '收起反例' : '放一个反例';
             cxToggle.setAttribute('aria-pressed', cxOn);
-            document.body.classList.toggle('cx', cxOn);
+            document.getElementById('cxNote').hidden = !cxOn;
         }
 
         animate();

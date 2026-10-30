@@ -1,61 +1,67 @@
-/* 全屏 three.js 示意页共用样式（黎曼、太空恐高）：顶栏、左上角不加框的标题区、遮罩、底部状态条。页面自己的按钮配色写在页内 <style>。 */
-body{margin:0;overflow:hidden;background:#050510;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC",sans-serif;color:#e0e0ff}
-canvas{display:block}
-
-/* 顶栏：与图解页一致 */
-.topbar{position:absolute;top:56px;left:16px;right:16px;max-width:848px;margin:0 auto;z-index:11;display:flex;align-items:center;justify-content:space-between;gap:10px 16px;padding-bottom:12px;border-bottom:1px solid rgba(120,140,255,.25);pointer-events:none}
-.topbar .home{display:inline-flex;align-items:center;gap:10px;color:#b8c0e0;text-decoration:none;font-weight:700;font-size:1rem;letter-spacing:.08em;pointer-events:auto;transition:color .15s}
+/* 全屏 three.js 示意页共用样式（黎曼、太空恐高、流体静力学）。
+   结构：两栏。左边 .panel 是实底的文字面板：顶栏、问题、答案、操作、读数、为什么、注。右边 .stage 只放场景，什么都不盖。
+   手机上改成三行：顶栏、场景（固定在上面）、面板（在下面滚动）。页面自己的按钮配色和场景内标签写在页内 <style>。 */
+:root{--line:rgba(120,140,255,.25);--panel-w:420px}
+html,body{height:100%}
+body{margin:0;overflow:hidden;background:#050510;color:#e0e0ff;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC",sans-serif;line-height:1.7;
+  display:grid;grid-template-columns:var(--panel-w) 1fr;grid-template-rows:auto 1fr;height:100vh;height:100svh}
+.topbar{grid-column:1;grid-row:1;display:flex;align-items:center;justify-content:space-between;gap:10px 16px;padding:22px 28px 14px;border-bottom:1px solid var(--line)}
+.topbar .home{display:inline-flex;align-items:center;gap:10px;color:#b8c0e0;text-decoration:none;font-weight:700;font-size:1rem;letter-spacing:.08em;transition:color .15s}
 .topbar .home svg{width:30px;height:auto;flex:none}
 .topbar .home:hover,.topbar .home:focus-visible{color:#ffd966}
 .topbar .series{color:#8899cc;font-size:.92rem;letter-spacing:.06em}
+.panel{grid-column:1;grid-row:2;overflow:auto;overscroll-behavior:contain;padding:22px 28px 30px;border-right:1px solid var(--line);display:flex;flex-direction:column;scrollbar-width:thin;scrollbar-color:rgba(120,140,255,.3) transparent}
+.stage{grid-column:2;grid-row:1/3;position:relative;overflow:hidden;background:#050510}
+.stage canvas{position:absolute;inset:0;display:block;touch-action:none}
 
-/* 场景上方的遮罩：桌面压暗左上角，手机压暗下半（文字贴在底栏上方），背景的星空和网格不抢文字 */
-#scrim{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse 48% 60% at 16% 22%,rgba(5,5,16,.92),rgba(5,5,16,.55) 55%,transparent 100%),linear-gradient(180deg,rgba(5,5,16,.7),transparent 30%)}
-
-/* 标题区：不加框，与图解页标题同一套写法 */
-#info{position:absolute;top:124px;left:max(16px,calc((100vw - 848px) / 2));max-width:460px;pointer-events:none;z-index:10}
-#info h1{margin:0 0 12px;font-size:clamp(1.45rem,2.6vw,1.95rem);font-weight:800;line-height:1.35;color:#ffd966;text-wrap:balance}
-#info p{margin:6px 0;font-size:.95rem;line-height:1.7;color:#b8c0e0}
-#info .highlight{color:#ffd966;font-weight:500}
-#info .critical{color:#66ffcc;font-weight:500}
-#info .answer{color:#e0e0ff;font-weight:600}
-#info .legend{margin-top:14px;font-size:.82rem;line-height:1.65;color:#8899cc}
-#info details{margin-top:10px;pointer-events:auto;max-width:420px}
-#info summary{cursor:pointer;color:#66ffcc;font-size:.9rem;font-weight:700;list-style-position:inside}
-#info details p{font-size:.88rem;color:#b8c0e0;margin:8px 0 0}
+/* 文字 */
+.panel h1{margin:0 0 12px;font-size:1.45rem;font-weight:800;line-height:1.4;color:#ffd966;text-wrap:balance}
+.panel p{margin:0 0 10px;font-size:.95rem;color:#b8c0e0}
+.panel .answer{color:#e0e0ff;font-weight:600}
+.panel .highlight{color:#ffd966;font-weight:500}
+.panel .critical{color:#66ffcc;font-weight:500}
 .nowrap{white-space:nowrap}
 
-/* 底部状态条：说明 + 按钮，手机上说明在上、按钮在下 */
-#status{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(8,8,20,.7);backdrop-filter:blur(6px);padding:10px 28px;border-radius:30px;border:1px solid rgba(120,140,255,.2);font-size:.85rem;color:#8899cc;letter-spacing:.5px;z-index:10;pointer-events:none;width:max-content;max-width:calc(100% - 24px);box-sizing:border-box;text-align:center;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 12px}
-#status i{white-space:nowrap;color:#66ffcc;font-style:normal}
-#status b{color:#e0e0ff;font-weight:600}
-#status button{margin:0;padding:3px 12px;border-radius:20px;border:1px solid rgba(192,140,255,.45);background:rgba(192,140,255,.1);color:#cfa8ff;font:inherit;cursor:pointer;pointer-events:auto;transition:background .15s,color .15s,border-color .15s}
-#status button:hover{background:rgba(192,140,255,.2)}
-#status button:disabled{opacity:.5;cursor:default}
-#status button:focus-visible{outline:2px solid #ffd966;outline-offset:2px}
-#status button[aria-pressed="true"]{background:#cfa8ff;color:#1a1030;border-color:#cfa8ff}
-#status .ctl{flex-basis:100%;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:2px;pointer-events:auto}
-#status .ctl label{color:#b8c0e0;white-space:nowrap}
-#status .ctl input[type=range]{width:min(260px,55vw);accent-color:#ffd966;margin:0}
-#status .ctl output{min-width:7em;text-align:left;color:#ffd966;white-space:nowrap}
+/* 操作：一行两个按钮，下面一行滑块 */
+.controls{margin-top:16px;display:grid;gap:10px}
+.controls .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.controls button{margin:0;padding:9px 12px;border-radius:999px;border:1px solid rgba(192,140,255,.45);background:rgba(192,140,255,.1);color:#cfa8ff;font:inherit;font-weight:700;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.controls button:hover{background:rgba(192,140,255,.2)}
+.controls button:disabled{opacity:.5;cursor:default}
+.controls button[hidden]{display:none}
+.controls button:focus-visible,.controls input:focus-visible,.panel summary:focus-visible{outline:2px solid #ffd966;outline-offset:2px}
+.controls button[aria-pressed="true"]{background:#cfa8ff;color:#1a1030;border-color:#cfa8ff}
+.controls .ctl{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;font-size:.9rem;color:#b8c0e0}
+.controls .ctl[aria-disabled="true"]{opacity:.45}
+.controls .ctl[hidden]{display:none}
+.controls .row>[hidden]+button{grid-column:1/-1}
+.controls .ctl input[type=range]{width:100%;margin:0;accent-color:#ffd966}
+.controls .ctl output{color:#ffd966;white-space:nowrap;min-width:5.5em;text-align:right}
 
-@media (max-width:480px){
-  .topbar{top:34px;left:12px;right:12px}
-  /* 手机：场景在上，文字块贴在底栏上方；底栏高度由 scene.js 写进 --status-h */
-  #info{top:auto;bottom:calc(var(--status-h,130px) + 18px);left:12px;right:12px;max-width:none}
-  #info p{font-size:.9rem}
-  #info .legend{font-size:.78rem}
-  #scrim{background:linear-gradient(0deg,rgba(5,5,16,.94) 0%,rgba(5,5,16,.82) 42%,transparent 62%)}
-  #status{bottom:12px;padding:10px 14px 12px;width:calc(100% - 24px);border-radius:18px}
-  #status #statusText{flex-basis:100%;font-size:.8rem}
-  #status button{flex:1 1 0;padding:6px 8px}
-  #status .ctl{gap:8px}#status .ctl input[type=range]{flex:1;width:auto}#status .ctl output{min-width:0}
+/* 读数：一行数字，一句观察 */
+.readout{margin-top:12px;padding:12px 14px;border-radius:12px;background:rgba(120,140,255,.08);border:1px solid var(--line)}
+.readout .nums{font-size:.95rem;font-weight:700;color:#e0e0ff;display:flex;flex-wrap:wrap;gap:4px 14px}
+.readout .nums i{font-style:normal;color:#66ffcc}
+.readout .insight{margin:6px 0 0;font-size:.9rem;line-height:1.6;color:#b8c0e0}
+.readout .insight:only-child{margin:0}
+
+/* 为什么 + 注 */
+.panel details{margin-top:18px}
+.panel summary{cursor:pointer;color:#66ffcc;font-size:.95rem;font-weight:700;list-style-position:inside}
+.panel details p{margin:8px 0 0;font-size:.9rem;color:#b8c0e0}
+.panel .legend{margin:auto 0 0;padding-top:22px;font-size:.8rem;line-height:1.65;color:#8899cc}
+.panel .legend p{margin:0 0 4px;font-size:inherit;color:inherit}
+
+@media (min-width:1600px){:root{--panel-w:480px}}
+/* 手机 / 竖屏：顶栏，场景固定在上，面板在下滚动 */
+@media (max-width:700px),(orientation:portrait) and (max-width:900px){
+  body{grid-template-columns:1fr;grid-template-rows:auto minmax(0,44svh) minmax(0,1fr)}
+  .topbar{grid-column:1;grid-row:1;padding:14px 16px 10px}
+  .stage{grid-column:1;grid-row:2;border-bottom:1px solid var(--line)}
+  .panel{grid-column:1;grid-row:3;border-right:0;padding:18px 16px 28px}
+  .panel h1{font-size:1.3rem}
 }
-@media (max-height:500px){
-  .topbar{top:10px}
-  #info{top:64px;max-width:360px}
-  #info h1{font-size:1.15rem;margin-bottom:6px}
-  #info p{font-size:.82rem;line-height:1.5}
-  #info .legend{margin-top:6px;font-size:.74rem}
-  #status{bottom:12px;padding:8px 20px}
+@media (max-height:500px) and (orientation:landscape){
+  .topbar{padding:10px 20px 8px}.panel{padding:14px 20px 20px}.panel h1{font-size:1.2rem;margin-bottom:8px}.panel p{font-size:.88rem}
 }
+@media (prefers-reduced-motion:reduce){.controls button,.topbar .home{transition:none}}

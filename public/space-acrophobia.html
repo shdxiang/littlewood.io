@@ -28,11 +28,11 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=5">
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=5">
-<link rel="stylesheet" href="./scene.css?v=2">
+<link rel="stylesheet" href="./scene.css?v=3">
 <style>
 /* 本页：恐惧读数用报警橙，“下”用红 */
-#status .fear{color:#ff7a2f;font-weight:700;white-space:nowrap}
-#info .down{color:#ff6b6b;font-weight:600}
+.readout .fear{color:#ff7a2f}
+.panel .down{color:#ff6b6b;font-weight:600}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Article","headline":"在太空失重，还会恐高吗？","inLanguage":"zh-CN","datePublished":"2026-09-07","dateModified":"2026-10-30","author":{"@type":"Organization","name":"Littlewood"},"publisher":{"@type":"Organization","name":"Littlewood"},"mainEntityOfPage":"https://littlewood.io/space-acrophobia","image":"https://littlewood.io/og-space-acrophobia.png"}
@@ -43,27 +43,35 @@
   <a class="home" href="./"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>Littlewood</a>
   <span class="series">感知与参照系</span>
 </nav>
-<div id="scrim" aria-hidden="true"></div>
-<div id="info">
+<aside class="panel">
   <h1>在太空失重，还会恐高吗？</h1>
   <p>空间站离地 <span class="nowrap">400 km</span>。舱内没人怕；出舱面朝地球，有人确信自己正在掉下去。</p>
   <p class="answer">转个身，就不怕了。恐高怕的不是高度，是大脑认定的<span class="down">“下”</span>在哪边。</p>
+  <div class="controls">
+    <div class="row">
+      <button id="viewBtn" type="button" aria-pressed="false">航天员眼中</button>
+      <button id="gazeBtn" type="button" aria-pressed="false">盯着扶手</button>
+    </div>
+    <div class="ctl">
+      <label for="theta">身体朝向</label>
+      <input id="theta" type="range" min="0" max="180" step="1" value="0" autocomplete="off">
+      <output id="thetaOut" for="theta">地球在脚下</output>
+    </div>
+  </div>
+  <div class="readout" aria-live="polite">
+    <div class="nums"><span class="fear" id="fearVal">恐惧 92 / 100</span></div>
+    <p class="insight" id="insight">地球在脚下：眼睛说“下面是 400 km 深渊”，前庭沉默不反驳。报警。</p>
+  </div>
   <details>
     <summary>为什么</summary>
     <p>地面上，“下”由内耳的前庭直接报告，眼睛只是帮腔。失重里人和站一起自由落体，前庭沉默，定“下”的只剩眼睛：哪一面看起来像地板，哪一面就是“下”。出舱面朝地球，脚下的 400 km 就成了深渊；转个身让地球到侧面或头顶，“下”换了地方，恐惧跟着消失。</p>
   </details>
-  <p class="legend">拖动旋转，滑块转身，切到航天员眼中看看脚下 · 恐惧指示为概念示例，不是测量值 · 出处：Jerry Linenger《Off the Planet》(2000)；Charles Oman 关于 EVA height vertigo 的研究</p>
-</div>
-<div id="status">
-  <span id="statusText" aria-live="polite"><span class="fear" id="fearVal">恐惧 92 / 100</span> · <b id="insight">地球在脚下：眼睛说“下面是 400 km 深渊”，前庭沉默不反驳。报警。</b></span>
-  <button id="viewBtn" type="button" aria-pressed="false">航天员眼中</button>
-  <button id="gazeBtn" type="button" aria-pressed="false">盯着扶手</button>
-  <div class="ctl">
-    <label for="theta">身体朝向</label>
-    <input id="theta" type="range" min="0" max="180" step="1" value="0" autocomplete="off">
-    <output id="thetaOut" for="theta">地球在脚下</output>
+  <div class="legend">
+    <p>拖动旋转。恐惧指示为概念示例，不是测量值。</p>
+    <p>出处：Jerry Linenger《Off the Planet》(2000)；Charles Oman 关于 EVA height vertigo 的研究。</p>
   </div>
-</div>
+</aside>
+<div class="stage"></div>
 
 <!-- Three.js r128 自托管（CSP 只允许 self） -->
 <script type="importmap">
@@ -72,7 +80,7 @@
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { fitScene } from './scene.js?v=1';
+import { fitStage } from './scene.js?v=2';
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = id => document.getElementById(id);
@@ -80,13 +88,11 @@ const $ = id => document.getElementById(id);
 // --- 场景、相机、渲染器 ---
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x050510);
-const camera = new THREE.PerspectiveCamera(62, innerWidth / innerHeight, 0.05, 6000);
+const camera = new THREE.PerspectiveCamera(62, 1, 0.05, 6000);
 camera.position.set(5.6, 0.4, 7.6);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));   // 地球是逐像素算噪声的，别把手机算垮
 renderer.outputEncoding = THREE.sRGBEncoding;
-document.body.appendChild(renderer.domElement);
 
 // 第三人称：绕着航天员转
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -300,7 +306,7 @@ $('viewBtn').addEventListener('click', () => {
 
 // --- 布局 / 循环 ---
 // 场景放进文字块和底栏之外的空白区（共用 scene.js）；第一人称时相机由镜头切换接管，不动它
-const layout = fitScene({ camera, renderer, controls, radius: 4.2, canMove: () => !firstPerson && blend === 0 });
+const layout = fitStage({ camera, renderer, controls, radius: 4.2, canMove: () => !firstPerson && blend === 0 });
 const clock = new THREE.Clock();
 let running = false, raf = 0;
 function frame() {

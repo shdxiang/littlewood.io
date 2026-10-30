@@ -28,21 +28,20 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=5">
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=5">
-<link rel="stylesheet" href="./scene.css?v=2">
+<link rel="stylesheet" href="./scene.css?v=3">
 <style>
 /* 本页语义色与全站图例一致：F原 橙、F新 紫、重力 绿、压强 蓝、水 #4aa3ff */
-#status .old{color:#ff7a2f;font-weight:700;white-space:nowrap}
-#status .new{color:#9775fa;font-weight:700;white-space:nowrap}
-#status .mass{color:#4aa3ff;font-weight:700;white-space:nowrap}
-#status #solidBtn[aria-pressed="true"]{background:#aab4c0;border-color:#aab4c0;color:#101424}
-#status #insertBtn{color:#ffd966;border-color:rgba(255,217,102,.5);background:rgba(255,217,102,.1)}
-#status #insertBtn:hover{background:rgba(255,217,102,.2)}
-#status #insertBtn[aria-pressed="true"]{background:#ffd966;color:#1a1400;border-color:#ffd966}
-#status .ctl[aria-disabled="true"]{opacity:.45}
-#info .old{color:#ff7a2f;font-weight:600}
-#info .mass{color:#4aa3ff;font-weight:600}
-/* 跟着 3D 点走的小标签 */
-.tag{position:absolute;z-index:6;transform:translate(-50%,-120%);padding:2px 8px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.02em;background:rgba(8,8,20,.72);border:1px solid rgba(120,140,255,.25);color:#e0e0ff;white-space:nowrap;pointer-events:none;transition:opacity .3s}
+.panel .old,.readout .old{color:#ff7a2f}
+.panel .mass,.readout .mass{color:#4aa3ff}
+.readout .new{color:#9775fa}
+.panel .old,.panel .mass{font-weight:600}
+.controls #solidBtn[aria-pressed="true"]{background:#aab4c0;border-color:#aab4c0;color:#101424}
+.controls #insertBtn{color:#ffd966;border-color:rgba(255,217,102,.5);background:rgba(255,217,102,.1)}
+.controls #insertBtn:hover{background:rgba(255,217,102,.2)}
+.controls #insertBtn[aria-pressed="true"]{background:#ffd966;color:#1a1400;border-color:#ffd966}
+/* 跟着 3D 点走的小标签（在 .stage 里定位） */
+#tags{position:absolute;inset:0;z-index:2;pointer-events:none}
+.tag{position:absolute;transform:translate(-50%,-120%);padding:2px 8px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.02em;background:rgba(8,8,20,.72);border:1px solid rgba(120,140,255,.25);color:#e0e0ff;white-space:nowrap;transition:opacity .3s}
 .tag.old{color:#ff7a2f}.tag.new{color:#9775fa}.tag.mass{color:#4aa3ff}.tag.dim{color:#b8c0e0;font-weight:600}
 .tag[hidden]{display:none}
 </style>
@@ -55,33 +54,42 @@
   <a class="home" href="./"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>Littlewood</a>
   <span class="series">流体静力学</span>
 </nav>
-<div id="scrim" aria-hidden="true"></div>
-<div id="info">
+<aside class="panel">
   <h1>为什么 <span class="nowrap">1 千克</span>的薄层水，仍可能让挡板承受 <span class="nowrap">1000 吨力</span>？</h1>
   <p>斜面上一楔子水压在挡板上，合力约 <span class="old">1000 吨力</span>。紧挨着再插一块板，两板之间只剩约 <span class="mass">1 千克</span>水。</p>
   <p class="answer">原挡板仍承受约 1000 吨力。静止的水，压强只看深度，不看水层厚薄。</p>
+  <div class="controls">
+    <div class="row">
+      <button id="insertBtn" type="button" aria-pressed="false">插入新挡板</button>
+      <button id="solidBtn" type="button" aria-pressed="false">换成固体</button>
+    </div>
+    <div class="ctl" id="ctl" aria-disabled="true">
+      <label for="dist">两板距离</label>
+      <input id="dist" type="range" min="0" max="3" step="0.01" value="0" autocomplete="off" disabled>
+      <output id="distOut" for="dist">1 mm</output>
+    </div>
+  </div>
+  <div class="readout" aria-live="polite">
+    <div class="nums"><span class="old" id="fOld">F原 1 000 000 kgf</span><span class="new" id="fNew" hidden></span><span class="mass" id="mLayer" hidden></span></div>
+    <p class="insight" id="insight"></p>
+  </div>
   <details>
     <summary>为什么</summary>
     <p>静止的水里，一点的压强 <i>p</i> = <i>ρgh</i>，只由它到水面的竖直深度决定。插板没有改变原挡板的浸水面积，也没有改变板上任何一点的深度，所以板上的压强分布和合力一点没变。那层薄水被两个几乎等大、方向相反的大力夹着，两力之差才是它自己沿斜面的重力分量：1 000 000 − 999 999 = 1。固体不一样：它靠形状传力，上坡那一大块的重量交给了新挡板，原挡板只剩薄片自己的一点力。</p>
   </details>
-  <p class="legend">拖动旋转 · 数字为概念示例 · 理想条件：斜面光滑、侧壁不沿斜面出力、挡板刚性不漏水、水面与大气相通；kgf 为千克力，1 kgf ≈ 9.8 N</p>
-</div>
-<div id="status">
-  <span id="statusText" aria-live="polite"><span class="old" id="fOld">F原 1 000 000 kgf</span><span id="fNewWrap" hidden> · <span class="new" id="fNew"></span></span><span id="mWrap" hidden> · <span class="mass" id="mLayer"></span></span> · <b id="insight"></b></span>
-  <button id="insertBtn" type="button" aria-pressed="false">插入新挡板</button>
-  <button id="solidBtn" type="button" aria-pressed="false">换成固体</button>
-  <div class="ctl" id="ctl" aria-disabled="true">
-    <label for="dist">两板距离</label>
-    <input id="dist" type="range" min="0" max="3" step="0.01" value="0" autocomplete="off" disabled>
-    <output id="distOut" for="dist">1 mm</output>
+  <div class="legend">
+    <p>拖动旋转。数字为概念示例；kgf 为千克力，1 kgf ≈ 9.8 N。</p>
+    <p>理想条件：斜面光滑、侧壁不沿斜面出力、挡板刚性不漏水、水面与大气相通。</p>
   </div>
-</div>
-<div id="tags" aria-hidden="true">
-  <span class="tag dim" data-tag="old">原挡板</span>
-  <span class="tag dim" data-tag="new" hidden>新挡板</span>
-  <span class="tag old" data-tag="fOld">F原 ≈ 1000 吨力</span>
-  <span class="tag new" data-tag="fNew" hidden>F新</span>
-  <span class="tag mass" data-tag="mass" hidden>1 kg</span>
+</aside>
+<div class="stage">
+  <div id="tags" aria-hidden="true">
+    <span class="tag dim" data-tag="old">原挡板</span>
+    <span class="tag dim" data-tag="new" hidden>新挡板</span>
+    <span class="tag old" data-tag="fOld">F原 ≈ 1000 吨力</span>
+    <span class="tag new" data-tag="fNew" hidden>F新</span>
+    <span class="tag mass" data-tag="mass" hidden>1 kg</span>
+  </div>
 </div>
 
 <!-- Three.js r128 自托管（CSP 只允许 self） -->
@@ -91,7 +99,7 @@
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { fitScene } from './scene.js?v=1';
+import { fitStage } from './scene.js?v=2';
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = id => document.getElementById(id);
@@ -101,13 +109,11 @@ const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x050510);
 scene.fog = new THREE.FogExp2(0x050510, 0.022);
-const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 0.1, 200);
+const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 200);
 camera.position.set(4.0, 3.6, 12.0);     // 侧面偏上坡：隔着玻璃看楔形剖面，挡板在左、水在右
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.outputEncoding = THREE.sRGBEncoding;
-document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(1.4, 1.3, 0);         // 看点在模型中心；放到哪个空白区由 scene.js 决定
 controls.enableDamping = true; controls.dampingFactor = 0.06;
@@ -219,8 +225,8 @@ function render() {
   const w = dMM(), m = w;
   const fOld = inserted && solid ? w : F0, fNew = inserted && !solid ? F0 - w : 0;
   $('fOld').textContent = `F原 ${fmt(fOld)} kgf`;
-  $('fNewWrap').hidden = !(inserted && !solid); $('fNew').textContent = `F新 ${fmt(fNew)} kgf`;
-  $('mWrap').hidden = !inserted; $('mLayer').textContent = `两板之间 ${fmt(m)} kg`;
+  $('fNew').hidden = !(inserted && !solid); $('fNew').textContent = `F新 ${fmt(fNew)} kgf`;
+  $('mLayer').hidden = !inserted; $('mLayer').textContent = `两板之间 ${fmt(m)} kg`;
   $('insight').textContent = insight();
   $('distOut').textContent = w >= 1000 ? '1000 mm（1 米）' : `${w} mm`;
   $('dist').disabled = !inserted; $('ctl').setAttribute('aria-disabled', String(!inserted));
@@ -255,19 +261,21 @@ $('dist').addEventListener('input', e => { v = +e.target.value; render(); });
 
 // --- 标签跟着 3D 锚点走 ---
 const proj = new THREE.Vector3();
+let stageW = 1, stageH = 1;
 function placeTags() {
+  stageW = renderer.domElement.clientWidth; stageH = renderer.domElement.clientHeight;
   for (const k in anchors) {
     const el = tags[k]; if (el.hidden) continue;
     proj.copy(anchors[k]); G.localToWorld(proj); proj.project(camera);
     const behind = proj.z > 1;
-    el.style.left = `${(proj.x * .5 + .5) * innerWidth}px`; el.style.top = `${(-proj.y * .5 + .5) * innerHeight}px`;
+    el.style.left = `${(proj.x * .5 + .5) * stageW}px`; el.style.top = `${(-proj.y * .5 + .5) * stageH}px`;
     el.style.opacity = behind ? 0 : 1;
   }
 }
 
 // --- 布局 / 循环 ---
 // 场景放进文字块和底栏之外的空白区（共用 scene.js）
-const layout = fitScene({ camera, renderer, controls, radius: 4.6 });
+const layout = fitStage({ camera, renderer, controls, radius: 4.6 });
 const clock = new THREE.Clock();
 let running = false, raf = 0;
 function frame() {
