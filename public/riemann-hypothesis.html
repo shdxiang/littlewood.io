@@ -61,32 +61,45 @@
         .topbar .home svg { width: 30px; height: auto; flex: none; }
         .topbar .home:hover, .topbar .home:focus-visible { color: #ffd966; }
         .topbar .series { color: #8899cc; font-size: 0.92rem; letter-spacing: 0.06em; }
+        /* 场景上方的遮罩：左上角压暗，地形转到文字底下时也读得清 */
+        #scrim {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 48% 60% at 16% 22%, rgba(5, 5, 16, 0.92), rgba(5, 5, 16, 0.55) 55%, transparent 100%),
+                linear-gradient(180deg, rgba(5, 5, 16, 0.7), transparent 30%);
+        }
+        /* 首屏文字：不加框，与图解页的标题同一套写法 */
         #info {
             position: absolute;
             top: 124px;
             left: max(16px, calc((100vw - 848px) / 2));
-            background: rgba(8, 8, 20, 0.75);
-            backdrop-filter: blur(8px);
-            padding: 20px 28px;
-            border-radius: 12px;
-            border: 1px solid rgba(120, 140, 255, 0.25);
-            max-width: 380px;
+            max-width: 460px;
             pointer-events: none;
             z-index: 10;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         }
         #info h1 {
-            margin: 0 0 8px;
-            font-size: 1.4rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            color: #aaccff;
+            margin: 0 0 12px;
+            font-size: clamp(1.45rem, 2.6vw, 1.95rem);
+            font-weight: 800;
+            line-height: 1.35;
+            color: #ffd966;
+            text-wrap: balance;
         }
         #info p {
             margin: 6px 0;
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: #b8c0e0;
+        }
+        .nowrap { white-space: nowrap; }
+        #info .legend {
+            margin-top: 14px;
+            font-size: 0.82rem;
+            line-height: 1.65;
+            color: #8899cc;
         }
         #info .highlight {
             color: #ffd966;
@@ -115,14 +128,20 @@
             max-width: calc(100% - 24px);
             box-sizing: border-box;
             text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 6px 12px;
         }
+        #status button + button { margin-left: 0; }
         #status i {
             white-space: nowrap;
             color: #66ffcc;
             font-style: normal;
         }
         #status button {
-            margin-left: 12px;
+            margin-left: 0;
             padding: 3px 12px;
             border-radius: 20px;
             border: 1px solid rgba(192, 140, 255, 0.45);
@@ -135,28 +154,33 @@
         #status button:hover { background: rgba(192, 140, 255, 0.2); }
         #status button:disabled { opacity: 0.5; cursor: default; }
         #status button:focus-visible { outline: 2px solid #ffd966; outline-offset: 2px; }
-        #status #cxToggle { margin-left: 8px; color: #ff8899; border-color: rgba(255, 85, 119, 0.45); background: rgba(255, 85, 119, 0.1); }
+        #status #cxToggle { color: #ff8899; border-color: rgba(255, 85, 119, 0.45); background: rgba(255, 85, 119, 0.1); }
         #status #cxToggle:hover { background: rgba(255, 85, 119, 0.2); }
         .cx #status { width: 560px; border-radius: 18px; }
-        #cxPanel { margin-top: 8px; }
+        #cxPanel { flex-basis: 100%; margin-top: 2px; }
         #cxPanel label { color: #ff8899; margin-right: 6px; }
         #cxPanel input { width: min(280px, 75%); vertical-align: middle; accent-color: #ff5577; pointer-events: auto; }
         #cxPanel p { margin: 6px 0 0; font-size: 0.78rem; line-height: 1.5; opacity: 0.8; }
         @media (max-width: 480px) {
             .topbar { top: 34px; left: 12px; right: 12px; }
-            #info { top: 92px; left: 12px; right: 12px; max-width: none; padding: 14px 18px; }
-            #info h1 { font-size: 1.15rem; }
-            #status { bottom: 12px; padding: 8px 16px; }
+            #info { top: 96px; left: 12px; right: 12px; max-width: none; }
+            #info p { font-size: 0.9rem; }
+            #info .legend { font-size: 0.78rem; }
+            #scrim { background: linear-gradient(180deg, rgba(5, 5, 16, 0.9) 0%, rgba(5, 5, 16, 0.75) 38%, transparent 58%); }
+            #status { bottom: 12px; padding: 10px 14px 12px; width: calc(100% - 24px); border-radius: 18px; }
+            #status #statusText { flex-basis: 100%; font-size: 0.8rem; }
+            #status button { flex: 1 1 0; padding: 6px 8px; }
         }
         /* 小屏做反例实验时先收起图例，给场景腾地方；收起反例后恢复 */
         @media (max-width: 900px) and (max-height: 740px) {
-            .cx #info p + p { display: none; }
+            .cx #info .legend { display: none; }
         }
         @media (max-height: 500px) {
             .topbar { top: 10px; }
-            #info { top: 64px; left: 12px; max-width: 300px; padding: 12px 18px; }
-            #info h1 { font-size: 1.05rem; }
-            #info p { font-size: 0.8rem; line-height: 1.5; }
+            #info { top: 64px; max-width: 360px; }
+            #info h1 { font-size: 1.15rem; margin-bottom: 6px; }
+            #info p { font-size: 0.82rem; line-height: 1.5; }
+            #info .legend { margin-top: 6px; font-size: 0.74rem; }
             #status { bottom: 12px; padding: 8px 20px; }
         }
     </style>
@@ -166,14 +190,15 @@
         <a class="home" href="./"><svg viewBox="10 12 82 74" aria-hidden="true"><use href="./mark.svg#mark"/></svg>Littlewood</a>
         <span class="series">数论</span>
     </nav>
+    <div id="scrim" aria-hidden="true"></div>
     <div id="info">
-        <h1>黎曼猜想 · Riemann Hypothesis</h1>
-        <p>ζ函数的所有<span class="highlight">非平凡零点</span>都位于<span class="critical">临界线 Re(s)=1/2</span> 上。</p>
-        <p style="font-size:0.82rem; opacity:0.75; margin-top:12px;">
+        <h1>黎曼猜想：<span class="nowrap">所有零点</span>都在一条线上吗？</h1>
+        <p>猜想说：ζ 函数的所有<span class="highlight">非平凡零点</span>都落在<span class="critical nowrap">临界线 Re(s) = 1/2</span> 上。</p>
+        <p class="legend">
             <span style="color:#ffd966;">●</span> 发光点：已知非平凡零点 (1/2 + i·t)<br>
             <span id="legendAdded" hidden><span style="color:#c08cff;">●</span> 紫点：你加的零点<br></span>
             <span style="color:#66ffcc;">━</span> 亮线：临界线 σ = 0.5<br>
-            地形是概念示例，不是真实的 |ζ(s)|：高度 ∝ 偏离临界线的距离，零点被“锁定”在谷底。
+            地形是概念示例，不是真实的 |ζ(s)|：高度 ∝ 偏离临界线的距离，零点被<span class="nowrap">“锁定”</span>在谷底。
         </p>
     </div>
     <div id="status">
