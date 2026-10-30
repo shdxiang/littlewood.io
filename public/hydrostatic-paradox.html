@@ -108,9 +108,9 @@ const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 // --- 场景、相机、渲染器 ---
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x050510);
-scene.fog = new THREE.FogExp2(0x050510, 0.022);
+scene.fog = new THREE.FogExp2(0x050510, 0.03);
 const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 200);
-camera.position.set(4.0, 3.6, 12.0);     // 侧面偏上坡：隔着玻璃看楔形剖面，挡板在左、水在右
+camera.position.set(3.6, 2.9, 11.2);     // 侧面偏上坡、略俯视：隔着玻璃看楔形剖面，挡板在左、水在右
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.outputEncoding = THREE.sRGBEncoding;
@@ -128,7 +128,7 @@ const key = new THREE.DirectionalLight(0xfff4e0, 1.1); key.position.set(-6, 10, 
 const rim = new THREE.DirectionalLight(0x66ffcc, 0.35); rim.position.set(8, 4, -8); scene.add(rim);
 
 // --- 地面网格：给斜面一个落脚处 ---
-const grid = new THREE.GridHelper(60, 60, 0x2a3350, 0x161a30); grid.position.y = -0.9; scene.add(grid);
+const grid = new THREE.GridHelper(60, 30, 0x1b2040, 0x11152a); grid.position.y = -0.9; grid.material.transparent = true; grid.material.opacity = .7; scene.add(grid);
 
 // --- 斜面坐标系 G：局部 x 沿斜面向上，y 垂直于斜面。原挡板的迎水面在局部 x = 0 ---
 const THETA = 25 * Math.PI / 180, sinT = Math.sin(THETA), cosT = Math.cos(THETA), tanT = Math.tan(THETA);
@@ -139,10 +139,10 @@ const W = 3.0;                        // 槽宽
 const G = new THREE.Group(); G.rotation.z = THETA; scene.add(G);
 
 const slate = new THREE.MeshStandardMaterial({ color: 0x1c2140, roughness: .85, metalness: .1 });
-const glass = new THREE.MeshPhysicalMaterial({ color: 0x9ab8ff, transparent: true, opacity: .06, roughness: .05, metalness: 0, depthWrite: false, side: THREE.DoubleSide });
+const glass = new THREE.MeshPhysicalMaterial({ color: 0x9ab8ff, transparent: true, opacity: .09, roughness: .05, metalness: 0, depthWrite: false, side: THREE.DoubleSide });
 const boardOld = new THREE.MeshStandardMaterial({ color: 0xd6dcef, roughness: .5, metalness: .2 });
 const boardNew = new THREE.MeshStandardMaterial({ color: 0xc9b8ff, roughness: .5, metalness: .2, emissive: 0x2a1a60, emissiveIntensity: .5 });
-const waterMat = new THREE.MeshPhysicalMaterial({ color: 0x3d8fe8, transparent: true, opacity: .62, roughness: .12, metalness: 0, depthWrite: false, emissive: 0x0b2a60, emissiveIntensity: .5 });
+const waterMat = new THREE.MeshPhysicalMaterial({ color: 0x2f86ea, transparent: true, opacity: .7, roughness: .1, metalness: 0, depthWrite: false, emissive: 0x0a2e6e, emissiveIntensity: .7 });
 const layerWaterMat = new THREE.MeshPhysicalMaterial({ color: 0x9ad8ff, transparent: true, opacity: .82, roughness: .12, metalness: 0, depthWrite: false, emissive: 0x1a4a8a, emissiveIntensity: .35 });
 const solidMat = new THREE.MeshStandardMaterial({ color: 0xaab4c0, roughness: .8, metalness: .05 });
 const layerSolidMat = new THREE.MeshStandardMaterial({ color: 0xd5dbe3, roughness: .8, metalness: .05, emissive: 0x303848, emissiveIntensity: .5 });
@@ -150,11 +150,23 @@ const layerSolidMat = new THREE.MeshStandardMaterial({ color: 0xd5dbe3, roughnes
 const ramp = new THREE.Mesh(new THREE.BoxGeometry(7.6, .3, W + .4), slate); ramp.position.set(1.9, -.15, 0); G.add(ramp);
 for (const sz of [-1, 1]) {           // 侧壁：玻璃
   const wall = new THREE.Mesh(new THREE.BoxGeometry(7.6, 2.9, .05), glass); wall.position.set(1.9, 1.45, sz * (W / 2 + .025)); G.add(wall);
-  const edge = new THREE.Mesh(new THREE.BoxGeometry(11, .04, .06), new THREE.MeshStandardMaterial({ color: 0x6f7fcf, emissive: 0x303a80 })); edge.position.set(1.9, 2.9, sz * (W / 2 + .025)); G.add(edge);
+  const edge = new THREE.Mesh(new THREE.BoxGeometry(7.6, .05, .08), new THREE.MeshStandardMaterial({ color: 0x6f7fcf, emissive: 0x303a80 })); edge.position.set(1.9, 2.9, sz * (W / 2 + .025)); G.add(edge);
+  const post = new THREE.Mesh(new THREE.BoxGeometry(.06, 2.9, .08), new THREE.MeshStandardMaterial({ color: 0x6f7fcf, emissive: 0x303a80 })); post.position.set(5.7, 1.45, sz * (W / 2 + .025)); G.add(post);
 }
 const BOARD_H = 2.7, BOARD_T = .12;
 const oldBoard = new THREE.Mesh(new THREE.BoxGeometry(BOARD_T, BOARD_H, W + .3), boardOld); oldBoard.position.set(-BOARD_T / 2, BOARD_H / 2 - .02, 0); G.add(oldBoard);
 const newBoard = new THREE.Mesh(new THREE.BoxGeometry(BOARD_T, BOARD_H, W + .3), boardNew); newBoard.visible = false; G.add(newBoard);
+// 原挡板迎水面上的压强色带：水面处透明，越深越蓝。这就是“压强只看深度”——插板前后它一点不变
+const gradTex = (() => {
+  const c = document.createElement('canvas'); c.width = 4; c.height = 256; const x = c.getContext('2d');
+  const g = x.createLinearGradient(0, 0, 0, 256); g.addColorStop(0, 'rgba(77,171,247,0)'); g.addColorStop(.15, 'rgba(77,171,247,.25)'); g.addColorStop(1, 'rgba(30,110,230,.95)');
+  x.fillStyle = g; x.fillRect(0, 0, 4, 256); const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+})();
+const pressFace = new THREE.Mesh(new THREE.PlaneGeometry(W, 1), new THREE.MeshBasicMaterial({ map: gradTex, transparent: true, depthWrite: false }));
+pressFace.rotation.y = Math.PI / 2; pressFace.renderOrder = 2; G.add(pressFace);
+// 水面的亮边：沿两侧玻璃和挡板画一圈细线，一眼看出液面没变
+const surfLineMat = new THREE.LineBasicMaterial({ color: 0x9ad8ff, transparent: true, opacity: .9 });
+let surfLine = null;
 
 // --- 水体：局部 xy 平面里的多边形，沿 z 拉伸成槽宽 ---
 function prism(points, mat) {
@@ -174,6 +186,13 @@ function rebuildWater(dVis, solid) {
     G.add(layer);
   }
   G.add(bulk);
+  // 压强色带只在水的情况下显示，高度 = 挡板浸水高度（插板前后都是 Y_TOP）
+  pressFace.visible = !solid; pressFace.scale.y = Y_TOP; pressFace.position.set(.004, Y_TOP / 2, 0);
+  if (surfLine) { G.remove(surfLine); surfLine.geometry.dispose(); }
+  const pts = [];
+  for (const z of [-W / 2, W / 2]) pts.push(new THREE.Vector3(0, Y_TOP, z), new THREE.Vector3(X_END, 0, z));
+  pts.push(new THREE.Vector3(0, Y_TOP, -W / 2), new THREE.Vector3(0, Y_TOP, W / 2));
+  surfLine = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), surfLineMat); surfLine.renderOrder = 2; G.add(surfLine);
 }
 
 // --- 箭头：圆柱 + 圆锥，比 ArrowHelper 的细线看得清 ---
@@ -275,7 +294,7 @@ function placeTags() {
 
 // --- 布局 / 循环 ---
 // 场景放进文字块和底栏之外的空白区（共用 scene.js）
-const layout = fitStage({ camera, renderer, controls, radius: 4.6 });
+const layout = fitStage({ camera, renderer, controls, radius: 3.3 });
 const clock = new THREE.Clock();
 let running = false, raf = 0;
 function frame() {
